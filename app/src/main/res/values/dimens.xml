@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <dimen name="primary_text_size">24sp</dimen>
+
+    <dimen name="margin_small">8dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
+    <dimen name="margin_large">32dp</dimen>
+
+    <dimen name="radius_small">8dp</dimen>
+    <dimen name="radius_medium">16dp</dimen>
+    <dimen name="radius_large">32dp</dimen>
+
+    <dimen name="size_small">8sp</dimen>
+    <dimen name="size_medium">16sp</dimen>
+    <dimen name="size_large">32sp</dimen>
+    <dimen name="size_special_header">22sp</dimen>
+
+    <!-- SETTINGS DIMENS -->
+    <dimen name="padding_vertical_settings_textview">21dp</dimen>
+    <dimen name="margin_horizontal_settings_imageview">12dp</dimen>
+
+</resources>
