@@ -14,7 +14,7 @@
     <dimen name="size_small">8sp</dimen>
     <dimen name="size_medium">16sp</dimen>
     <dimen name="size_large">32sp</dimen>
-    <dimen name="size_special_header">22sp</dimen>
+    <dimen name="size_regular">22sp</dimen>
 
     <!-- SETTINGS DIMENS -->
     <dimen name="padding_vertical_settings_textview">21dp</dimen>
