@@ -17,7 +17,6 @@
     <dimen name="size_regular">22sp</dimen>
 
     <!-- SETTINGS DIMENS -->
-    <dimen name="padding_vertical_settings_textview">21dp</dimen>
-    <dimen name="margin_horizontal_settings_imageview">12dp</dimen>
+    <dimen name="settings_frame_height">61dp</dimen>
 
 </resources>

@@ -5,102 +5,126 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingHorizontal="@dimen/margin_medium">
+    android:paddingHorizontal="@dimen/margin_medium"
 
-    <LinearLayout
+    android:background="@color/white">
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="14dp"
-        android:paddingBottom="40dp">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/margin_medium"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_arrow_back"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Настройки"
-            android:textSize="@dimen/size_regular"
-            android:textStyle="bold"
-            android:textColor="@color/YP_Black" />
-    </LinearLayout>
+        android:layout_height="56dp" >
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center" >
+
+            <ImageView
+                android:id="@+id/button_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+
+                android:src="@drawable/ic_arrow_back"
+                android:layout_marginRight="24dp"
+
+                android:foreground="?attr/selectableItemBackground" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+
+                android:text="@string/settings"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="@dimen/size_regular"
+                android:textColor="@color/YP_Black" />
+
+        </LinearLayout>
+    </FrameLayout>
     
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/padding_vertical_settings_textview">
+        android:layout_height="@dimen/settings_frame_height"
+        android:layout_marginTop="24dp" >
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
+            android:layout_gravity="start|center"
+
             android:text="@string/dark_theme"
             android:textSize="@dimen/size_medium"
-            android:textColor="@color/YP_Deep_Black" />
+            android:textColor="@color/black" />
+
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end" />
+            android:layout_gravity="end|center" />
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/padding_vertical_settings_textview">
+        android:layout_height="@dimen/settings_frame_height" >
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
+            android:layout_gravity="start|center"
+
             android:text="@string/share_app"
             android:textSize="@dimen/size_medium"
-            android:textColor="@color/YP_Deep_Black" />
+            android:textColor="@color/black" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginHorizontal="@dimen/margin_horizontal_settings_imageview"
+            android:layout_gravity="end|center"
+
             android:src="@drawable/ic_share"/>
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/padding_vertical_settings_textview">
+        android:layout_height="@dimen/settings_frame_height" >
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
+            android:layout_gravity="start|center"
+
             android:text="@string/write_to_support"
             android:textSize="@dimen/size_medium"
-            android:textColor="@color/YP_Deep_Black" />
+            android:textColor="@color/black" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginHorizontal="@dimen/margin_horizontal_settings_imageview"
+            android:layout_gravity="end|center"
+
             android:src="@drawable/ic_support"/>
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/padding_vertical_settings_textview">
+        android:layout_height="@dimen/settings_frame_height" >
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
+            android:layout_gravity="start|center"
+
             android:text="@string/user_agreement"
             android:textSize="@dimen/size_medium"
-            android:textColor="@color/YP_Deep_Black" />
+            android:textColor="@color/black" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginHorizontal="@dimen/margin_horizontal_settings_imageview"
+            android:layout_gravity="end|center"
+
             android:src="@drawable/ic_arrow_forward"/>
     </FrameLayout>
-
 
 </LinearLayout>

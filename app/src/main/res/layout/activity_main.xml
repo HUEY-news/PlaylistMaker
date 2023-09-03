@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingHorizontal="16dp"
+    android:paddingHorizontal="@dimen/margin_medium"
 
     android:background="@color/YP_Blue" >
     
@@ -16,6 +16,7 @@
 
         android:text="@string/header_main"
         android:gravity="start|center"
+        android:textStyle="bold"
         android:textSize="@dimen/size_regular"
         android:textColor="@color/YP_White" />
 
@@ -26,6 +27,7 @@
         android:layout_weight="1"
         android:layout_marginTop="24dp"
         app:cornerRadius="@dimen/radius_medium"
+        android:backgroundTint="@color/YP_White"
 
         android:text="@string/search"
         android:gravity="center"
@@ -39,15 +41,16 @@
         app:iconPadding="@dimen/margin_small"
         app:iconTint="@color/YP_Black"
 
-        android:backgroundTint="@color/YP_White" />
+        android:foreground="?attr/selectableItemBackground" />
 
     <Button
         android:id="@+id/button_library"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginVertical="16dp"
+        android:layout_marginVertical="@dimen/margin_medium"
         app:cornerRadius="@dimen/radius_medium"
+        android:backgroundTint="@color/YP_White"
 
         android:text="@string/library"
         android:gravity="center"
@@ -61,7 +64,7 @@
         app:iconPadding="@dimen/margin_small"
         app:iconTint="@color/YP_Black"
 
-        android:backgroundTint="@color/YP_White" />
+        android:foreground="?attr/selectableItemBackground" />
 
     <Button
         android:id="@+id/button_settings"
@@ -70,6 +73,7 @@
         android:layout_weight="1"
         android:layout_marginBottom="28dp"
         app:cornerRadius="@dimen/radius_medium"
+        android:backgroundTint="@color/YP_White"
 
         android:text="@string/settings"
         android:gravity="center"
@@ -83,6 +87,6 @@
         app:iconPadding="@dimen/margin_small"
         app:iconTint="@color/YP_Black"
 
-        android:backgroundTint="@color/YP_White" />
+        android:foreground="?attr/selectableItemBackground" />
 
 </LinearLayout>
