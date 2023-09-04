@@ -3,7 +3,6 @@ package com.practicum.playlistmaker
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
@@ -22,12 +21,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         val settingsButton: Button = findViewById(R.id.button_settings)
-        // TODO: Переписать обработчик нажатий через лямбду...
-        val settingsButtonClickListener: View.OnClickListener = object : View.OnClickListener {
-            override fun onClick(view: View?) {
-                startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
-            }
+        settingsButton.setOnClickListener() {
+            startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
         }
-        settingsButton.setOnClickListener(settingsButtonClickListener)
     }
 }   
