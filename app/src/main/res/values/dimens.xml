@@ -14,9 +14,9 @@
     <dimen name="size_small">8sp</dimen>
     <dimen name="size_medium">16sp</dimen>
     <dimen name="size_large">32sp</dimen>
-    <dimen name="size_regular">22sp</dimen>
+    <dimen name="size_regular">24sp</dimen>
 
     <!-- SETTINGS DIMENS -->
-    <dimen name="settings_frame_height">61dp</dimen>
+    <dimen name="settings_frame_height">64dp</dimen>
 
 </resources>
