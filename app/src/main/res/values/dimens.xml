@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <dimen name="primary_text_size">24sp</dimen>
+    <!-- REGULAR DIMENS -->
+    <dimen name="regular_border_small">8dp</dimen>
+    <dimen name="regular_border_medium">16dp</dimen>
+    <dimen name="regular_border_large">32dp</dimen>
+    <dimen name="regular_text_size">24sp</dimen>
 
-    <dimen name="margin_small">8dp</dimen>
-    <dimen name="margin_medium">16dp</dimen>
-    <dimen name="margin_large">32dp</dimen>
-
-    <dimen name="radius_small">8dp</dimen>
-    <dimen name="radius_medium">16dp</dimen>
-    <dimen name="radius_large">32dp</dimen>
-
-    <dimen name="size_small">8sp</dimen>
-    <dimen name="size_medium">16sp</dimen>
-    <dimen name="size_large">32sp</dimen>
-    <dimen name="size_regular">24sp</dimen>
+    <!-- MAIN SCREEN DIMENS -->
+    <dimen name="main_screen_button_corner_radius">16dp</dimen>
+    <dimen name="main_screen_button_text_size">24sp</dimen>
 
     <!-- SETTINGS DIMENS -->
-    <dimen name="settings_frame_height">64dp</dimen>
+    <dimen name="settings_screen_frame_height">64dp</dimen>
 
 </resources>

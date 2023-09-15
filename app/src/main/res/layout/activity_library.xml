@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/library"
-        android:textSize="@dimen/size_large"
+        android:textSize="32sp"
         android:textStyle="bold"
         android:layout_gravity="center"
         android:gravity="center"/>

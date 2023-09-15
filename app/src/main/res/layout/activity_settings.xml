@@ -2,11 +2,7 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingHorizontal="@dimen/margin_medium"
-    android:background="@color/white" >
+    style="@style/SettingsScreenStyle" >
         
         <LinearLayout
             android:layout_width="match_parent"
@@ -15,70 +11,67 @@
             android:layout_gravity="center" >
 
             <ImageView
-                android:id="@+id/button_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/SettingsScreenImageViewStyle"
                 android:layout_gravity="center"
                 android:layout_marginRight="24dp"
                 android:src="@drawable/ic_arrow_back"
                 android:foreground="?attr/selectableItemBackground" />
 
             <TextView
-                style="@style/SettingsScreenTextStyle"
+                style="@style/SettingsScreenTextViewStyle"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/settings"
                 android:fontFamily="@font/ys_display_medium"
                 android:textFontWeight="500"
-                android:textSize="@dimen/size_regular"
-                android:textColor="@color/YP_Black" />
+                android:textSize="@dimen/regular_text_size" />
 
         </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/settings_frame_height"
+        android:layout_height="@dimen/settings_screen_frame_height"
         android:layout_marginTop="24dp" >
         <TextView
-            style="@style/SettingsScreenTextStyle"
+            style="@style/SettingsScreenTextViewStyle"
             android:text="@string/dark_theme" />
         <Switch
-            style="@style/SettingsScreenTextStyle"
+            style="@style/SettingsScreenImageViewStyle"
             android:layout_gravity="end|center" />
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/settings_frame_height" >
+        android:layout_height="@dimen/settings_screen_frame_height" >
         <TextView
-            style="@style/SettingsScreenTextStyle"
+            style="@style/SettingsScreenTextViewStyle"
             android:text="@string/share_app" />
         <ImageView
-            style="@style/SettingsScreenTextStyle"
+            style="@style/SettingsScreenImageViewStyle"
             android:layout_gravity="end|center"
             android:src="@drawable/ic_share"/>
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/settings_frame_height" >
+        android:layout_height="@dimen/settings_screen_frame_height" >
         <TextView
-            style="@style/SettingsScreenTextStyle"
+            style="@style/SettingsScreenTextViewStyle"
             android:text="@string/write_to_support" />
         <ImageView
-            style="@style/SettingsScreenTextStyle"
+            style="@style/SettingsScreenImageViewStyle"
             android:layout_gravity="end|center"
             android:src="@drawable/ic_support"/>
     </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/settings_frame_height" >
+        android:layout_height="@dimen/settings_screen_frame_height" >
         <TextView
-            style="@style/SettingsScreenTextStyle"
+            style="@style/SettingsScreenTextViewStyle"
             android:text="@string/user_agreement" />
         <ImageView
-            style="@style/SettingsScreenTextStyle"
+            style="@style/SettingsScreenImageViewStyle"
             android:layout_gravity="end|center"
             android:src="@drawable/ic_arrow_forward"/>
     </FrameLayout>

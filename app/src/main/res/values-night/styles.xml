@@ -28,12 +28,13 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
         <item name="android:paddingHorizontal">@dimen/regular_border_medium</item>
-        <item name="android:background">@color/YP_White</item>
+        <item name="android:background">@color/YP_Black</item>
     </style>
 
     <style name="SettingsScreenImageViewStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="tint">@color/YP_White</item>
     </style>
 
     <style name="SettingsScreenTextViewStyle">
@@ -44,7 +45,7 @@
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:textFontWeight">400</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/YP_Black</item>
+        <item name="android:textColor">@color/YP_White</item>
 
     </style>
 </resources>
