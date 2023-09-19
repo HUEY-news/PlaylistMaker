@@ -23,7 +23,7 @@ class SettingsActivity : AppCompatActivity() {
             val shareIntent = Intent(Intent.ACTION_SEND) // создаем новый Intent с действием ACTION_SEND
             val shareIntentTitle = getString(R.string.share_app) // заголовок интента
             shareIntent.type = "text/plain" // устанавливаем тип данных для отправки
-            val url = getString(R.string.yandex_practicum_android_developer_link) // создаём переменную для хранения ссылки на курс
+            val url = getString(R.string.YP_android_developer_link) // создаём переменную для хранения ссылки на курс
             shareIntent.putExtra(Intent.EXTRA_TEXT, url) // добавляем данные для отправки (ссылку на курс)
             startActivity(Intent.createChooser(shareIntent, shareIntentTitle)) // запускаем Intent
         }

@@ -11,7 +11,7 @@
     <string name="dark_theme">Тёмная тема</string>
 
     <string name="share_app">Поделиться приложением</string>
-    <string name="yandex_practicum_android_developer_link">https://practicum.yandex.ru/android-developer</string>
+    <string name="YP_android_developer_link">https://practicum.yandex.ru/android-developer</string>
 
     <string name="write_to_user_support">Написать в поддержку</string>
     <string name="support_email">HUEY.news@yandex.ru</string>
