@@ -19,4 +19,5 @@
     <string name="support_text">Спасибо разработчикам и разработчицам за крутое приложение!</string>
 
     <string name="user_agreement">Пользовательское соглашение</string>
+    <string name="agreement_link">https://yandex.ru/legal/practicum_offer/</string>
 </resources>
