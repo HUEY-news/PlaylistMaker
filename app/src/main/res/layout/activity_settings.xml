@@ -60,7 +60,7 @@
         android:layout_height="@dimen/settings_screen_frame_height" >
         <TextView
             style="@style/SettingsScreenTextViewStyle"
-            android:text="@string/write_to_support" />
+            android:text="@string/write_to_user_support" />
         <ImageView
             style="@style/SettingsScreenImageViewStyle"
             android:layout_gravity="end|center"
