@@ -22,7 +22,7 @@
                 style="@style/SettingsScreenTextViewStyle"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/settings"
+                android:text="@string/button_settings"
                 android:fontFamily="@font/ys_display_medium"
                 android:textFontWeight="500"
                 android:textSize="@dimen/regular_text_size" />

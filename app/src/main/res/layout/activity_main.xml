@@ -24,21 +24,21 @@
         android:id="@+id/button_search"
         style="@style/MainScreenButtonStyle"
         android:layout_marginTop="24dp"
-        android:text="@string/search"
+        android:text="@string/button_search"
         app:icon="@drawable/ic_search" />
 
     <Button
         android:id="@+id/button_library"
         style="@style/MainScreenButtonStyle"
         android:layout_marginVertical="@dimen/regular_border_medium"
-        android:text="@string/library"
+        android:text="@string/button_library"
         app:icon="@drawable/ic_library" />
 
     <Button
         android:id="@+id/button_settings"
         style="@style/MainScreenButtonStyle"
         android:layout_marginBottom="28dp"
-        android:text="@string/settings"
+        android:text="@string/button_settings"
         app:icon="@drawable/ic_settings" />
 
 </LinearLayout>

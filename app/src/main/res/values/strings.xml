@@ -3,8 +3,9 @@
 
     <!-- MAIN SCREEN -->
     <string name="header_main">Playlist maker</string>
-    <string name="library">Медиатека</string>
-    <string name="settings">Настройки</string>
+    <string name="button_library">Медиатека</string>
+    <string name="button_settings">Настройки</string>
+    <string name="button_search">Поиск</string>
 
     <!-- SETTINGS SCREEN -->
     <string name="dark_theme">Тёмная тема</string>
