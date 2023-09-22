@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <style name="Theme.SearchActivity" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/YP_Black</item>
+        <item name="colorPrimaryVariant">@color/YP_Black</item>
+        <item name="colorOnPrimary">@color/YP_Black</item>
+
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/YP_Blue</item>
+        <item name="colorSecondaryVariant">@color/YP_Black</item>
+        <item name="colorOnSecondary">@color/YP_White</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/YP_Black</item>
+
+        <!-- Navigation bar color. -->
+        <item name="android:navigationBarColor">@color/YP_Black</item>
+
+        <!-- Customize your theme here. -->
+        <item name="backgroundColor">@color/YP_White</item>
+        <item name="textFillColor">@color/YP_Black</item>
+
+    </style>
+</resources>
