@@ -15,25 +15,23 @@ class SearchActivity : AppCompatActivity()
     // БЛОК КЛЮЧЕВЫХ ЗНАЧЕНИЙ
     companion object
     {
-        // КЛЮЧ ДЛЯ ХРАНЕНИЯ ПОЛЬЗОВАТЕЛЬСКОГО ВВОДА
-        const val SEARCH = "SEARCH"
+        // КЛЮЧ ДЛЯ ХРАНЕНИЯ СОДЕРЖИМОГО ПОИСКОВОЙ СТРОКИ
+        const val SEARCH_FIELD_CONTENT = "SEARCH_FIELD_TEXT"
     }
 
-    // БЛОК ОБЪЯВЛЕНИЯ LATEINIT ПЕРЕМЕННЫХ
-    private lateinit var searchField : EditText
+    // ГЛОБАЛЬНАЯ ПЕРЕМННАЯ ДЛЯ ХРАНЕНИЯ СОДЕРЖИМОГО ПОИСКОВОЙ СТРОКИ
+    lateinit var searchFieldContent : String
 
     override fun onCreate(state: Bundle?)
     {
         super.onCreate(state)
         setContentView(R.layout.activity_search)
 
-        // БЛОК ИНИЦИАЛИЗАЦИИ LATEINIT ПЕРЕМЕННЫХ
-        searchField = findViewById(R.id.search_field)
-
         // ВЫЗВАТЬ МЕТОД ONDESTROY ТЕКУЩЕЙ АКТИВИТИ
         val backButton = findViewById<ImageButton>(R.id.button_back)
         backButton.setOnClickListener { finish() }
 
+        val searchField = findViewById<EditText>(R.id.search_field)
         val resetButton = findViewById<ImageButton>(R.id.button_reset)
         resetButton.setOnClickListener {
             // ОЧИСТИТЬ ПОЛЕ ВВОДА
@@ -52,6 +50,9 @@ class SearchActivity : AppCompatActivity()
             {
                 // МЕНЯЕМ ВИДИМОСТЬ КНОПКИ "CLEAR"
                 resetButton.visibility = clearButtonVisibility(string)
+
+                //СОХРАНЯМ ВВОД В ГЛОБАЛЬНУЮ ПЕРЕМЕННУЮ
+                if (string != null) searchFieldContent = string.toString()
             }
         }
         searchField.addTextChangedListener(textWatcher)
@@ -67,13 +68,13 @@ class SearchActivity : AppCompatActivity()
     {
         super.onRestoreInstanceState(state)
         // ЗАГРУЖАЕМ СОДЕРЖИМОЕ ПОЛЯ ПОИСКА
-        if (state != null) searchField.setText(state.getString(SEARCH))
+        if (state != null) searchFieldContent = state.getString(SEARCH_FIELD_CONTENT, "")
     }
 
     override fun onSaveInstanceState(state: Bundle)
     {
         super.onSaveInstanceState(state)
         // СОХРАНЯЕМ СОДЕРЖИМОЕ ПОЛЯ ПОИСКА
-        state.putString(SEARCH, searchField.text.toString())
+        state.putString(SEARCH_FIELD_CONTENT, searchFieldContent)
     }
 }
