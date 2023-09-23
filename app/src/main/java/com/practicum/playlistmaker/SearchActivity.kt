@@ -20,12 +20,12 @@ class SearchActivity : AppCompatActivity()
         // БЛОК ОБЪЯВЛЕНИЯ И ИНИЦИАЛИЗАЦИИ
         val backButton : ImageButton = findViewById(R.id.button_back)
         val searchField : EditText = findViewById(R.id.search_field)
-        val clearButton : ImageButton = findViewById(R.id.button_clear)
+        val resetButton : ImageButton = findViewById(R.id.button_reset)
 
         // ВЫЗВАТЬ МЕТОД ONDESTROY ТЕКУЩЕЙ АКТИВИТИ
         backButton.setOnClickListener { finish() }
 
-        clearButton.setOnClickListener {
+        resetButton.setOnClickListener {
             // ОЧИСТИТЬ ПОЛЕ ВВОДА
             searchField.setText("")
             // ВСПОМОГАТЕЛЬНЫЙ КЛАСС. ПОСРЕДНИК МЕЖДУ ИСТОЧНИКОМ ВВОДА И ПРИЛОЖЕНИЕМ
@@ -41,7 +41,7 @@ class SearchActivity : AppCompatActivity()
             override fun onTextChanged(string: CharSequence?, start: Int, before: Int, count: Int)
             {
                 // МЕНЯЕМ ВИДИМОСТЬ КНОПКИ "CLEAR"
-                clearButton.visibility = clearButtonVisibility(string)
+                resetButton.visibility = clearButtonVisibility(string)
             }
         }
         searchField.addTextChangedListener(textWatcher)
