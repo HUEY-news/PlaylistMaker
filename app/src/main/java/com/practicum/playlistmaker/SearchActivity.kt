@@ -3,7 +3,6 @@ package com.practicum.playlistmaker
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -35,8 +34,8 @@ class SearchActivity : AppCompatActivity()
         val backButton = findViewById<ImageButton>(R.id.button_back)
         backButton.setOnClickListener { finish() }
 
-        val clearButton = findViewById<ImageButton>(R.id.button_clear)
-        clearButton.setOnClickListener {
+        val resetButton = findViewById<ImageButton>(R.id.button_reset)
+        resetButton.setOnClickListener {
             // ОЧИСТИТЬ ПОЛЕ ВВОДА
             searchField.setText("")
             // ВСПОМОГАТЕЛЬНЫЙ КЛАСС. ПОСРЕДНИК МЕЖДУ ИСТОЧНИКОМ ВВОДА И ПРИЛОЖЕНИЕМ
@@ -52,7 +51,7 @@ class SearchActivity : AppCompatActivity()
             override fun onTextChanged(string: CharSequence?, start: Int, before: Int, count: Int)
             {
                 // МЕНЯЕМ ВИДИМОСТЬ КНОПКИ "CLEAR"
-                clearButton.visibility = clearButtonVisibility(string)
+                resetButton.visibility = clearButtonVisibility(string)
             }
         }
         searchField.addTextChangedListener(textWatcher)
