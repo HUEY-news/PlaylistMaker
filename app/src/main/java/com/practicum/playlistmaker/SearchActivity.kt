@@ -3,6 +3,7 @@ package com.practicum.playlistmaker
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -12,19 +13,29 @@ import android.widget.ImageButton
 
 class SearchActivity : AppCompatActivity()
 {
-    override fun onCreate(savedInstanceState: Bundle?)
+    // БЛОК КЛЮЧЕВЫХ ЗНАЧЕНИЙ
+    companion object
     {
-        super.onCreate(savedInstanceState)
+        // КЛЮЧ ДЛЯ ХРАНЕНИЯ ПОЛЬЗОВАТЕЛЬСКОГО ВВОДА
+        const val SEARCH = "SEARCH"
+    }
+
+    // БЛОК ОБЪЯВЛЕНИЯ LATEINIT ПЕРЕМЕННЫХ
+    private lateinit var searchField : EditText
+
+    override fun onCreate(state: Bundle?)
+    {
+        super.onCreate(state)
         setContentView(R.layout.activity_search)
 
-        // БЛОК ОБЪЯВЛЕНИЯ И ИНИЦИАЛИЗАЦИИ
-        val backButton : ImageButton = findViewById(R.id.button_back)
-        val searchField : EditText = findViewById(R.id.search_field)
-        val clearButton : ImageButton = findViewById(R.id.button_clear)
+        // БЛОК ИНИЦИАЛИЗАЦИИ LATEINIT ПЕРЕМЕННЫХ
+        searchField = findViewById(R.id.search_field)
 
         // ВЫЗВАТЬ МЕТОД ONDESTROY ТЕКУЩЕЙ АКТИВИТИ
+        val backButton = findViewById<ImageButton>(R.id.button_back)
         backButton.setOnClickListener { finish() }
 
+        val clearButton = findViewById<ImageButton>(R.id.button_clear)
         clearButton.setOnClickListener {
             // ОЧИСТИТЬ ПОЛЕ ВВОДА
             searchField.setText("")
@@ -51,5 +62,19 @@ class SearchActivity : AppCompatActivity()
     fun clearButtonVisibility (string : CharSequence?) : Int
     {
         return if (string.isNullOrEmpty()) View.GONE else View.VISIBLE
+    }
+
+    override fun onRestoreInstanceState(state: Bundle)
+    {
+        super.onRestoreInstanceState(state)
+        // ЗАГРУЖАЕМ СОДЕРЖИМОЕ ПОЛЯ ПОИСКА
+        if (state != null) searchField.setText(state.getString(SEARCH))
+    }
+
+    override fun onSaveInstanceState(state: Bundle)
+    {
+        super.onSaveInstanceState(state)
+        // СОХРАНЯЕМ СОДЕРЖИМОЕ ПОЛЯ ПОИСКА
+        state.putString(SEARCH, searchField.text.toString())
     }
 }
