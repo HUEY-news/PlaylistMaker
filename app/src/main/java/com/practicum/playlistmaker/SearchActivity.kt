@@ -40,6 +40,7 @@ class SearchActivity : AppCompatActivity()
             override fun afterTextChanged(string: Editable?) {}
             override fun onTextChanged(string: CharSequence?, start: Int, before: Int, count: Int)
             {
+                // МЕНЯЕМ ВИДИМОСТЬ КНОПКИ "CLEAR"
                 clearButton.visibility = clearButtonVisibility(string)
             }
         }
