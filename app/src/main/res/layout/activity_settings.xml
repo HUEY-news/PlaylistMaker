@@ -2,31 +2,34 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/SettingsScreenStyle" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/Base.Theme.PlaylistMaker.SettingsActivity"
+    android:background="?attr/primaryBackgroundColor"
+    style="@style/SettingsActivity"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/regular_border_medium" >
         
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:orientation="horizontal"
             android:layout_gravity="center" >
-
             <ImageView
                 android:id="@+id/button_back"
-                style="@style/SettingsScreenImageViewStyle"
+                style="@style/SettingsActivity.ImageView"
+                app:tint="?attr/primaryTextColor"
                 android:layout_gravity="center"
                 android:layout_marginRight="24dp"
                 android:src="@drawable/ic_arrow_back"
                 android:foreground="?attr/selectableItemBackground" />
-
             <TextView
-                style="@style/SettingsScreenTextViewStyle"
+                style="@style/SettingsActivity.TextView"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/button_settings"
                 android:fontFamily="@font/ys_display_medium"
                 android:textFontWeight="500"
                 android:textSize="24sp" />
-
         </LinearLayout>
 
     <FrameLayout
@@ -34,10 +37,10 @@
         android:layout_height="@dimen/settings_screen_frame_height"
         android:layout_marginTop="24dp" >
         <TextView
-            style="@style/SettingsScreenTextViewStyle"
+            style="@style/SettingsActivity.TextView"
             android:text="@string/dark_theme" />
         <Switch
-            style="@style/SettingsScreenImageViewStyle"
+            style="@style/SettingsActivity.ImageView.Switch"
             android:layout_gravity="end|center" />
     </FrameLayout>
 
@@ -46,10 +49,10 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_screen_frame_height" >
         <TextView
-            style="@style/SettingsScreenTextViewStyle"
+            style="@style/SettingsActivity.TextView"
             android:text="@string/share_app" />
         <ImageView
-            style="@style/SettingsScreenImageViewStyle"
+            style="@style/SettingsActivity.ImageView"
             android:layout_gravity="end|center"
             android:src="@drawable/ic_share"/>
     </FrameLayout>
@@ -59,10 +62,10 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_screen_frame_height" >
         <TextView
-            style="@style/SettingsScreenTextViewStyle"
+            style="@style/SettingsActivity.TextView"
             android:text="@string/write_to_user_support" />
         <ImageView
-            style="@style/SettingsScreenImageViewStyle"
+            style="@style/SettingsActivity.ImageView"
             android:layout_gravity="end|center"
             android:src="@drawable/ic_support"/>
     </FrameLayout>
@@ -72,10 +75,10 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_screen_frame_height" >
         <TextView
-            style="@style/SettingsScreenTextViewStyle"
+            style="@style/SettingsActivity.TextView"
             android:text="@string/user_agreement" />
         <ImageView
-            style="@style/SettingsScreenImageViewStyle"
+            style="@style/SettingsActivity.ImageView"
             android:layout_gravity="end|center"
             android:src="@drawable/ic_arrow_forward"/>
     </FrameLayout>
