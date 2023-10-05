@@ -124,6 +124,7 @@
     <style name="SearchActivity.SearchField">
         <!-- GENERAL OPTIONS -->
         <item name="android:background">@drawable/shape_rounded_rectangle</item>
+        <item name="android:textCursorDrawable">@drawable/shape_edit_text_cursor</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingHorizontal">8dp</item>
@@ -132,7 +133,7 @@
         <item name="android:inputType">text</item>
         <!-- TEXT OPTIONS -->
         <item name="android:hint">@string/search_field_hint</item>
-        <item name="android:textColor">?attr/primaryTextColor</item>
+        <item name="android:textColor">@color/YP_Black</item>
         <item name="android:textColorHint">?attr/secondaryTextColor</item>
         <item name="fontFamily">@font/ys_display_regular</item>
         <item name="fontWeight">400</item>
