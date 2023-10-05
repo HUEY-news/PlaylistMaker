@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name" translatable="false">Playlist Maker</string>
 
-    <!-- MAIN SCREEN -->
+    <!-- MAIN ACTIVITY -->
     <string name="header_main">Playlist maker</string>
     <string name="button_library">Медиатека</string>
     <string name="button_settings">Настройки</string>
     <string name="button_search">Поиск</string>
 
-    <!-- SETTINGS SCREEN -->
+    <!-- SETTINGS ACTIVITY -->
     <string name="dark_theme">Тёмная тема</string>
 
     <string name="share_app">Поделиться приложением</string>
@@ -21,8 +21,9 @@
     <string name="user_agreement">Пользовательское соглашение</string>
     <string name="agreement_link">https://yandex.ru/legal/practicum_offer/</string>
 
-    <!-- SEARCH SCREEN -->
+    <!-- SEARCH ACTIVITY -->
     <string name="search_screen_title">Поиск</string>
     <string name="search_field_hint">Поиск</string>
+    <string name="back_button_description">Назад</string>
 
 </resources>

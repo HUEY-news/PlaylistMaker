@@ -28,8 +28,12 @@
     </style>
 
     <style name="Base.Theme.PlaylistMaker.SearchActivity" parent="Base.Theme.PlaylistMaker">
-        <item name="primaryBackgroundColor">@color/YP_White</item>
+        <item name="primaryBackgroundColor">@color/YP_Black</item>
+        <item name="secondaryBackgroundColor">@color/YP_White</item>
+        <item name="primaryTextColor">@color/YP_White</item>
+        <item name="secondaryTextColor">@color/YP_Black</item>
+        <item name="primaryIconColor">@color/YP_White</item>
+        <item name="secondaryIconColor">@color/YP_Black</item>
     </style>
-
 
 </resources>
