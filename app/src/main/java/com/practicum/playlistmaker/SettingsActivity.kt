@@ -19,7 +19,7 @@ class SettingsActivity : AppCompatActivity()
             finish()
         }
 
-        val shareButton = findViewById<FrameLayout>(R.id.share_frame_layout)
+        val shareButton = findViewById<FrameLayout>(R.id.fl_share)
         shareButton.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND)
             val shareIntentTitle = getString(R.string.share_app)
@@ -29,7 +29,7 @@ class SettingsActivity : AppCompatActivity()
             startActivity(Intent.createChooser(shareIntent, shareIntentTitle))
         }
 
-        val supportButton = findViewById<FrameLayout>(R.id.support_frame_layout)
+        val supportButton = findViewById<FrameLayout>(R.id.fl_support)
         supportButton.setOnClickListener {
             val supportIntent = Intent(Intent.ACTION_SEND)
             val supportIntentTitle = getString(R.string.write_to_user_support)
@@ -43,7 +43,7 @@ class SettingsActivity : AppCompatActivity()
             startActivity(Intent.createChooser(supportIntent, supportIntentTitle))
         }
 
-        val agreementButton = findViewById<FrameLayout>(R.id.agreement_frame_layout)
+        val agreementButton = findViewById<FrameLayout>(R.id.fl_agreement)
         agreementButton.setOnClickListener {
             val agreementIntent = Intent(Intent.ACTION_VIEW)
             val url = getString(R.string.agreement_link)

@@ -10,7 +10,7 @@
     android:paddingHorizontal="@dimen/regular_border_medium" >
     
     <TextView
-        android:id="@+id/TV_header"
+        android:id="@+id/tv_header"
         style="@style/MainActivity.Header" />
 
     <Button
