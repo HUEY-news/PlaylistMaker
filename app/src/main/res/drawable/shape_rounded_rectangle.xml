@@ -4,7 +4,7 @@
 
     <item>
         <shape android:shape="rectangle" >
-            <solid android:color="?attr/searchFieldBackgroundColor" />
+            <solid android:color="?attr/secondaryBackgroundColor" />
             <corners android:radius="8dp" />
         </shape>
     </item>
