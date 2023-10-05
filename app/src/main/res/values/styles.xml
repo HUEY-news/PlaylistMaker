@@ -144,4 +144,39 @@
         <item name="android:drawablePadding">8dp</item>
     </style>
 
+<!-- ======================================= TRACK ITEM ======================================== -->
+    <style name="Track">
+        <!-- GENERAL OPTIONS -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Track.TextView">
+        <!-- GENERAL OPTIONS -->
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <!-- TEXT OPTIONS -->
+        <item name="android:textColor">?attr/secondaryTextColor</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Track.TextView.TrackName">
+        <!-- TEXT OPTIONS -->
+        <item name="android:textColor">?attr/primaryTextColor</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Track.ImageButton">
+        <!-- GENERAL OPTIONS -->
+        <item name="android:background">?attr/primaryBackgroundColor</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <!-- ICON OPTIONS -->
+        <item name="tint">?attr/primaryIconColor</item>
+    </style>
+
 </resources>

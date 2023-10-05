@@ -45,7 +45,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/share_frame_layout"
+        android:id="@+id/fl_share"
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_screen_frame_height" >
         <TextView
@@ -58,7 +58,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/support_frame_layout"
+        android:id="@+id/fl_support"
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_screen_frame_height" >
         <TextView
@@ -71,7 +71,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/agreement_frame_layout"
+        android:id="@+id/fl_agreement"
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_screen_frame_height" >
         <TextView
@@ -80,7 +80,7 @@
         <ImageView
             style="@style/SettingsActivity.ImageView"
             android:layout_gravity="end|center"
-            android:src="@drawable/ic_arrow_forward"/>
+            android:src="@drawable/ic_arrow_forward_24"/>
     </FrameLayout>
 
 </LinearLayout>

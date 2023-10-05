@@ -32,7 +32,7 @@
         android:paddingVertical="8dp" >
 
         <EditText
-            android:id="@+id/search_field"
+            android:id="@+id/et_search_field"
             style="@style/SearchActivity.SearchField" />
 
         <ImageButton

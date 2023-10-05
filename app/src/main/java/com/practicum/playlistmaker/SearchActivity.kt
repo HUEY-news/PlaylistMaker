@@ -50,7 +50,7 @@ class SearchActivity : AppCompatActivity()
         val backButton = findViewById<ImageButton>(R.id.button_back)
         backButton.setOnClickListener { finish() }
 
-        val searchField = findViewById<EditText>(R.id.search_field)
+        val searchField = findViewById<EditText>(R.id.et_search_field)
         val resetButton = findViewById<ImageButton>(R.id.button_reset)
         resetButton.setOnClickListener {
             searchField.setText("")
