@@ -9,12 +9,13 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageButton
+import androidx.recyclerview.widget.RecyclerView
 
 class SearchActivity : AppCompatActivity()
 {
     var searchFieldContent : String? = null
 
-    val trackList = listOf(
+    private val trackList = listOf(
         Track(
             trackName = "Smells Like Teen Spirit",
             artistName = "Nirvana",
@@ -71,6 +72,10 @@ class SearchActivity : AppCompatActivity()
             }
         }
         searchField.addTextChangedListener(textWatcher)
+
+        val recycler: RecyclerView = findViewById(R.id.rv_track_list)
+        val trackAdapter = TrackAdapter(trackList)
+        recycler.adapter = trackAdapter
     }
 
     fun resetButtonVisibility (string : CharSequence?) : Int
