@@ -26,7 +26,7 @@ class TrackViewHolder(item: View) : RecyclerView.ViewHolder(item)
             .load(data.artWorkUrl100)
             .placeholder(R.drawable.ic_test_background)
             .centerCrop()
-            .transform(RoundedCorners(pixelConverter(10f, itemView.context)))
+            .transform(RoundedCorners(pixelConverter(4f, itemView.context)))
             .into(artWork)
     }
 }
