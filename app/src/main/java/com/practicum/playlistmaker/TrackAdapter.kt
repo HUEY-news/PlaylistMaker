@@ -8,8 +8,9 @@ class TrackAdapter(private val tracks: List<Track>) : RecyclerView.Adapter<Track
 {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder
     {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_track, parent, false)
-        return TrackViewHolder(view)
+        return TrackViewHolder(LayoutInflater
+            .from(parent.context)
+            .inflate(R.layout.item_track, parent, false))
     }
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) = holder.bind(tracks[position])
     override fun getItemCount(): Int =tracks.size
