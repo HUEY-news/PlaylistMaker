@@ -8,6 +8,8 @@
     <attr name="secondaryTextColor"/>
     <attr name="primaryIconColor"/>
     <attr name="secondaryIconColor"/>
+    <attr name="primaryButtonColor"/>
+    <attr name="secondaryButtonColor"/>
 
 <!-- ========================================================================================== -->
 
@@ -25,6 +27,9 @@
         <item name="primaryBackgroundColor">@color/YP_White</item>
         <item name="primaryTextColor">@color/YP_Black</item>
         <item name="primaryIconColor">@color/YP_Text_Gray</item>
+        <item name="secondaryIconColor">@color/YP_Text_Gray</item>
+        <item name="primaryButtonColor">@color/YP_Text_Gray</item>
+        <item name="secondaryButtonColor">@color/YP_Light_Gray</item>
     </style>
 
     <style name="Base.Theme.PlaylistMaker.SearchActivity" parent="Base.Theme.PlaylistMaker">

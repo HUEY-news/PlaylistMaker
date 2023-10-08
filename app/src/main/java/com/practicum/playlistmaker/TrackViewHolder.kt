@@ -23,7 +23,7 @@ class TrackViewHolder(item: View) : RecyclerView.ViewHolder(item)
         Glide
             .with(itemView.context)
             .load(data.artWorkUrl100)
-            .placeholder(R.drawable.ic_test_background)
+            .placeholder(R.drawable.ic_placeholder)
             .centerCrop()
             .transform(RoundedCorners(pixelConverter(4f, itemView.context)))
             .into(artWork)
