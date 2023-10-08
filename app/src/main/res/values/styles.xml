@@ -59,9 +59,8 @@
 
     <style name="SettingsActivity.ImageView.Switch">
         <!-- ICON OPTIONS -->
-        <item name="tint">?attr/primaryTextColor</item>
-        <item name="android:thumbTint">?attr/primaryIconColor</item>
-        <item name="android:trackTint">?attr/primaryIconColor</item>
+        <item name="thumbTint">?attr/primaryButtonColor</item>
+        <item name="trackTint">?attr/secondaryButtonColor</item>
     </style>
 
     <style name="SettingsActivity.ImageView.BackButton">

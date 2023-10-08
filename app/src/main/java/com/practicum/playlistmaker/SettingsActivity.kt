@@ -1,11 +1,14 @@
 package com.practicum.playlistmaker
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SwitchCompat
 
 class SettingsActivity : AppCompatActivity()
 {
@@ -13,6 +16,24 @@ class SettingsActivity : AppCompatActivity()
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+
+        val nightThemeSwitcher = findViewById<SwitchCompat>(R.id.switch_night_theme)
+        // ЕСЛИ ПРИ ЗАПУСКЕ НОЧНАЯ ТЕМА УЖЕ АКТИВНА...
+        if (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK === Configuration.UI_MODE_NIGHT_YES)
+        {
+            nightThemeSwitcher.isChecked = true
+        }
+        nightThemeSwitcher.setOnClickListener {
+            // МЕТОД setDefaultNightMode() КЛАССА AppCompatDelegate УСТАНАВЛИВАЕТ НОЧНУЮ ТЕМУ ДЛЯ ВСЕГО ПРИЛОЖЕНИЯ...
+            if (nightThemeSwitcher.isChecked) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            // ПЕРЕСОЗДАТЬ ACTIVITY С НОВОЙ ТЕМОЙ...
+            recreate()
+        }
+        // ВАЖНО!!!
+        // Частое переключение тем может вызвать утечку памяти, если необходимые ресурсы не будут корректно освобождены.
+        // Однако, если приложение правильно управляет своими ресурсами и использует метод recreate() только при изменении темы,
+        // то утечек памяти не должно возникать.
 
         val backButton = findViewById<ImageView>(R.id.button_back)
         backButton.setOnClickListener {

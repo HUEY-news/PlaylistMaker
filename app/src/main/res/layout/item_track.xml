@@ -7,16 +7,14 @@
     android:background="?attr/primaryBackgroundColor"
     style="@style/Track"
     android:orientation="horizontal"
-    android:paddingVertical="8dp"
-    android:paddingHorizontal="16dp"
-    >
+    android:paddingVertical="8dp" >
 
     <ImageView
         android:id="@+id/IV_artwork"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/ic_test_background" />
+        android:src="@drawable/ic_placeholder" />
 
     <LinearLayout
         android:layout_width="0dp"

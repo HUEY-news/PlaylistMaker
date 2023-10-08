@@ -39,9 +39,11 @@
         <TextView
             style="@style/SettingsActivity.TextView"
             android:text="@string/dark_theme" />
-        <Switch
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_night_theme"
             style="@style/SettingsActivity.ImageView.Switch"
             android:layout_gravity="end|center" />
+
     </FrameLayout>
 
     <FrameLayout
