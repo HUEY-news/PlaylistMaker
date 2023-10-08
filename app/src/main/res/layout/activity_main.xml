@@ -3,40 +3,33 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:theme="@style/Base.Theme.PlaylistMaker.MainActivity"
+    android:background="?attr/primaryBackgroundColor"
+    style="@style/MainActivity"
     android:orientation="vertical"
-    android:paddingHorizontal="@dimen/regular_border_medium"
-    android:background="?attr/colorPrimary" >
+    android:paddingHorizontal="@dimen/regular_border_medium" >
     
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-
-        android:text="@string/header_main"
-        android:gravity="start|center"
-        android:textSize="@dimen/regular_text_size"
-        android:textColor="@color/YP_White"
-        android:fontFamily="@font/ys_display_medium"
-        android:textFontWeight="500" />
+        android:id="@+id/tv_header"
+        style="@style/MainActivity.Header" />
 
     <Button
         android:id="@+id/button_search"
-        style="@style/MainScreenButtonStyle"
+        style="@style/MainActivity.Button"
         android:layout_marginTop="24dp"
         android:text="@string/button_search"
         app:icon="@drawable/ic_search_24" />
 
     <Button
         android:id="@+id/button_library"
-        style="@style/MainScreenButtonStyle"
+        style="@style/MainActivity.Button"
         android:layout_marginVertical="@dimen/regular_border_medium"
         android:text="@string/button_library"
         app:icon="@drawable/ic_library" />
 
     <Button
         android:id="@+id/button_settings"
-        style="@style/MainScreenButtonStyle"
+        style="@style/MainActivity.Button"
         android:layout_marginBottom="28dp"
         android:text="@string/button_settings"
         app:icon="@drawable/ic_settings" />

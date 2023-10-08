@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/Base.Theme.PlaylistMaker.SearchActivity"
+    android:background="?attr/primaryBackgroundColor"
     style="@style/SearchActivity"
-    android:background="?attr/colorPrimary"
     android:orientation="vertical"
-    android:paddingHorizontal="16dp"
-    tools:context=".SearchActivity" >
+    android:paddingHorizontal="16dp">
 
     <LinearLayout
-        android:background="?attr/colorPrimary"
+        android:background="?attr/primaryBackgroundColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
@@ -19,25 +18,21 @@
             android:id="@+id/button_back"
             style="@style/SearchActivity.ImageButton"
             android:paddingVertical="16dp"
-            android:src="@drawable/ic_arrow_back" />
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="@string/back_button_description" />
 
         <TextView
-            style="@style/SearchActivity.Header"
-            android:background="?attr/colorPrimary"
-            android:paddingVertical="14dp"
-            android:paddingHorizontal="24dp"
-            android:text="@string/search_screen_title"
-            android:textColor="?attr/colorOnSecondary" />
+            style="@style/SearchActivity.Header" />
     </LinearLayout>
 
     <FrameLayout
-        android:background="?attr/colorPrimary"
+        android:background="?attr/primaryBackgroundColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="8dp" >
 
         <EditText
-            android:id="@+id/search_field"
+            android:id="@+id/et_search_field"
             style="@style/SearchActivity.SearchField" />
 
         <ImageButton
@@ -46,5 +41,12 @@
             android:src="@drawable/ic_clear_16"
             android:visibility="gone"/>
     </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_track_list"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="16dp"/>
 
 </LinearLayout>

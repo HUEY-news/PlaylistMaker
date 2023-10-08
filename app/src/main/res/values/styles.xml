@@ -1,50 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <resources>
-    <!-- MAIN SCREEN -->
-    <style name="MainScreenButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+
+<!-- ====================================== MAIN ACTIVITY ====================================== -->
+    <style name="MainActivity">
+        <!-- GENERAL OPTIONS -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="MainActivity.Header">
+        <!-- GENERAL OPTIONS -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:gravity">start|center</item>
+        <!-- TEXT OPTIONS -->
+        <item name="android:text">@string/header_main</item>
+        <item name="android:textColor">?attr/primaryTextColor</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="MainActivity.Button" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <!-- GENERAL OPTIONS -->
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
         <item name="cornerRadius">@dimen/main_screen_button_corner_radius</item>
         <item name="android:backgroundTint">@color/YP_White</item>
-
+        <!-- TEXT OPTIONS -->
+        <item name="android:textColor">@color/YP_Black</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">@dimen/main_screen_button_text_size</item>
         <item name="android:letterSpacing">0</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textSize">@dimen/main_screen_button_text_size</item>
-        <item name="android:textColor">@color/YP_Black</item>
-
+        <!-- ICON OPTIONS -->
         <item name="iconGravity">textStart</item>
-        <item name="iconPadding">@dimen/regular_border_small</item>
+        <item name="iconPadding">8dp</item>
         <item name="iconTint">@color/YP_Black</item>
     </style>
-    
-    <!-- SETTINGS SCREEN -->
-    <style name="SettingsScreenStyle">
+
+<!-- ==================================== SETTINGS ACTIVITY ==================================== -->
+    <style name="SettingsActivity">
+        <!-- GENERAL OPTIONS -->
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:paddingHorizontal">@dimen/regular_border_medium</item>
-        <item name="android:background">@color/YP_White</item>
     </style>
 
-    <style name="SettingsScreenImageViewStyle">
+    <style name="SettingsActivity.ImageView">
+        <!-- GENERAL OPTIONS -->
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <!-- ICON OPTIONS -->
+        <item name="tint">?attr/primaryIconColor</item>
     </style>
 
-    <style name="SettingsScreenTextViewStyle">
+    <style name="SettingsActivity.ImageView.Switch">
+        <!-- ICON OPTIONS -->
+        <item name="thumbTint">?attr/primaryButtonColor</item>
+        <item name="trackTint">?attr/secondaryButtonColor</item>
+    </style>
+
+    <style name="SettingsActivity.ImageView.BackButton">
+        <!-- ICON OPTIONS -->
+        <item name="tint">?attr/primaryTextColor</item>
+    </style>
+
+    <style name="SettingsActivity.TextView">
+        <!-- GENERAL OPTIONS -->
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">start|center</item>
-
+        <!-- TEXT OPTIONS -->
+        <item name="android:textColor">?attr/primaryTextColor</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:textFontWeight">400</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/YP_Black</item>
-
     </style>
+
+<!-- ===================================== SEARCH ACTIVITY ===================================== -->
+    <style name="SearchActivity">
+        <!-- GENERAL OPTIONS -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="SearchActivity.Header">
+        <!-- GENERAL OPTIONS -->
+        <item name="android:background">?attr/primaryBackgroundColor</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingVertical">14dp</item>
+        <item name="android:paddingHorizontal">24dp</item>
+        <!-- TEXT OPTIONS -->
+        <item name="android:text">@string/search_screen_title</item>
+        <item name="android:textColor">?attr/primaryTextColor</item>
+        <item name="fontFamily">@font/ys_display_medium</item>
+        <item name="fontWeight">500</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="SearchActivity.ImageButton">
+        <!-- GENERAL OPTIONS -->
+        <item name="android:background">?attr/primaryBackgroundColor</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <!-- ICON OPTIONS -->
+        <item name="tint">?attr/primaryIconColor</item>
+    </style>
+
+    <style name="SearchActivity.ImageButton.ResetButton">
+        <!-- GENERAL OPTIONS -->
+        <item name="android:background">?attr/secondaryBackgroundColor</item>
+        <item name="android:layout_gravity">end|center</item>
+        <item name="android:layout_marginHorizontal">8dp</item>
+        <!-- ICON OPTIONS -->
+        <item name="tint">?attr/secondaryIconColor</item>
+    </style>
+
+    <style name="SearchActivity.SearchField">
+        <!-- GENERAL OPTIONS -->
+        <item name="android:background">@drawable/shape_rounded_rectangle</item>
+        <item name="android:textCursorDrawable">@drawable/shape_edit_text_cursor</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingHorizontal">8dp</item>
+        <item name="android:minHeight">36dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:inputType">text</item>
+        <!-- TEXT OPTIONS -->
+        <item name="android:hint">@string/search_field_hint</item>
+        <item name="android:textColor">@color/YP_Black</item>
+        <item name="android:textColorHint">?attr/secondaryTextColor</item>
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">16sp</item>
+        <!-- ICON OPTIONS -->
+        <item name="android:drawableStart">@drawable/ic_search_16</item>
+        <item name="android:drawableTint">?attr/secondaryIconColor</item>
+        <item name="android:drawablePadding">8dp</item>
+    </style>
+
+<!-- ======================================= TRACK ITEM ======================================== -->
+    <style name="Track">
+        <!-- GENERAL OPTIONS -->
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Track.TextView">
+        <!-- GENERAL OPTIONS -->
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <!-- TEXT OPTIONS -->
+        <item name="android:textColor">?attr/secondaryTextColor</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="fontWeight">400</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Track.TextView.TrackName">
+        <!-- TEXT OPTIONS -->
+        <item name="android:textColor">?attr/primaryTextColor</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Track.ImageButton">
+        <!-- GENERAL OPTIONS -->
+        <item name="android:background">?attr/primaryBackgroundColor</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <!-- ICON OPTIONS -->
+        <item name="tint">?attr/primaryIconColor</item>
+    </style>
+
 </resources>

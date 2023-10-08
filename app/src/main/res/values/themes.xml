@@ -1,26 +1,51 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <!-- Base application theme. -->
-    <style name="Theme.PlaylistMaker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+<!-- ============================== БЛОК ИНИЦИАЛИЗАЦИИ АТРИБУТОВ ============================== -->
 
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/YP_Blue</item>
-        <item name="colorPrimaryVariant">@color/white</item>
-        <item name="colorOnPrimary">@color/YP_White</item>
+    <attr name="primaryBackgroundColor"/>
+    <attr name="secondaryBackgroundColor"/>
+    <attr name="primaryTextColor"/>
+    <attr name="secondaryTextColor"/>
+    <attr name="primaryIconColor"/>
+    <attr name="secondaryIconColor"/>
+    <attr name="primaryButtonColor"/>
+    <attr name="secondaryButtonColor"/>
 
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/white</item>
-        <item name="colorSecondaryVariant">@color/white</item>
-        <item name="colorOnSecondary">@color/white</item>
+<!-- ========================================================================================== -->
 
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimary</item>
+    <style name="Base.Theme.PlaylistMaker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/YP_Blue</item>
+        <item name="android:navigationBarColor">@color/YP_Blue</item>
+    </style>
 
-        <!-- Navigation bar color. -->
-        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+    <style name="Base.Theme.PlaylistMaker.MainActivity" parent="Base.Theme.PlaylistMaker">
+        <item name="primaryBackgroundColor">@color/YP_Blue</item>
+        <item name="primaryTextColor">@color/YP_White</item>
+    </style>
 
-        <!-- Customize your theme here. -->
+    <style name="Base.Theme.PlaylistMaker.SettingsActivity" parent="Base.Theme.PlaylistMaker">
+        <item name="primaryBackgroundColor">@color/YP_White</item>
+        <item name="primaryTextColor">@color/YP_Black</item>
+        <item name="primaryIconColor">@color/YP_Text_Gray</item>
+        <item name="secondaryIconColor">@color/YP_Text_Gray</item>
+        <item name="primaryButtonColor">@color/YP_Text_Gray</item>
+        <item name="secondaryButtonColor">@color/YP_Light_Gray</item>
+    </style>
 
+    <style name="Base.Theme.PlaylistMaker.SearchActivity" parent="Base.Theme.PlaylistMaker">
+        <item name="primaryBackgroundColor">@color/YP_White</item>
+        <item name="secondaryBackgroundColor">@color/YP_Light_Gray</item>
+        <item name="primaryTextColor">@color/YP_Black</item>
+        <item name="secondaryTextColor">@color/YP_Text_Gray</item>
+        <item name="primaryIconColor">@color/YP_Black</item>
+        <item name="secondaryIconColor">@color/YP_Text_Gray</item>
+    </style>
+
+    <style name="Base.Theme.PlaylistMaker.Track" parent="Base.Theme.PlaylistMaker">
+        <item name="primaryBackgroundColor">@color/YP_White</item>
+        <item name="primaryTextColor">@color/YP_Black</item>
+        <item name="secondaryTextColor">@color/YP_Text_Gray</item>
+        <item name="primaryIconColor">@color/YP_Text_Gray</item>
     </style>
 
 </resources>

@@ -5,7 +5,6 @@
     <dimen name="regular_border_small">8dp</dimen>
     <dimen name="regular_border_medium">16dp</dimen>
     <dimen name="regular_border_large">32dp</dimen>
-    <dimen name="regular_text_size">24sp</dimen>
 
     <!-- MAIN SCREEN DIMENS -->
     <dimen name="main_screen_button_corner_radius">16dp</dimen>
