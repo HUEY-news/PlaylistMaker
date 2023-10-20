@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.activity
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +10,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
+import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.model.Track
+import com.practicum.playlistmaker.TrackAdapter
 
 class SearchActivity : AppCompatActivity()
 {

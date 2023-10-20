@@ -1,6 +1,6 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.model
 
-class Track(
+data class Track(
     val trackName: String, // НАЗВАНИЕ КОМПОЗИЦИИ
     val artistName: String, // ИМЯ ИСПОЛНИТЕЛЯ
     val trackTime: String, // ПРОДОЛЖИТЕЛЬНОСТЬ ТРЕКА
