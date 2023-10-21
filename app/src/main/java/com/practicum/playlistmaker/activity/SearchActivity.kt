@@ -52,11 +52,11 @@ class SearchActivity : AppCompatActivity()
                                     Log.d("RESPONSE_BODY", response.body()?.results.toString())
                                     recycler.adapter = trackAdapter
                                 }
-                                else -> Log.d("RESPONSE", response.code().toString())
+                                else -> Log.d("RESPONSE_CODE", response.code().toString())
                             }
                         }
                         override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                            Log.d("RESPONSE", t.message.toString())
+                            Log.d("RESPONSE_ERROR", t.message.toString())
                         }
                     })
                 true
