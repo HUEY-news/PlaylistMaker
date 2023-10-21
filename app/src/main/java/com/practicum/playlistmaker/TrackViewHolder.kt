@@ -10,17 +10,15 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.model.Track
 
-class TrackViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-    LayoutInflater
-        .from(parent.context)
-        .inflate(R.layout.item_track, parent, false)
-) {
-    private val trackName: TextView = parent.findViewById(R.id.TV_track_name)
-    private val artistName: TextView = parent.findViewById(R.id.TV_artist_name)
-    private val trackTime: TextView = parent.findViewById(R.id.TV_track_time)
-    private val artWork: ImageView = parent.findViewById(R.id.IV_artwork)
+class TrackViewHolder(view: View) : RecyclerView.ViewHolder(view)
+ {
+    private val trackName: TextView = view.findViewById(R.id.TV_track_name)
+    private val artistName: TextView = view.findViewById(R.id.TV_artist_name)
+    private val trackTime: TextView = view.findViewById(R.id.TV_track_time)
+    private val artWork: ImageView = view.findViewById(R.id.IV_artwork)
 
-    fun bind(data: Track) {
+    fun bind(data: Track)
+    {
         trackName.text = data.trackName
         artistName.text = data.artistName
         trackTime.text = data.trackTime
