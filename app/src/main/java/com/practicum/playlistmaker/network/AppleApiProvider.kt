@@ -14,7 +14,7 @@ class AppleApiProvider {
         .addInterceptor(interceptor)
         .build()
 
-    val retrofit = Retrofit.Builder()
+    private val retrofit = Retrofit.Builder()
         .baseUrl("https://itunes.apple.com")
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
