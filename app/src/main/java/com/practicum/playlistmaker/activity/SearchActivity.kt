@@ -48,7 +48,8 @@ class SearchActivity : AppCompatActivity()
                             when (response.code()) {
                                 200 -> {
                                     val recycler: RecyclerView = findViewById(R.id.rv_track_list)
-                                    val trackAdapter = TrackAdapter(response)
+                                    val trackAdapter = TrackAdapter(response.body()!!)
+                                    Log.d("RESPONSE_BODY", response.body()?.results.toString())
                                     recycler.adapter = trackAdapter
                                 }
                                 else -> Log.d("RESPONSE", response.code().toString())

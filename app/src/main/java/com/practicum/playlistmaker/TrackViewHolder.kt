@@ -26,7 +26,7 @@ class TrackViewHolder(parent: ViewGroup) :
 
         Glide
             .with(itemView.context)
-            .load(track.artWorkUrl100)
+            .load(track.artworkUrl100)
             .placeholder(R.drawable.ic_placeholder)
             .centerCrop()
             .transform(RoundedCorners(pixelConverter(4f, itemView.context)))

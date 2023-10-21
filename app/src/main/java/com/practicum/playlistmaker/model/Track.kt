@@ -4,5 +4,5 @@ data class Track(
     val trackName: String, // НАЗВАНИЕ КОМПОЗИЦИИ
     val artistName: String, // ИМЯ ИСПОЛНИТЕЛЯ
     val trackTimeMillis: Int, // ПРОДОЛЖИТЕЛЬНОСТЬ ТРЕКА
-    val artWorkUrl100: String // ССЫЛКА НА ИЗОБРАЖЕНИЕ ОБЛОЖКИ
+    val artworkUrl100: String // ССЫЛКА НА ИЗОБРАЖЕНИЕ ОБЛОЖКИ
 )
