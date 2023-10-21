@@ -5,7 +5,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ProviderAPI {
+class AppleApiProvider {
     private val interceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
@@ -20,5 +20,5 @@ class ProviderAPI {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val api = retrofit.create(iTunesAPI::class.java)
+    val api = retrofit.create(AppleApi::class.java)
 }

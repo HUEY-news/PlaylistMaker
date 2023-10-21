@@ -33,7 +33,9 @@
 
         <EditText
             android:id="@+id/et_search_field"
-            style="@style/SearchActivity.SearchField" />
+            style="@style/SearchActivity.SearchField"
+            android:imeOptions="actionDone"
+            android:singleLine="true" />
 
         <ImageButton
             android:id="@+id/button_reset"

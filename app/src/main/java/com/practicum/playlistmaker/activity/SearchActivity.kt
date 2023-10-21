@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageButton
@@ -54,7 +55,17 @@ class SearchActivity : AppCompatActivity()
         val backButton = findViewById<ImageButton>(R.id.button_back)
         backButton.setOnClickListener { finish() }
 
+        // ЧТОБЫ ОБРАБОТАТЬ НАЖАТИЕ НА КНОПКУ "DONE",
+        // К ЭКЗЕМПЛЯРУ EDIT_TEXT ДОБАВЛЯЕТСЯ СЛУШАТЕЛЬ:
         val searchField = findViewById<EditText>(R.id.et_search_field)
+        searchField.setOnEditorActionListener{ _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE){
+                // ВЫПОЛНЯЙТЕ ПОИСКОВЫЙ ЗАПРОС ЗДЕСЬ
+                true
+            }
+            false
+        }
+
         val resetButton = findViewById<ImageButton>(R.id.button_reset)
         resetButton.setOnClickListener {
             searchField.setText("")
@@ -62,7 +73,6 @@ class SearchActivity : AppCompatActivity()
             // СПРЯТАТЬ ВИРТУАЛЬНУЮ КЛАВИАТУРУ
             val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(searchField.windowToken, 0)}
-            // -------------------------------
 
         val textWatcher = object : TextWatcher
         {
