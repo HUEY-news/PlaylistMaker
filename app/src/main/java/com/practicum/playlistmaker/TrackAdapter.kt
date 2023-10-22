@@ -16,10 +16,3 @@ import com.practicum.playlistmaker.model.Track
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) = holder.bind(trackList[position])
     override fun getItemCount(): Int = trackList.size
  }
-
-//class TrackAdapter(private val response: SearchResponse) : RecyclerView.Adapter<TrackViewHolder>()
-//{
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder = TrackViewHolder(parent)
-//    override fun onBindViewHolder(holder: TrackViewHolder, position: Int) = holder.bind(response.results[position])
-//    override fun getItemCount(): Int = response.resultCount
-//}
