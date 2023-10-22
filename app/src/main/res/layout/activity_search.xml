@@ -2,11 +2,12 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:theme="@style/Base.Theme.PlaylistMaker.SearchActivity"
     android:background="?attr/primaryBackgroundColor"
     style="@style/SearchActivity"
     android:orientation="vertical"
-    android:paddingHorizontal="16dp" >
+    android:paddingHorizontal="16dp">
 
     <LinearLayout
         android:background="?attr/primaryBackgroundColor"
@@ -44,12 +45,61 @@
             android:visibility="gone" />
     </FrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_track_list"
-        android:background="?attr/primaryBackgroundColor"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginVertical="16dp" />
+        android:layout_height="match_parent" >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_track_list"
+            android:background="?attr/primaryBackgroundColor"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="16dp" />
+
+        <LinearLayout
+            android:id="@+id/placeholderContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/placeholderIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:src="@drawable/ic_internet_error_light_mode"
+                android:layout_marginTop="96dp"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/placeholderText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету"
+                android:textColor="@color/YP_Black"
+                android:textSize="19sp"
+                android:fontFamily="@font/ys_display_medium"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp" />
+
+            <Button
+                android:id="@+id/placeholderButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@color/YP_Black"
+                android:textColor="@color/YP_White"
+                app:cornerRadius="54dp"
+                tools:text="Обновить"
+                android:textAllCaps="false"
+                android:letterSpacing="0" />
+
+        </LinearLayout>
+
+
+    </FrameLayout>
+
 
 </LinearLayout>
