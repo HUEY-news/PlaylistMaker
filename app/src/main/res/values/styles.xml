@@ -146,6 +146,7 @@
 <!-- ======================================= TRACK ITEM ======================================== -->
     <style name="Track">
         <!-- GENERAL OPTIONS -->
+        <item name="android:background">?attr/primaryBackgroundColor</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
@@ -171,7 +172,6 @@
 
     <style name="Track.ImageButton">
         <!-- GENERAL OPTIONS -->
-        <item name="android:background">?attr/primaryBackgroundColor</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>

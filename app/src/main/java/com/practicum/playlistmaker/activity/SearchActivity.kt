@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.TrackAdapter
 import com.practicum.playlistmaker.model.SearchResponse
+import com.practicum.playlistmaker.model.Track
 import com.practicum.playlistmaker.network.AppleApiProvider
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,6 +29,10 @@ class SearchActivity : AppCompatActivity()
     {
         super.onCreate(state)
         setContentView(R.layout.activity_search)
+
+        val trackAdapter = TrackAdapter(emptyList())
+        val recycler: RecyclerView = findViewById(R.id.rv_track_list)
+        recycler.adapter = trackAdapter
 
         val backButton = findViewById<ImageButton>(R.id.button_back)
         backButton.setOnClickListener { finish() }
@@ -47,10 +52,9 @@ class SearchActivity : AppCompatActivity()
                             response: Response<SearchResponse>) {
                             when (response.code()) {
                                 200 -> {
-                                    val recycler: RecyclerView = findViewById(R.id.rv_track_list)
-                                    val trackAdapter = TrackAdapter(response.body()!!)
+                                    Log.d("RESPONSE_CODE", response.code().toString())
                                     Log.d("RESPONSE_BODY", response.body()?.results.toString())
-                                    recycler.adapter = trackAdapter
+                                    trackAdapter.setTracks(response.body()?.results!!)
                                 }
                                 else -> Log.d("RESPONSE_CODE", response.code().toString())
                             }
@@ -67,6 +71,8 @@ class SearchActivity : AppCompatActivity()
         val resetButton = findViewById<ImageButton>(R.id.button_reset)
         resetButton.setOnClickListener {
             searchField.setText("")
+
+            trackAdapter.setTracks(emptyList())
 
             // СПРЯТАТЬ ВИРТУАЛЬНУЮ КЛАВИАТУРУ
             val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager

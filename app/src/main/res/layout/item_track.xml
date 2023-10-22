@@ -4,7 +4,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:theme="@style/Base.Theme.PlaylistMaker.Track"
-    android:background="?attr/primaryBackgroundColor"
     style="@style/Track"
     android:orientation="horizontal"
     android:paddingVertical="8dp" >
