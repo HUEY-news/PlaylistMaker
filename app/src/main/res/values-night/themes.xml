@@ -11,6 +11,9 @@
     <attr name="primaryButtonColor"/>
     <attr name="secondaryButtonColor"/>
 
+    <attr name="placeholderEmptyError"/>
+    <attr name="placeholderInternetError"/>
+
 <!-- ========================================================================================== -->
 
     <style name="Base.Theme.PlaylistMaker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -39,6 +42,10 @@
         <item name="secondaryTextColor">@color/YP_Black</item>
         <item name="primaryIconColor">@color/YP_White</item>
         <item name="secondaryIconColor">@color/YP_Black</item>
+        <item name="primaryButtonColor">@color/YP_White</item>
+        <item name="secondaryButtonColor">@color/YP_Black</item>
+        <item name="placeholderEmptyError">@drawable/placeholder_empty_error_dark_mode</item>
+        <item name="placeholderInternetError">@drawable/placeholder_internet_error_dark_mode</item>
     </style>
 
     <style name="Base.Theme.PlaylistMaker.Track" parent="Base.Theme.PlaylistMaker">
