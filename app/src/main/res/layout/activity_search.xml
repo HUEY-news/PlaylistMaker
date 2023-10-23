@@ -67,18 +67,23 @@
                 android:id="@+id/placeholderIcon"
                 style="@style/Placeholder"
                 android:layout_marginTop="96dp"
-                tools:src="?attr/placeholderInternetError" />
+                tools:src="?attr/placeholderInternetError"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/placeholderText"
                 style="@style/Placeholder.Text"
                 android:layout_marginTop="16dp"
-                tools:text="@string/placeholder_internet_error" />
+                tools:text="@string/placeholder_internet_error"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <Button
                 android:id="@+id/placeholderButton"
                 style="@style/Placeholder.Button"
                 android:layout_marginTop="24dp"
+                android:visibility="gone"
                 tools:visibility="visible" />
 
         </LinearLayout>
