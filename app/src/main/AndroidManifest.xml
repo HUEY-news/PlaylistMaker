@@ -20,7 +20,8 @@
 
         <activity
             android:name=".activity.SearchActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Base.Theme.PlaylistMaker.SearchActivity" />
 
         <activity
             android:name=".activity.LibraryActivity"
@@ -28,11 +29,13 @@
 
         <activity
             android:name=".activity.SettingsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Base.Theme.PlaylistMaker.SettingsActivity" />
 
         <activity
             android:name=".activity.MainActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:theme="@style/Base.Theme.PlaylistMaker.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

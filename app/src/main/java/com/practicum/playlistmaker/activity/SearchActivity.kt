@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.TrackAdapter
 import com.practicum.playlistmaker.model.SearchResponse
-import com.practicum.playlistmaker.model.Track
 import com.practicum.playlistmaker.network.AppleApiProvider
 import retrofit2.Call
 import retrofit2.Callback
@@ -51,19 +50,22 @@ class SearchActivity : AppCompatActivity() {
         fun showPlaceholder(text: String) {
             clearTrackList()
 
-            fun getDrawable(resourceId: Int): Drawable? {
-                return ContextCompat.getDrawable(this, resourceId)
+            fun getDrawable(attr: Int): Drawable? {
+                val attrs = intArrayOf(attr)
+                val typedArray = theme.obtainStyledAttributes(attrs)
+                val placeholderResourceId = typedArray.getResourceId(0, 0)
+                typedArray.recycle()
+
+                return ContextCompat.getDrawable(this, placeholderResourceId)
             }
 
             when (text) {
-                resources.getString(R.string.placeholder_empty_error) -> {
-                    // todo: возможно придётся переделать функцию .setImageDrawable на .setImageResource
+                resources.getString(PLACEHOLDER_EMPTY_ERROR) -> {
                     placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderEmptyError))
                     placeholderText.setText(R.string.placeholder_empty_error)
                 }
 
-                resources.getString(R.string.placeholder_internet_error) -> {
-                    // todo: возможно придётся переделать функцию .setImageDrawable на .setImageResource
+                resources.getString(PLACEHOLDER_INTERNET_ERROR) -> {
                     placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderInternetError))
                     placeholderText.setText(R.string.placeholder_internet_error)
                     placeholderButton.visibility = View.VISIBLE
@@ -72,17 +74,14 @@ class SearchActivity : AppCompatActivity() {
         }
 
         val searchField = findViewById<EditText>(R.id.et_search_field)
+        val appleApiProvider = AppleApiProvider()
 
         fun query() {
             if (searchField.text.isNotEmpty()) {
-                val appleApiProvider = AppleApiProvider()
-                appleApiProvider.api
-                    .search(searchField.text.toString())
+                appleApiProvider.api.search(searchField.text.toString())
                     .enqueue(object : Callback<SearchResponse> {
-                        override fun onResponse(
-                            call: Call<SearchResponse>,
-                            response: Response<SearchResponse>
-                        ) {
+                        override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>)
+                        {
                             when (response.code()) {
                                 200 -> {
                                     Log.d("RESPONSE_CODE", response.code().toString())
@@ -162,5 +161,7 @@ class SearchActivity : AppCompatActivity() {
 
     companion object {
         const val SEARCH_FIELD_CONTENT = "SEARCH_FIELD_CONTENT"
+        const val PLACEHOLDER_EMPTY_ERROR = R.string.placeholder_empty_error
+        const val PLACEHOLDER_INTERNET_ERROR = R.string.placeholder_internet_error
     }
 }

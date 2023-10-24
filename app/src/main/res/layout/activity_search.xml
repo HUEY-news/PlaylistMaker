@@ -3,34 +3,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/Base.Theme.PlaylistMaker.SearchActivity"
-    android:background="?attr/primaryBackgroundColor"
     style="@style/SearchActivity"
+    android:background="?attr/primaryBackgroundColor"
     android:orientation="vertical"
-    android:paddingHorizontal="16dp">
+    android:paddingHorizontal="16dp"
+    android:theme="@style/Base.Theme.PlaylistMaker.SearchActivity">
 
     <LinearLayout
-        android:background="?attr/primaryBackgroundColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:background="?attr/primaryBackgroundColor"
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/button_back"
             style="@style/SearchActivity.ImageButton"
+            android:contentDescription="@string/back_button_description"
             android:paddingVertical="16dp"
-            android:src="@drawable/ic_arrow_back"
-            android:contentDescription="@string/back_button_description" />
+            android:src="@drawable/ic_arrow_back" />
 
-        <TextView
-            style="@style/SearchActivity.Header" />
+        <TextView style="@style/SearchActivity.Header" />
     </LinearLayout>
 
     <FrameLayout
-        android:background="?attr/primaryBackgroundColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="8dp" >
+        android:background="?attr/primaryBackgroundColor"
+        android:paddingVertical="8dp">
 
         <EditText
             android:id="@+id/et_search_field"
@@ -47,37 +46,32 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_track_list"
-            android:background="?attr/primaryBackgroundColor"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginVertical="16dp" />
+            android:layout_marginVertical="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <LinearLayout
             android:id="@+id/placeholderContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/placeholderIcon"
                 style="@style/Placeholder"
                 android:layout_marginTop="96dp"
-                tools:src="?attr/placeholderInternetError"
-                android:visibility="gone"
-                tools:visibility="visible" />
+                tools:src="?attr/placeholderInternetError" />
 
             <TextView
                 android:id="@+id/placeholderText"
                 style="@style/Placeholder.Text"
                 android:layout_marginTop="16dp"
-                tools:text="@string/placeholder_internet_error"
-                android:visibility="gone"
-                tools:visibility="visible" />
+                tools:text="@string/placeholder_internet_error" />
 
             <Button
                 android:id="@+id/placeholderButton"
