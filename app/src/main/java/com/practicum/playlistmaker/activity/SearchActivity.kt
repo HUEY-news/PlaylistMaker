@@ -40,6 +40,14 @@ class SearchActivity : AppCompatActivity() {
             trackAdapter.setTracks(emptyList())
         }
 
+        fun showRecycler(){
+            recycler.visibility = View.VISIBLE
+        }
+
+        fun hideRecycler(){
+            recycler.visibility = View.GONE
+        }
+
         val backButton = findViewById<ImageButton>(R.id.button_back)
         backButton.setOnClickListener { finish() }
 
@@ -49,6 +57,7 @@ class SearchActivity : AppCompatActivity() {
 
         fun showPlaceholder(text: String) {
             clearTrackList()
+            hideRecycler()
 
             fun getDrawable(attr: Int): Drawable? {
                 val attrs = intArrayOf(attr)
@@ -62,56 +71,74 @@ class SearchActivity : AppCompatActivity() {
             when (text) {
                 resources.getString(PLACEHOLDER_EMPTY_ERROR) -> {
                     placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderEmptyError))
-                    placeholderText.setText(R.string.placeholder_empty_error)
+                    placeholderText.setText(PLACEHOLDER_EMPTY_ERROR)
                 }
 
                 resources.getString(PLACEHOLDER_INTERNET_ERROR) -> {
                     placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderInternetError))
-                    placeholderText.setText(R.string.placeholder_internet_error)
+                    placeholderText.setText(PLACEHOLDER_INTERNET_ERROR)
                     placeholderButton.visibility = View.VISIBLE
                 }
             }
         }
 
+        fun hidePlaceholder(){
+            placeholderIcon.setImageDrawable(null)
+            placeholderText.text = null
+            placeholderButton.visibility = View.GONE
+        }
+
+        fun hideContainer()
+        {
+            hideRecycler()
+            hidePlaceholder()
+        }
+
         val searchField = findViewById<EditText>(R.id.et_search_field)
         val appleApiProvider = AppleApiProvider()
 
-        fun query() {
+        fun query()
+        {
             if (searchField.text.isNotEmpty()) {
                 appleApiProvider.api.search(searchField.text.toString())
-                    .enqueue(object : Callback<SearchResponse> {
+                    .enqueue(object : Callback<SearchResponse>
+                    {
                         override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>)
                         {
-                            when (response.code()) {
-                                200 -> {
+                            if (response.code() == 200)
+                            {
                                     Log.d("RESPONSE_CODE", response.code().toString())
                                     Log.d("RESPONSE_BODY", response.body()?.results.toString())
 
-                                    placeholderIcon.setImageDrawable(null)
-                                    placeholderText.text = null
-                                    placeholderButton.visibility = View.GONE
+                                    hideContainer()
 
-                                    if (response.body()?.results?.isNotEmpty() == true) {
+                                    if (response.body()?.results?.isNotEmpty() == true)
+                                    {
                                         trackAdapter.setTracks(response.body()?.results!!)
-                                    } else {
-                                        showPlaceholder(resources.getString(R.string.placeholder_empty_error))
+                                        showRecycler()
                                     }
-                                }
-
-                                else -> {
-                                    Log.d("RESPONSE_CODE", response.code().toString())
-                                    showPlaceholder(resources.getString(R.string.placeholder_internet_error))
-                                }
+                                    else
+                                    {
+                                        hideContainer()
+                                        showPlaceholder(resources.getString(PLACEHOLDER_EMPTY_ERROR))
+                                    }
+                            }
+                            else
+                            {
+                                Log.d("RESPONSE_CODE", response.code().toString())
+                                hideContainer()
+                                showPlaceholder(resources.getString(PLACEHOLDER_INTERNET_ERROR))
                             }
                         }
 
-                        override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
+                        override fun onFailure(call: Call<SearchResponse>, t: Throwable)
+                        {
                             Log.d("RESPONSE_ERROR", t.message.toString())
+                            hideContainer()
+                            showPlaceholder(resources.getString(PLACEHOLDER_INTERNET_ERROR))
                         }
                     })
-            }else{
-                clearTrackList()
-            }
+            }else{ clearTrackList() }
         }
 
         // todo: чтобы обработать нажатие на кнопку "done", к экземпляру Edittext добаляется слушатель
@@ -123,10 +150,13 @@ class SearchActivity : AppCompatActivity() {
             false
         }
 
+        placeholderButton.setOnClickListener { query() }
+
         val resetButton = findViewById<ImageButton>(R.id.button_reset)
         resetButton.setOnClickListener {
             searchField.setText("")
             clearTrackList()
+            hideContainer()
 
             // todo: спрятать виртуальную клавиатуру
             val inputMethodManager =
