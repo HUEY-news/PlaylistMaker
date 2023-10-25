@@ -36,13 +36,12 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_screen_frame_height"
         android:layout_marginTop="24dp" >
-        <TextView
-            style="@style/SettingsActivity.TextView"
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/themeSwitcher"
+            style="@style/SettingsActivity.TextView.Switch"
+            android:layout_width="match_parent"
             android:text="@string/dark_theme" />
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switch_night_theme"
-            style="@style/SettingsActivity.ImageView.Switch"
-            android:layout_gravity="end|center" />
 
     </FrameLayout>
 
