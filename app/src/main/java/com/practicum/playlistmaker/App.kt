@@ -32,7 +32,7 @@ class App : Application() {
             else AppCompatDelegate.MODE_NIGHT_NO
         )
 
-        // TODO: реализация сохранения темы
+        // TODO: реализация сохранения темы:
         sharedPrefs = getSharedPreferences(PREFERENCES_FOLDER, MODE_PRIVATE)
         sharedPrefs.edit()
             .putBoolean(DARK_THEME_KEY, darkTheme)
