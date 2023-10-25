@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.activity
 
 import android.content.Intent
 import android.content.res.Configuration
@@ -9,6 +9,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SwitchCompat
+import com.practicum.playlistmaker.R
 
 class SettingsActivity : AppCompatActivity()
 {
