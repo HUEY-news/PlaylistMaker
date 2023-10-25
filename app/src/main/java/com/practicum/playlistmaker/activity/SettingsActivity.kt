@@ -1,6 +1,7 @@
 package com.practicum.playlistmaker.activity
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.widget.FrameLayout
@@ -8,9 +9,8 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.practicum.playlistmaker.App
-import com.practicum.playlistmaker.PREFERENCES
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.THEME_PREFERENCES_KEY
+import com.practicum.playlistmaker.isUsingNightModeResources
 
 class SettingsActivity : AppCompatActivity()
 {
@@ -21,6 +21,7 @@ class SettingsActivity : AppCompatActivity()
         
         // TODO: реализация переключения темы: 
         val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
+        themeSwitcher.isChecked = isUsingNightModeResources
         themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
             (applicationContext as App).switchTheme(checked)
         }
