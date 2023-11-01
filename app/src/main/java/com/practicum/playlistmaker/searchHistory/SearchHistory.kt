@@ -11,13 +11,13 @@ const val HISTORY_LIMIT = 10
 
 class SearchHistory(private val sharedPreferences: SharedPreferences) {
 
-    private val historyList = arrayListOf<Track>()
-    val adapter = TrackListAdapter(historyList)
+    private val history = arrayListOf<Track>()
+    val adapter = TrackListAdapter(history)
 
     private fun sizeCheck(){
-        if (historyList.size > HISTORY_LIMIT) {
-            historyList.forEachIndexed { index: Int, item: Track ->
-                if (index > HISTORY_LIMIT - 1) historyList.remove(
+        if (history.size > HISTORY_LIMIT) {
+            history.forEachIndexed { index: Int, item: Track ->
+                if (index > HISTORY_LIMIT - 1) history.remove(
                     item
                 )
             }
@@ -25,37 +25,37 @@ class SearchHistory(private val sharedPreferences: SharedPreferences) {
     }
 
     private fun addUnique(track: Track){
-        historyList.forEach {
+        history.forEach {
             if (track.trackId == it.trackId){
-                historyList.remove(it)
+                history.remove(it)
             }
-            historyList.add(0,track)
+            history.add(0,track)
         }
     }
 
     fun addTrackToHistory(track: Track) {
-        loadHistoryList()
+        loadHistory()
         addUnique(track)
         sizeCheck()
-        adapter.setTracks(historyList)
-        saveHistoryList()
+        adapter.setTracks(history)
+        saveHistory()
     }
 
-    fun saveHistoryList() {
+    fun saveHistory() {
         with(sharedPreferences.edit()) {
-            putString(TRACK_LIST_KEY, createJsonFromFTrackList(historyList))
+            putString(TRACK_LIST_KEY, createJsonFromFTrackList(history))
             apply()
         }
     }
 
-    fun loadHistoryList() {
+    fun loadHistory() {
         val json = sharedPreferences.getString(TRACK_LIST_KEY, null)
-        if (json != null) historyList.addAll(createTrackListFromJson(json))
+        if (json != null) history.addAll(createTrackListFromJson(json))
     }
 
     fun clearHistory() {
-        historyList.clear()
-        adapter.setTracks(historyList)
+        history.clear()
+        adapter.setTracks(history)
         sharedPreferences.edit().clear()
 
     }
