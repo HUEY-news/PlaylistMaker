@@ -12,7 +12,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.TrackAdapter
+import com.practicum.playlistmaker.trackList.TrackListAdapter
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.model.SearchResponse
 import com.practicum.playlistmaker.network.AppleApiProvider
@@ -28,7 +28,9 @@ class SearchActivity : AppCompatActivity() {
         val binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val trackAdapter = TrackAdapter(emptyList())
+        binding.backButton.setOnClickListener { finish() }
+
+        val trackAdapter = TrackListAdapter(emptyList())
         binding.trackList.adapter = trackAdapter
 
         fun clearTrackList() {
@@ -42,8 +44,6 @@ class SearchActivity : AppCompatActivity() {
         fun hideRecycler(){
             binding.trackList.visibility = View.GONE
         }
-
-        binding.backButton.setOnClickListener { finish() }
 
         fun showPlaceholder(text: String) {
             clearTrackList()
