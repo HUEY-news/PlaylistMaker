@@ -30,11 +30,11 @@ class SearchActivity : AppCompatActivity() {
 
         binding.backButton.setOnClickListener { finish() }
 
-        val trackAdapter = TrackListAdapter(emptyList())
-        binding.trackList.adapter = trackAdapter
+        val trackListAdapter = TrackListAdapter(emptyList())
+        binding.trackList.adapter = trackListAdapter
 
         fun clearTrackList() {
-            trackAdapter.setTracks(emptyList())
+            trackListAdapter.setTracks(emptyList())
         }
 
         fun showRecycler(){
@@ -103,7 +103,7 @@ class SearchActivity : AppCompatActivity() {
 
                                     if (response.body()?.results?.isNotEmpty() == true)
                                     {
-                                        trackAdapter.setTracks(response.body()?.results!!)
+                                        trackListAdapter.setTracks(response.body()?.results!!)
                                         showRecycler()
                                     }
                                     else

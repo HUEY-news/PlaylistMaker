@@ -1,23 +1,24 @@
 package com.practicum.playlistmaker
 
 import android.app.Application
+import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 
-const val PREFERENCES_FOLDER = "preferences"
-const val DARK_THEME_KEY = "darkThemeKey"
+const val PREFERENCES_FOLDER_NAME = "PREFERENCES"
+const val DARK_THEME_KEY = "DARK_THEME_ENABLED"
 
 class App : Application() {
 
+
     private var darkTheme = false
-    private lateinit var sharedPrefs: SharedPreferences
 
     override fun onCreate() {
         super.onCreate()
+        init(this)
 
         // TODO: реализация загрузки темы:
-        sharedPrefs = getSharedPreferences(PREFERENCES_FOLDER, MODE_PRIVATE)
-        darkTheme = sharedPrefs.getBoolean(DARK_THEME_KEY, darkTheme)
+        darkTheme = sharedPreferences.getBoolean(DARK_THEME_KEY, darkTheme)
         AppCompatDelegate.setDefaultNightMode(
             if (darkTheme) AppCompatDelegate.MODE_NIGHT_YES
             else AppCompatDelegate.MODE_NIGHT_NO
@@ -33,9 +34,17 @@ class App : Application() {
         )
 
         // TODO: реализация сохранения темы:
-        sharedPrefs = getSharedPreferences(PREFERENCES_FOLDER, MODE_PRIVATE)
-        sharedPrefs.edit()
-            .putBoolean(DARK_THEME_KEY, darkTheme)
-            .apply()
+        with(sharedPreferences.edit()) {
+            putBoolean(DARK_THEME_KEY, darkTheme)
+            apply()
+        }
+    }
+
+    companion object PreferencesProvider{
+        private lateinit var sharedPreferences: SharedPreferences
+
+        fun init(context: Context){
+            sharedPreferences = context.getSharedPreferences(PREFERENCES_FOLDER_NAME, MODE_PRIVATE)
+        }
     }
 }
