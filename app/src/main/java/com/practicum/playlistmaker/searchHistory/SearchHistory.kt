@@ -1,20 +1,51 @@
 package com.practicum.playlistmaker.searchHistory
 
 import android.content.SharedPreferences
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.practicum.playlistmaker.model.Track
+import com.practicum.playlistmaker.trackList.TrackListAdapter
 
-// TODO: Всю логику, связанную с сохранением, чтением и очисткой истории, лучше описать в этом классе.
+const val TRACK_LIST_KEY = "TRACK_LIST"
 
-// TODO: Список треков в истории поиска выглядит точно так же, как и список результатов поиска.
-//       Это значит, что можно не описывать для истории поиска новый ViewHolder,
-//       а лишь создать отдельный экземпляр адаптера
-//       и передавать ему сохранённый список треков для отображения истории.
+class SearchHistory(private val sharedPreferences: SharedPreferences) {
+    private val searchHistoryTrackList = arrayListOf<Track>()
+    val adapter = TrackListAdapter(searchHistoryTrackList)
 
-class SearchHistory(sharedPreferences: SharedPreferences)
-{
-    private val searchHistoryTrackList = mutableListOf<Track>()
+    private fun addTrackToHistory(track: Track) {
+        searchHistoryTrackList.add(0, track)
+        adapter.setTracks(searchHistoryTrackList)
+        saveHistory()
+    }
 
-    fun getSearchHistoryTrackList(): ArrayList<Track>{
-        return searchHistoryTrackList
+    private fun saveHistory() {
+        with(sharedPreferences.edit()) {
+            putString(TRACK_LIST_KEY, createJsonFromFTrackList(searchHistoryTrackList))
+            apply()
+        }
+    }
+
+    private fun loadHistory() {
+        val json = sharedPreferences.getString(TRACK_LIST_KEY, null)
+        if (json != null) searchHistoryTrackList.addAll(createTrackListFromJson(json))
+        adapter.setTracks(searchHistoryTrackList)
+    }
+
+    private fun clearHistory() {
+        searchHistoryTrackList.clear()
+        adapter.setTracks(searchHistoryTrackList)
+        sharedPreferences.edit().clear()
+
+    }
+
+    // TODO: достать список треков из JSON:
+    private fun createTrackListFromJson(json: String): ArrayList<Track> {
+        val listType = object : TypeToken<ArrayList<Track>>() {}.type
+        return Gson().fromJson(json, listType)
+    }
+
+    // TODO: поместить список треков в JSON:
+    private fun createJsonFromFTrackList(trackList: ArrayList<Track>): String {
+        return Gson().toJson(trackList)
     }
 }

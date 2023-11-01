@@ -41,7 +41,7 @@ class App : Application() {
     }
 
     companion object PreferencesProvider{
-        private lateinit var sharedPreferences: SharedPreferences
+        lateinit var sharedPreferences: SharedPreferences
 
         fun init(context: Context){
             sharedPreferences = context.getSharedPreferences(PREFERENCES_FOLDER_NAME, MODE_PRIVATE)

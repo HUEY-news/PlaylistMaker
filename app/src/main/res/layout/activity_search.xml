@@ -62,32 +62,11 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+        <!-- ========== SEARCH HISTORY CONTAINER ========== -->
+        <include layout="@layout/layout_search_history"/>
+
         <!-- ========== PLACEHOLDER CONTAINER ========== -->
-        <LinearLayout
-            android:id="@+id/placeholderContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        <include layout="@layout/layout_placeholder"/>
 
-            <ImageView
-                android:id="@+id/placeholderIcon"
-                style="@style/Placeholder"
-                android:layout_marginTop="96dp"
-                tools:src="?attr/placeholderInternetError" />
-
-            <TextView
-                android:id="@+id/placeholderText"
-                style="@style/Placeholder.Text"
-                android:layout_marginTop="16dp"
-                tools:text="@string/placeholder_internet_error" />
-
-            <Button
-                android:id="@+id/placeholderButton"
-                style="@style/Placeholder.Button"
-                android:layout_marginTop="24dp"
-                android:visibility="gone"
-                tools:visibility="visible" />
-
-        </LinearLayout>
     </FrameLayout>
 </LinearLayout>

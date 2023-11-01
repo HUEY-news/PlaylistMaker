@@ -4,9 +4,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.model.Track
 
- class TrackListAdapter(private var trackList: List<Track>) : RecyclerView.Adapter<TrackListViewHolder>()
+ class TrackListAdapter(private var trackList: ArrayList<Track>) : RecyclerView.Adapter<TrackListViewHolder>()
  {
-     fun setTracks(tracks: List<Track>) {
+     fun setTracks(tracks: ArrayList<Track>) {
          trackList = tracks
          notifyDataSetChanged()
      }
