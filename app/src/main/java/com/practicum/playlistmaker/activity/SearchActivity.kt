@@ -38,8 +38,6 @@ class SearchActivity : AppCompatActivity() {
 
         val trackListAdapter = TrackListAdapter(arrayListOf())
         searchActivityBinding.trackList.adapter = trackListAdapter
-
-        // TODO: доработать историю поиска:
         val sharedPreferences = App.sharedPreferences
         val searchHistory = SearchHistory(sharedPreferences)
         searchHistoryBinding.searchHistoryTrackList.adapter = searchHistory.adapter
@@ -86,7 +84,6 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        // TODO: разобраться с лишними методами:
         fun hidePlaceholder(){
             placeholderBinding.placeholderIcon.setImageDrawable(null)
             placeholderBinding.placeholderText.text = null

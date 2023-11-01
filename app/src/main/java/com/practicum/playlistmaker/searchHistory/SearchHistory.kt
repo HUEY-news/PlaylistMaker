@@ -7,33 +7,55 @@ import com.practicum.playlistmaker.model.Track
 import com.practicum.playlistmaker.trackList.TrackListAdapter
 
 const val TRACK_LIST_KEY = "TRACK_LIST"
+const val HISTORY_LIMIT = 10
 
 class SearchHistory(private val sharedPreferences: SharedPreferences) {
-    private val searchHistoryTrackList = arrayListOf<Track>()
-    val adapter = TrackListAdapter(searchHistoryTrackList)
 
-    private fun addTrackToHistory(track: Track) {
-        searchHistoryTrackList.add(0, track)
-        adapter.setTracks(searchHistoryTrackList)
-        saveHistory()
+    private val historyList = arrayListOf<Track>()
+    val adapter = TrackListAdapter(historyList)
+
+    private fun sizeCheck(){
+        if (historyList.size > HISTORY_LIMIT) {
+            historyList.forEachIndexed { index: Int, item: Track ->
+                if (index > HISTORY_LIMIT - 1) historyList.remove(
+                    item
+                )
+            }
+        }
     }
 
-    private fun saveHistory() {
+    private fun addUnique(track: Track){
+        historyList.forEach {
+            if (track.trackId == it.trackId){
+                historyList.remove(it)
+            }
+            historyList.add(0,track)
+        }
+    }
+
+    fun addTrackToHistory(track: Track) {
+        loadHistoryList()
+        addUnique(track)
+        sizeCheck()
+        adapter.setTracks(historyList)
+        saveHistoryList()
+    }
+
+    fun saveHistoryList() {
         with(sharedPreferences.edit()) {
-            putString(TRACK_LIST_KEY, createJsonFromFTrackList(searchHistoryTrackList))
+            putString(TRACK_LIST_KEY, createJsonFromFTrackList(historyList))
             apply()
         }
     }
 
-    private fun loadHistory() {
+    fun loadHistoryList() {
         val json = sharedPreferences.getString(TRACK_LIST_KEY, null)
-        if (json != null) searchHistoryTrackList.addAll(createTrackListFromJson(json))
-        adapter.setTracks(searchHistoryTrackList)
+        if (json != null) historyList.addAll(createTrackListFromJson(json))
     }
 
-    private fun clearHistory() {
-        searchHistoryTrackList.clear()
-        adapter.setTracks(searchHistoryTrackList)
+    fun clearHistory() {
+        historyList.clear()
+        adapter.setTracks(historyList)
         sharedPreferences.edit().clear()
 
     }
