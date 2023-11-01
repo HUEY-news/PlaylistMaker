@@ -10,25 +10,25 @@
     android:paddingHorizontal="@dimen/regular_border_medium" >
     
     <TextView
-        android:id="@+id/tv_header"
+        android:id="@+id/header"
         style="@style/MainActivity.Header" />
 
     <Button
-        android:id="@+id/button_search"
+        android:id="@+id/searchButton"
         style="@style/MainActivity.Button"
         android:layout_marginTop="24dp"
         android:text="@string/button_search"
         app:icon="@drawable/ic_search_24" />
 
     <Button
-        android:id="@+id/button_library"
+        android:id="@+id/libraryButton"
         style="@style/MainActivity.Button"
         android:layout_marginVertical="@dimen/regular_border_medium"
         android:text="@string/button_library"
         app:icon="@drawable/ic_library" />
 
     <Button
-        android:id="@+id/button_settings"
+        android:id="@+id/settingsButton"
         style="@style/MainActivity.Button"
         android:layout_marginBottom="28dp"
         android:text="@string/button_settings"

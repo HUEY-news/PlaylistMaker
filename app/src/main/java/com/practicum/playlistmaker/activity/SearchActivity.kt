@@ -10,15 +10,10 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.TrackAdapter
+import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.model.SearchResponse
 import com.practicum.playlistmaker.network.AppleApiProvider
 import retrofit2.Call
@@ -30,30 +25,25 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
-        setContentView(R.layout.activity_search)
+        val binding = ActivitySearchBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val trackAdapter = TrackAdapter(emptyList())
-        val recycler: RecyclerView = findViewById(R.id.rv_track_list)
-        recycler.adapter = trackAdapter
+        binding.trackList.adapter = trackAdapter
 
         fun clearTrackList() {
             trackAdapter.setTracks(emptyList())
         }
 
         fun showRecycler(){
-            recycler.visibility = View.VISIBLE
+            binding.trackList.visibility = View.VISIBLE
         }
 
         fun hideRecycler(){
-            recycler.visibility = View.GONE
+            binding.trackList.visibility = View.GONE
         }
 
-        val backButton = findViewById<ImageButton>(R.id.button_back)
-        backButton.setOnClickListener { finish() }
-
-        val placeholderIcon = findViewById<ImageView>(R.id.placeholderIcon)
-        val placeholderText = findViewById<TextView>(R.id.placeholderText)
-        val placeholderButton = findViewById<Button>(R.id.placeholderButton)
+        binding.backButton.setOnClickListener { finish() }
 
         fun showPlaceholder(text: String) {
             clearTrackList()
@@ -70,22 +60,22 @@ class SearchActivity : AppCompatActivity() {
 
             when (text) {
                 resources.getString(PLACEHOLDER_EMPTY_ERROR) -> {
-                    placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderEmptyError))
-                    placeholderText.setText(PLACEHOLDER_EMPTY_ERROR)
+                    binding.placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderEmptyError))
+                    binding.placeholderText.setText(PLACEHOLDER_EMPTY_ERROR)
                 }
 
                 resources.getString(PLACEHOLDER_INTERNET_ERROR) -> {
-                    placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderInternetError))
-                    placeholderText.setText(PLACEHOLDER_INTERNET_ERROR)
-                    placeholderButton.visibility = View.VISIBLE
+                    binding.placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderInternetError))
+                    binding.placeholderText.setText(PLACEHOLDER_INTERNET_ERROR)
+                    binding.placeholderButton.visibility = View.VISIBLE
                 }
             }
         }
 
         fun hidePlaceholder(){
-            placeholderIcon.setImageDrawable(null)
-            placeholderText.text = null
-            placeholderButton.visibility = View.GONE
+            binding.placeholderIcon.setImageDrawable(null)
+            binding.placeholderText.text = null
+            binding.placeholderButton.visibility = View.GONE
         }
 
         fun hideContainer()
@@ -94,13 +84,12 @@ class SearchActivity : AppCompatActivity() {
             hidePlaceholder()
         }
 
-        val searchField = findViewById<EditText>(R.id.et_search_field)
         val appleApiProvider = AppleApiProvider()
 
         fun query()
         {
-            if (searchField.text.isNotEmpty()) {
-                appleApiProvider.api.search(searchField.text.toString())
+            if (binding.searchField.text.isNotEmpty()) {
+                appleApiProvider.api.search(binding.searchField.text.toString())
                     .enqueue(object : Callback<SearchResponse>
                     {
                         override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>)
@@ -141,8 +130,8 @@ class SearchActivity : AppCompatActivity() {
             }else{ clearTrackList() }
         }
 
-        // todo: чтобы обработать нажатие на кнопку "done", к экземпляру Edittext добаляется слушатель
-        searchField.setOnEditorActionListener { _, actionId, _ ->
+        // todo: чтобы обработать нажатие на кнопку "done", к экземпляру EditText добаляется слушатель:
+        binding.searchField.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 query()
                 true
@@ -150,30 +139,29 @@ class SearchActivity : AppCompatActivity() {
             false
         }
 
-        placeholderButton.setOnClickListener { query() }
+        binding.placeholderButton.setOnClickListener { query() }
 
-        val resetButton = findViewById<ImageButton>(R.id.button_reset)
-        resetButton.setOnClickListener {
-            searchField.setText("")
+        binding.resetButton.setOnClickListener {
+            binding.searchField.setText("")
             clearTrackList()
             hideContainer()
 
-            // todo: спрятать виртуальную клавиатуру
+            // todo: спрятать виртуальную клавиатуру:
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            inputMethodManager?.hideSoftInputFromWindow(searchField.windowToken, 0)
+            inputMethodManager?.hideSoftInputFromWindow(binding.searchField.windowToken, 0)
         }
 
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(string: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(string: Editable?) {}
             override fun onTextChanged(string: CharSequence?, start: Int, before: Int, count: Int) {
-                resetButton.visibility = resetButtonVisibility(string)
+                binding.resetButton.visibility = resetButtonVisibility(string)
                 if (string != null) searchFieldContent = string.toString()
             }
         }
-        searchField.addTextChangedListener(textWatcher)
-    } // onCreate() ends...
+        binding.searchField.addTextChangedListener(textWatcher)
+    }
 
     fun resetButtonVisibility(string: CharSequence?): Int {
         return if (string.isNullOrEmpty()) View.GONE else View.VISIBLE

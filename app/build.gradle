@@ -7,6 +7,10 @@ android {
     namespace 'com.practicum.playlistmaker'
     compileSdk 33
 
+    buildFeatures{
+        viewBinding true
+    }
+
     defaultConfig {
         applicationId "com.practicum.playlistmaker"
         minSdk 29

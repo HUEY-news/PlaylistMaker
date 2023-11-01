@@ -1,7 +1,6 @@
 package com.practicum.playlistmaker.activity
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.widget.FrameLayout
@@ -27,13 +26,13 @@ class SettingsActivity : AppCompatActivity()
         }
 
         // TODO: реализация кнопки "назад": 
-        val backButton = findViewById<ImageView>(R.id.button_back)
+        val backButton = findViewById<ImageView>(R.id.backButton)
         backButton.setOnClickListener {
             finish()
         }
 
         // TODO: реализация кнопки "поделиться приложением": 
-        val shareButton = findViewById<FrameLayout>(R.id.fl_share)
+        val shareButton = findViewById<FrameLayout>(R.id.shareContainer)
         shareButton.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND)
             val shareIntentTitle = getString(R.string.share_app)
@@ -44,7 +43,7 @@ class SettingsActivity : AppCompatActivity()
         }
 
         // TODO: реализация кнопки "написать в поддержку": 
-        val supportButton = findViewById<FrameLayout>(R.id.fl_support)
+        val supportButton = findViewById<FrameLayout>(R.id.supportContainer)
         supportButton.setOnClickListener {
             val supportIntent = Intent(Intent.ACTION_SEND)
             val supportIntentTitle = getString(R.string.write_to_user_support)
@@ -59,7 +58,7 @@ class SettingsActivity : AppCompatActivity()
         }
 
         // TODO: реализация кнопки "пользовательское соглашение":
-        val agreementButton = findViewById<FrameLayout>(R.id.fl_agreement)
+        val agreementButton = findViewById<FrameLayout>(R.id.agreementContainer)
         agreementButton.setOnClickListener {
             val agreementIntent = Intent(Intent.ACTION_VIEW)
             val url = getString(R.string.agreement_link)
