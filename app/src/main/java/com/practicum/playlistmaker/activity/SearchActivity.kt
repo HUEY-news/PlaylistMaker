@@ -26,21 +26,21 @@ import retrofit2.Response
 
 class SearchActivity : AppCompatActivity() {
     private var searchFieldContent: String? = null
-    private val searchActivityBinding = ActivitySearchBinding.inflate(layoutInflater)
-    private val placeholderBinding = LayoutPlaceholderBinding.inflate(layoutInflater)
-    private val searchHistoryBinding = LayoutSearchHistoryBinding.inflate(layoutInflater)
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
+        val searchActivityBinding = ActivitySearchBinding.inflate(layoutInflater)
+        val placeholderBinding = LayoutPlaceholderBinding.bind(searchActivityBinding.root)
+        val searchHistoryBinding = LayoutSearchHistoryBinding.bind(searchActivityBinding.root)
         setContentView(searchActivityBinding.root)
 
         searchActivityBinding.backButton.setOnClickListener { finish() }
-
         val trackListAdapter = TrackListAdapter(arrayListOf())
         searchActivityBinding.trackList.adapter = trackListAdapter
         val sharedPreferences = App.sharedPreferences
         val searchHistory = SearchHistory(sharedPreferences)
         searchHistoryBinding.searchHistoryTrackList.adapter = searchHistory.adapter
+        searchHistoryBinding.searchHistoryButton.setOnClickListener { searchHistory.clearHistory() }
 
         // TODO: разобраться с лишними методами:
         fun clearTrackList() {

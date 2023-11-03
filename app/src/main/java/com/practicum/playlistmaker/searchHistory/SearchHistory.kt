@@ -17,9 +17,7 @@ class SearchHistory(private val sharedPreferences: SharedPreferences) {
     private fun sizeCheck(){
         if (history.size > HISTORY_LIMIT) {
             history.forEachIndexed { index: Int, item: Track ->
-                if (index > HISTORY_LIMIT - 1) history.remove(
-                    item
-                )
+                if (index > HISTORY_LIMIT - 1) history.remove(item)
             }
         }
     }
