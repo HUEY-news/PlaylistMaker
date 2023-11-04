@@ -143,7 +143,14 @@ class SearchActivity : AppCompatActivity() {
             }else{ clearTrackList() }
         }
 
-        // todo: чтобы обработать нажатие на кнопку "done", к экземпляру EditText добаляется слушатель:
+
+        // TODO: отслеживание состояния фокуса поля ввода:
+        searchActivityBinding.searchField.setOnFocusChangeListener { view, hasFocus ->
+            searchHistoryBinding.searchHistoryContainer.visibility =
+                if (hasFocus && searchActivityBinding.searchField.text.isEmpty()) View.VISIBLE else View.GONE
+        }
+
+        // TODO: отслеживание нажатие на кнопку "done":
         searchActivityBinding.searchField.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 query()
@@ -172,6 +179,8 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(string: CharSequence?, start: Int, before: Int, count: Int) {
                 searchActivityBinding.resetButton.visibility = resetButtonVisibility(string)
                 if (string != null) searchFieldContent = string.toString()
+                searchHistoryBinding.searchHistoryContainer.visibility =
+                    if (searchActivityBinding.searchField.hasFocus() && string?.isEmpty() == true) View.VISIBLE else View.GONE
             }
         }
         searchActivityBinding.searchField.addTextChangedListener(textWatcher)
