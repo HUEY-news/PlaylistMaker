@@ -57,7 +57,9 @@ class SearchActivity : AppCompatActivity() {
         val searchHistoryAdapter = SearchHistoryAdapter(arrayListOf())
         searchHistoryTrackList.adapter = searchHistoryAdapter
         val searchHistory = SearchHistory(App.sharedPreferences)
-        searchHistoryButton.setOnClickListener { searchHistory.clearHistory() }
+        searchHistoryButton.setOnClickListener {
+            searchHistoryContainer.visibility = View.GONE
+            searchHistory.clearHistory() }
 
         // TODO: разобраться с лишними методами:
         fun clearTrackList() {
@@ -92,7 +94,6 @@ class SearchActivity : AppCompatActivity() {
                     placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderEmptyError))
                     placeholderText.setText(PLACEHOLDER_EMPTY_ERROR)
                 }
-
                 resources.getString(PLACEHOLDER_INTERNET_ERROR) -> {
                     placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderInternetError))
                     placeholderText.setText(PLACEHOLDER_INTERNET_ERROR)
@@ -162,9 +163,11 @@ class SearchActivity : AppCompatActivity() {
 
         // TODO: отслеживание состояния фокуса поля ввода:
         searchField.setOnFocusChangeListener { view, hasFocus ->
-            searchHistoryAdapter.setTracks(searchHistory.getHistory())
-            searchHistoryContainer.visibility =
-                if (hasFocus && searchField.text.isEmpty()) View.VISIBLE else View.GONE
+            if (searchHistory.getHistory().isNotEmpty()){
+                searchHistoryAdapter.setTracks(searchHistory.getHistory())
+                searchHistoryContainer.visibility =
+                    if (hasFocus && searchField.text.isEmpty()) View.VISIBLE else View.GONE
+            }
         }
 
         // TODO: отслеживание нажатие на кнопку "done":
@@ -197,9 +200,11 @@ class SearchActivity : AppCompatActivity() {
                 resetButton.visibility = resetButtonVisibility(string)
                 if (string != null) searchFieldContent = string.toString()
 
-                searchHistoryAdapter.setTracks(searchHistory.getHistory())
-                searchHistoryContainer.visibility =
-                    if (searchField.hasFocus() && string?.isEmpty() == true) View.VISIBLE else View.GONE
+                if (searchHistory.getHistory().isNotEmpty()){
+                    searchHistoryAdapter.setTracks(searchHistory.getHistory())
+                    searchHistoryContainer.visibility =
+                        if (searchField.hasFocus() && string?.isEmpty() == true) View.VISIBLE else View.GONE
+                }
             }
         }
         searchField.addTextChangedListener(textWatcher)
