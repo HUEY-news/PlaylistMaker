@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/SearchActivity"
     android:background="?attr/primaryBackgroundColor"
     android:orientation="vertical"
@@ -44,7 +46,8 @@
             android:id="@+id/resetButton"
             style="@style/SearchActivity.ImageButton.ResetButton"
             android:src="@drawable/ic_clear_16"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="visible" />
     </FrameLayout>
 
     <!-- ========== OUTPUT CONTAINER ========== -->
@@ -56,7 +59,7 @@
 
         <!-- ========== TRACKLIST RECYCLER VIEW ========== -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/trackList"
+            android:id="@+id/searchTrackList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />

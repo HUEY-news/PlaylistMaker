@@ -10,14 +10,17 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
+import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.trackList.TrackListAdapter
-import com.practicum.playlistmaker.databinding.ActivitySearchBinding
-import com.practicum.playlistmaker.databinding.LayoutPlaceholderBinding
-import com.practicum.playlistmaker.databinding.LayoutSearchHistoryBinding
 import com.practicum.playlistmaker.model.SearchResponse
 import com.practicum.playlistmaker.network.AppleApiProvider
 import com.practicum.playlistmaker.searchHistory.SearchHistory
@@ -30,24 +33,31 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
-        val searchActivityBinding = ActivitySearchBinding.inflate(layoutInflater)
-        val placeholderBinding = LayoutPlaceholderBinding.bind(searchActivityBinding.root)
-        val searchHistoryBinding = LayoutSearchHistoryBinding.bind(searchActivityBinding.root)
-        setContentView(searchActivityBinding.root)
+        setContentView(R.layout.activity_search)
 
-//        searchActivityBinding.visibility.setOnClickListener {
-//            searchHistoryBinding.searchHistoryContainer.isVisible = true
-//            searchHistoryBinding.searchHistoryContainer.invalidate()
-//            searchHistoryBinding.searchHistoryContainer.requestLayout()
-//        }
+        // TODO: реализовать activity_search через ViewBinding:
+        val backButton = findViewById<ImageButton>(R.id.backButton)
+        val searchField = findViewById<EditText>(R.id.searchField)
+        val resetButton = findViewById<ImageButton>(R.id.resetButton)
+        val searchTrackList = findViewById<RecyclerView>(R.id.searchTrackList)
+        // TODO: реализовать layout_placeholder через ViewBinding:
+        val placeholderIcon = findViewById<ImageView>(R.id.placeholderIcon)
+        val placeholderText = findViewById<TextView>(R.id.placeholderText)
+        val placeholderButton = findViewById<Button>(R.id.placeholderButton)
+        // TODO: реализовать layout_search_history через ViewBinding:
+        val searchHistoryContainer = findViewById<LinearLayout>(R.id.searchHistoryContainer)
+        val searchHistoryTrackList = findViewById<RecyclerView>(R.id.searchHistoryTrackList)
+        val searchHistoryButton = findViewById<Button>(R.id.searchHistoryButton)
 
-        searchActivityBinding.backButton.setOnClickListener { finish() }
+        backButton.setOnClickListener { finish() }
         val trackListAdapter = TrackListAdapter(arrayListOf())
-        searchActivityBinding.trackList.adapter = trackListAdapter
+        searchTrackList.adapter = trackListAdapter
         val sharedPreferences = App.sharedPreferences
         val searchHistory = SearchHistory(sharedPreferences)
-        searchHistoryBinding.searchHistoryTrackList.adapter = searchHistory.adapter
-        searchHistoryBinding.searchHistoryButton.setOnClickListener { searchHistory.clearHistory() }
+        searchHistoryTrackList.adapter = searchHistory.adapter
+        searchHistoryButton.setOnClickListener { searchHistory.clearHistory() }
+
+
 
         // TODO: разобраться с лишними методами:
         fun clearTrackList() {
@@ -56,12 +66,12 @@ class SearchActivity : AppCompatActivity() {
 
         // TODO: разобраться с лишними методами:
         fun showRecycler(){
-            searchActivityBinding.trackList.visibility = View.VISIBLE
+            searchTrackList.visibility = View.VISIBLE
         }
 
         // TODO: разобраться с лишними методами:
         fun hideRecycler(){
-            searchActivityBinding.trackList.visibility = View.GONE
+            searchTrackList.visibility = View.GONE
         }
 
         fun showPlaceholder(text: String) {
@@ -79,22 +89,22 @@ class SearchActivity : AppCompatActivity() {
 
             when (text) {
                 resources.getString(PLACEHOLDER_EMPTY_ERROR) -> {
-                    placeholderBinding.placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderEmptyError))
-                    placeholderBinding.placeholderText.setText(PLACEHOLDER_EMPTY_ERROR)
+                    placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderEmptyError))
+                    placeholderText.setText(PLACEHOLDER_EMPTY_ERROR)
                 }
 
                 resources.getString(PLACEHOLDER_INTERNET_ERROR) -> {
-                    placeholderBinding.placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderInternetError))
-                    placeholderBinding.placeholderText.setText(PLACEHOLDER_INTERNET_ERROR)
-                    placeholderBinding.placeholderButton.visibility = View.VISIBLE
+                    placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderInternetError))
+                    placeholderText.setText(PLACEHOLDER_INTERNET_ERROR)
+                    placeholderButton.visibility = View.VISIBLE
                 }
             }
         }
 
         fun hidePlaceholder(){
-            placeholderBinding.placeholderIcon.setImageDrawable(null)
-            placeholderBinding.placeholderText.text = null
-            placeholderBinding.placeholderButton.visibility = View.GONE
+            placeholderIcon.setImageDrawable(null)
+            placeholderText.text = null
+            placeholderButton.visibility = View.GONE
         }
 
         // TODO: разобраться с лишними методами:
@@ -108,8 +118,8 @@ class SearchActivity : AppCompatActivity() {
 
         fun query()
         {
-            if (searchActivityBinding.searchField.text.isNotEmpty()) {
-                appleApiProvider.api.search(searchActivityBinding.searchField.text.toString())
+            if (searchField.text.isNotEmpty()) {
+                appleApiProvider.api.search(searchField.text.toString())
                     .enqueue(object : Callback<SearchResponse>
                     {
                         override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>)
@@ -151,17 +161,13 @@ class SearchActivity : AppCompatActivity() {
         }
 
         // TODO: отслеживание состояния фокуса поля ввода:
-        searchActivityBinding.searchField.setOnFocusChangeListener { view, hasFocus ->
-            searchHistoryBinding.searchHistoryHeader.visibility =
-                if (hasFocus && searchActivityBinding.searchField.text.isEmpty()) View.VISIBLE else View.GONE
-            searchHistoryBinding.searchHistoryTrackList.visibility =
-                if (hasFocus && searchActivityBinding.searchField.text.isEmpty()) View.VISIBLE else View.GONE
-            searchHistoryBinding.searchHistoryButton.visibility =
-                if (hasFocus && searchActivityBinding.searchField.text.isEmpty()) View.VISIBLE else View.GONE
+        searchField.setOnFocusChangeListener { view, hasFocus ->
+            searchHistoryContainer.visibility =
+                if (hasFocus && searchField.text.isEmpty()) View.VISIBLE else View.GONE
         }
 
         // TODO: отслеживание нажатие на кнопку "done":
-        searchActivityBinding.searchField.setOnEditorActionListener { _, actionId, _ ->
+        searchField.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 query()
                 true
@@ -169,10 +175,10 @@ class SearchActivity : AppCompatActivity() {
             false
         }
 
-        placeholderBinding.placeholderButton.setOnClickListener { query() }
+        placeholderButton.setOnClickListener { query() }
 
-        searchActivityBinding.resetButton.setOnClickListener {
-            searchActivityBinding.searchField.setText("")
+        resetButton.setOnClickListener {
+            searchField.setText("")
             // TODO: разобраться с лишними методами:
             clearTrackList()
             hideContainer()
@@ -180,25 +186,21 @@ class SearchActivity : AppCompatActivity() {
             // todo: спрятать виртуальную клавиатуру:
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            inputMethodManager?.hideSoftInputFromWindow(searchActivityBinding.searchField.windowToken, 0)
+            inputMethodManager?.hideSoftInputFromWindow(searchField.windowToken, 0)
         }
 
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(string: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(string: Editable?) {}
             override fun onTextChanged(string: CharSequence?, start: Int, before: Int, count: Int) {
-                searchActivityBinding.resetButton.visibility = resetButtonVisibility(string)
+                resetButton.visibility = resetButtonVisibility(string)
                 if (string != null) searchFieldContent = string.toString()
 
-                searchHistoryBinding.searchHistoryHeader.visibility =
-                    if (searchActivityBinding.searchField.hasFocus() && string?.isEmpty() == true) View.VISIBLE else View.GONE
-                searchHistoryBinding.searchHistoryTrackList.visibility
-                    if (searchActivityBinding.searchField.hasFocus() && string?.isEmpty() == true) View.VISIBLE else View.GONE
-                searchHistoryBinding.searchHistoryButton.visibility
-                    if (searchActivityBinding.searchField.hasFocus() && string?.isEmpty() == true) View.VISIBLE else View.GONE
+                searchHistoryContainer.visibility =
+                    if (searchField.hasFocus() && string?.isEmpty() == true) View.VISIBLE else View.GONE
             }
         }
-        searchActivityBinding.searchField.addTextChangedListener(textWatcher)
+        searchField.addTextChangedListener(textWatcher)
     }
 
     fun resetButtonVisibility(string: CharSequence?): Int {
