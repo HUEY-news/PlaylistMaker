@@ -24,6 +24,7 @@ import com.practicum.playlistmaker.trackList.TrackListAdapter
 import com.practicum.playlistmaker.model.SearchResponse
 import com.practicum.playlistmaker.network.AppleApiProvider
 import com.practicum.playlistmaker.searchHistory.SearchHistory
+import com.practicum.playlistmaker.searchHistory.SearchHistoryAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -50,14 +51,13 @@ class SearchActivity : AppCompatActivity() {
         val searchHistoryButton = findViewById<Button>(R.id.searchHistoryButton)
 
         backButton.setOnClickListener { finish() }
+
         val trackListAdapter = TrackListAdapter(arrayListOf())
         searchTrackList.adapter = trackListAdapter
-        val sharedPreferences = App.sharedPreferences
-        val searchHistory = SearchHistory(sharedPreferences)
-        searchHistoryTrackList.adapter = searchHistory.adapter
+        val searchHistoryAdapter = SearchHistoryAdapter(arrayListOf())
+        searchHistoryTrackList.adapter = searchHistoryAdapter
+        val searchHistory = SearchHistory(App.sharedPreferences)
         searchHistoryButton.setOnClickListener { searchHistory.clearHistory() }
-
-
 
         // TODO: разобраться с лишними методами:
         fun clearTrackList() {
@@ -162,6 +162,7 @@ class SearchActivity : AppCompatActivity() {
 
         // TODO: отслеживание состояния фокуса поля ввода:
         searchField.setOnFocusChangeListener { view, hasFocus ->
+            searchHistoryAdapter.setTracks(searchHistory.getHistory())
             searchHistoryContainer.visibility =
                 if (hasFocus && searchField.text.isEmpty()) View.VISIBLE else View.GONE
         }
@@ -196,6 +197,7 @@ class SearchActivity : AppCompatActivity() {
                 resetButton.visibility = resetButtonVisibility(string)
                 if (string != null) searchFieldContent = string.toString()
 
+                searchHistoryAdapter.setTracks(searchHistory.getHistory())
                 searchHistoryContainer.visibility =
                     if (searchField.hasFocus() && string?.isEmpty() == true) View.VISIBLE else View.GONE
             }

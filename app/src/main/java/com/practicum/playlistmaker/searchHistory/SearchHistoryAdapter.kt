@@ -1,12 +1,12 @@
-package com.practicum.playlistmaker.trackList
+package com.practicum.playlistmaker.searchHistory
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.model.Track
-import com.practicum.playlistmaker.searchHistory.SearchHistory
+import com.practicum.playlistmaker.trackList.TrackListViewHolder
 
-class TrackListAdapter(private var trackList: ArrayList<Track>) : RecyclerView.Adapter<TrackListViewHolder>() {
+class SearchHistoryAdapter(private var trackList: ArrayList<Track>): RecyclerView.Adapter<TrackListViewHolder>(){
+
     fun setTracks(tracks: ArrayList<Track>) {
         trackList = tracks
         notifyDataSetChanged()
@@ -14,7 +14,7 @@ class TrackListAdapter(private var trackList: ArrayList<Track>) : RecyclerView.A
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackListViewHolder{
         return TrackListViewHolder(parent)
-        }
+    }
 
     override fun getItemCount(): Int {
         return trackList.size
@@ -22,9 +22,5 @@ class TrackListAdapter(private var trackList: ArrayList<Track>) : RecyclerView.A
 
     override fun onBindViewHolder(holder: TrackListViewHolder, position: Int) {
         holder.bind(trackList[position])
-        holder.itemView.setOnClickListener {
-            val searchHistory = SearchHistory(App.sharedPreferences)
-            searchHistory.addTrackToHistory(trackList[position])
-        }
     }
 }
