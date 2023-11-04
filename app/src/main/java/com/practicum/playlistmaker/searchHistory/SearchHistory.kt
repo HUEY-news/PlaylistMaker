@@ -1,6 +1,7 @@
 package com.practicum.playlistmaker.searchHistory
 
 import android.content.SharedPreferences
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.practicum.playlistmaker.model.Track
@@ -15,6 +16,7 @@ class SearchHistory(private val sharedPreferences: SharedPreferences) {
     val adapter = TrackListAdapter(history)
 
     private fun sizeCheck(){
+        Log.d("TEST", "ПРОВЕРКА РАЗМЕРА ИСТОРИИ")
         if (history.size > HISTORY_LIMIT) {
             history.forEachIndexed { index: Int, item: Track ->
                 if (index > HISTORY_LIMIT - 1) history.remove(item)
@@ -23,6 +25,7 @@ class SearchHistory(private val sharedPreferences: SharedPreferences) {
     }
 
     private fun addUnique(track: Track){
+        Log.d("TEST", "ДОБАВЛЕНИЕ ТРЕКА В ИСТОРИЮ")
         history.forEach {
             if (track.trackId == it.trackId){
                 history.remove(it)
@@ -39,19 +42,27 @@ class SearchHistory(private val sharedPreferences: SharedPreferences) {
         saveHistory()
     }
 
-    fun saveHistory() {
+    private fun saveHistory() {
+        Log.d("TEST", "СОХРАНЕНИЕ ИСТОРИИ")
         with(sharedPreferences.edit()) {
             putString(TRACK_LIST_KEY, createJsonFromFTrackList(history))
             apply()
         }
     }
 
-    fun loadHistory() {
+    private fun loadHistory() {
+        Log.d("TEST", "ЗАГРУЗКА ИСТОРИИ")
         val json = sharedPreferences.getString(TRACK_LIST_KEY, null)
         if (json != null) history.addAll(createTrackListFromJson(json))
     }
 
+    fun showHistory(){
+        loadHistory()
+        adapter.setTracks(history)
+    }
+
     fun clearHistory() {
+        Log.d("TEST", "ОЧИСТКА ИСТОРИИ")
         history.clear()
         adapter.setTracks(history)
         sharedPreferences.edit().clear()
