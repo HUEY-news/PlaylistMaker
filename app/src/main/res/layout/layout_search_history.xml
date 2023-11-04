@@ -9,9 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="40dp"
-    android:visibility="gone"
-    tools:visibility="visible" >
+    android:paddingTop="40dp" >
 
     <TextView
         android:id="@+id/searchHistoryHeader"
@@ -19,14 +17,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="@string/search_history_header" />
+        android:text="@string/search_history_header"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchHistoryTrackList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/searchHistoryButton"
@@ -34,5 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/search_history_button" />
+        android:text="@string/search_history_button"
+        android:visibility="gone"
+        tools:visibility="visible"/>
 </LinearLayout>

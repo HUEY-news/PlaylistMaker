@@ -11,6 +11,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.trackList.TrackListAdapter
@@ -33,6 +34,12 @@ class SearchActivity : AppCompatActivity() {
         val placeholderBinding = LayoutPlaceholderBinding.bind(searchActivityBinding.root)
         val searchHistoryBinding = LayoutSearchHistoryBinding.bind(searchActivityBinding.root)
         setContentView(searchActivityBinding.root)
+
+//        searchActivityBinding.visibility.setOnClickListener {
+//            searchHistoryBinding.searchHistoryContainer.isVisible = true
+//            searchHistoryBinding.searchHistoryContainer.invalidate()
+//            searchHistoryBinding.searchHistoryContainer.requestLayout()
+//        }
 
         searchActivityBinding.backButton.setOnClickListener { finish() }
         val trackListAdapter = TrackListAdapter(arrayListOf())
@@ -143,10 +150,13 @@ class SearchActivity : AppCompatActivity() {
             }else{ clearTrackList() }
         }
 
-
         // TODO: отслеживание состояния фокуса поля ввода:
         searchActivityBinding.searchField.setOnFocusChangeListener { view, hasFocus ->
-            searchHistoryBinding.searchHistoryContainer.visibility =
+            searchHistoryBinding.searchHistoryHeader.visibility =
+                if (hasFocus && searchActivityBinding.searchField.text.isEmpty()) View.VISIBLE else View.GONE
+            searchHistoryBinding.searchHistoryTrackList.visibility =
+                if (hasFocus && searchActivityBinding.searchField.text.isEmpty()) View.VISIBLE else View.GONE
+            searchHistoryBinding.searchHistoryButton.visibility =
                 if (hasFocus && searchActivityBinding.searchField.text.isEmpty()) View.VISIBLE else View.GONE
         }
 
@@ -179,7 +189,12 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(string: CharSequence?, start: Int, before: Int, count: Int) {
                 searchActivityBinding.resetButton.visibility = resetButtonVisibility(string)
                 if (string != null) searchFieldContent = string.toString()
-                searchHistoryBinding.searchHistoryContainer.visibility =
+
+                searchHistoryBinding.searchHistoryHeader.visibility =
+                    if (searchActivityBinding.searchField.hasFocus() && string?.isEmpty() == true) View.VISIBLE else View.GONE
+                searchHistoryBinding.searchHistoryTrackList.visibility
+                    if (searchActivityBinding.searchField.hasFocus() && string?.isEmpty() == true) View.VISIBLE else View.GONE
+                searchHistoryBinding.searchHistoryButton.visibility
                     if (searchActivityBinding.searchField.hasFocus() && string?.isEmpty() == true) View.VISIBLE else View.GONE
             }
         }
