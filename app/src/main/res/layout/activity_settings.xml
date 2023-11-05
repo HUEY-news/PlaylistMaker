@@ -10,12 +10,13 @@
     android:paddingHorizontal="@dimen/regular_border_medium" >
         
         <LinearLayout
+            android:id="@+id/headerContainer"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:orientation="horizontal"
             android:layout_gravity="center" >
             <ImageView
-                android:id="@+id/button_back"
+                android:id="@+id/backButton"
                 style="@style/SettingsActivity.ImageView"
                 app:tint="?attr/primaryTextColor"
                 android:layout_gravity="center"
@@ -33,21 +34,21 @@
         </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/nightThemeContainer"
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_screen_frame_height"
         android:layout_marginTop="24dp" >
-        <TextView
-            style="@style/SettingsActivity.TextView"
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/themeSwitcher"
+            style="@style/SettingsActivity.TextView.Switch"
+            android:layout_width="match_parent"
             android:text="@string/dark_theme" />
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switch_night_theme"
-            style="@style/SettingsActivity.ImageView.Switch"
-            android:layout_gravity="end|center" />
 
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/fl_share"
+        android:id="@+id/shareContainer"
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_screen_frame_height" >
         <TextView
@@ -60,7 +61,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/fl_support"
+        android:id="@+id/supportContainer"
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_screen_frame_height" >
         <TextView
@@ -73,7 +74,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/fl_agreement"
+        android:id="@+id/agreementContainer"
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_screen_frame_height" >
         <TextView

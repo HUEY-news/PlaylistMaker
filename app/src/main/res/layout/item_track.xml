@@ -8,7 +8,7 @@
     android:theme="@style/Base.Theme.PlaylistMaker.Track">
 
     <ImageView
-        android:id="@+id/IV_artwork"
+        android:id="@+id/artwork"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginEnd="8dp"
@@ -22,7 +22,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/TV_track_name"
+            android:id="@+id/trackName"
             style="@style/Track.TextView.TrackName"
             tools:text="Smells Like Teen Spirit" />
 
@@ -32,7 +32,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/TV_artist_name"
+                android:id="@+id/artistName"
                 style="@style/Track.TextView"
                 tools:text="Nirvana" />
 
@@ -43,7 +43,7 @@
                 android:src="@drawable/ic_dot_16" />
 
             <TextView
-                android:id="@+id/TV_track_time"
+                android:id="@+id/trackTime"
                 style="@style/Track.TextView"
                 tools:text="5:01" />
 

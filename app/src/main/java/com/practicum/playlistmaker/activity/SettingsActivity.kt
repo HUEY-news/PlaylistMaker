@@ -1,15 +1,15 @@
 package com.practicum.playlistmaker.activity
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.widget.SwitchCompat
+import com.google.android.material.switchmaterial.SwitchMaterial
+import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.isUsingNightModeResources
 
 class SettingsActivity : AppCompatActivity()
 {
@@ -17,31 +17,22 @@ class SettingsActivity : AppCompatActivity()
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-
-        val nightThemeSwitcher = findViewById<SwitchCompat>(R.id.switch_night_theme)
-        // ЕСЛИ ПРИ ЗАПУСКЕ НОЧНАЯ ТЕМА УЖЕ АКТИВНА...
-        if (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK === Configuration.UI_MODE_NIGHT_YES)
-        {
-            nightThemeSwitcher.isChecked = true
+        
+        // TODO: реализация переключения темы: 
+        val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
+        themeSwitcher.isChecked = isUsingNightModeResources
+        themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
+            (applicationContext as App).switchTheme(checked)
         }
-        nightThemeSwitcher.setOnClickListener {
-            // МЕТОД setDefaultNightMode() КЛАССА AppCompatDelegate УСТАНАВЛИВАЕТ НОЧНУЮ ТЕМУ ДЛЯ ВСЕГО ПРИЛОЖЕНИЯ...
-            if (nightThemeSwitcher.isChecked) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            // ПЕРЕСОЗДАТЬ ACTIVITY С НОВОЙ ТЕМОЙ...
-            recreate()
-        }
-        // ВАЖНО!!!
-        // Частое переключение тем может вызвать утечку памяти, если необходимые ресурсы не будут корректно освобождены.
-        // Однако, если приложение правильно управляет своими ресурсами и использует метод recreate() только при изменении темы,
-        // то утечек памяти не должно возникать.
 
-        val backButton = findViewById<ImageView>(R.id.button_back)
+        // TODO: реализация кнопки "назад": 
+        val backButton = findViewById<ImageView>(R.id.backButton)
         backButton.setOnClickListener {
             finish()
         }
 
-        val shareButton = findViewById<FrameLayout>(R.id.fl_share)
+        // TODO: реализация кнопки "поделиться приложением": 
+        val shareButton = findViewById<FrameLayout>(R.id.shareContainer)
         shareButton.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND)
             val shareIntentTitle = getString(R.string.share_app)
@@ -51,7 +42,8 @@ class SettingsActivity : AppCompatActivity()
             startActivity(Intent.createChooser(shareIntent, shareIntentTitle))
         }
 
-        val supportButton = findViewById<FrameLayout>(R.id.fl_support)
+        // TODO: реализация кнопки "написать в поддержку": 
+        val supportButton = findViewById<FrameLayout>(R.id.supportContainer)
         supportButton.setOnClickListener {
             val supportIntent = Intent(Intent.ACTION_SEND)
             val supportIntentTitle = getString(R.string.write_to_user_support)
@@ -65,7 +57,8 @@ class SettingsActivity : AppCompatActivity()
             startActivity(Intent.createChooser(supportIntent, supportIntentTitle))
         }
 
-        val agreementButton = findViewById<FrameLayout>(R.id.fl_agreement)
+        // TODO: реализация кнопки "пользовательское соглашение":
+        val agreementButton = findViewById<FrameLayout>(R.id.agreementContainer)
         agreementButton.setOnClickListener {
             val agreementIntent = Intent(Intent.ACTION_VIEW)
             val url = getString(R.string.agreement_link)

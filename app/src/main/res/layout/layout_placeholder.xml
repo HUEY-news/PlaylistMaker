@@ -1,0 +1,29 @@
+<LinearLayout
+    android:id="@+id/placeholderContainer"
+    android:theme="@style/Base.Theme.PlaylistMaker.SearchActivity"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="96dp" >
+
+    <ImageView
+        android:id="@+id/placeholderIcon"
+        style="@style/Placeholder"
+        tools:src="?attr/placeholderInternetError" />
+
+    <TextView
+        android:id="@+id/placeholderText"
+        style="@style/Placeholder.Text"
+        android:layout_marginTop="16dp"
+        tools:text="@string/placeholder_internet_error" />
+
+    <Button
+        android:id="@+id/placeholderButton"
+        style="@style/Placeholder.Button"
+        android:layout_marginTop="24dp"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+</LinearLayout>

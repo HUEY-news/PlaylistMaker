@@ -14,46 +14,67 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.TrackAdapter
+import com.practicum.playlistmaker.trackList.TrackListAdapter
 import com.practicum.playlistmaker.model.SearchResponse
 import com.practicum.playlistmaker.network.AppleApiProvider
+import com.practicum.playlistmaker.searchHistory.SearchHistory
+import com.practicum.playlistmaker.searchHistory.SearchHistoryAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class SearchActivity : AppCompatActivity() {
-    var searchFieldContent: String? = null
+    private var searchFieldContent: String? = null
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         setContentView(R.layout.activity_search)
 
-        val trackAdapter = TrackAdapter(emptyList())
-        val recycler: RecyclerView = findViewById(R.id.rv_track_list)
-        recycler.adapter = trackAdapter
-
-        fun clearTrackList() {
-            trackAdapter.setTracks(emptyList())
-        }
-
-        fun showRecycler(){
-            recycler.visibility = View.VISIBLE
-        }
-
-        fun hideRecycler(){
-            recycler.visibility = View.GONE
-        }
-
-        val backButton = findViewById<ImageButton>(R.id.button_back)
-        backButton.setOnClickListener { finish() }
-
+        // TODO: реализовать activity_search через ViewBinding:
+        val backButton = findViewById<ImageButton>(R.id.backButton)
+        val searchField = findViewById<EditText>(R.id.searchField)
+        val resetButton = findViewById<ImageButton>(R.id.resetButton)
+        val searchTrackList = findViewById<RecyclerView>(R.id.searchTrackList)
+        // TODO: реализовать layout_placeholder через ViewBinding:
         val placeholderIcon = findViewById<ImageView>(R.id.placeholderIcon)
         val placeholderText = findViewById<TextView>(R.id.placeholderText)
         val placeholderButton = findViewById<Button>(R.id.placeholderButton)
+        // TODO: реализовать layout_search_history через ViewBinding:
+        val searchHistoryContainer = findViewById<LinearLayout>(R.id.searchHistoryContainer)
+        val searchHistoryTrackList = findViewById<RecyclerView>(R.id.searchHistoryTrackList)
+        val searchHistoryButton = findViewById<Button>(R.id.searchHistoryButton)
+
+        backButton.setOnClickListener { finish() }
+
+        val trackListAdapter = TrackListAdapter(arrayListOf())
+        searchTrackList.adapter = trackListAdapter
+        val searchHistoryAdapter = SearchHistoryAdapter(arrayListOf())
+        searchHistoryTrackList.adapter = searchHistoryAdapter
+        val searchHistory = SearchHistory(App.sharedPreferences)
+        searchHistoryButton.setOnClickListener {
+            searchHistoryContainer.visibility = View.GONE
+            searchHistory.clearHistory() }
+
+        // TODO: разобраться с лишними методами:
+        fun clearTrackList() {
+            trackListAdapter.setTracks(arrayListOf())
+        }
+
+        // TODO: разобраться с лишними методами:
+        fun showRecycler(){
+            searchTrackList.visibility = View.VISIBLE
+        }
+
+        // TODO: разобраться с лишними методами:
+        fun hideRecycler(){
+            searchTrackList.visibility = View.GONE
+        }
 
         fun showPlaceholder(text: String) {
             clearTrackList()
@@ -73,7 +94,6 @@ class SearchActivity : AppCompatActivity() {
                     placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderEmptyError))
                     placeholderText.setText(PLACEHOLDER_EMPTY_ERROR)
                 }
-
                 resources.getString(PLACEHOLDER_INTERNET_ERROR) -> {
                     placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderInternetError))
                     placeholderText.setText(PLACEHOLDER_INTERNET_ERROR)
@@ -88,13 +108,13 @@ class SearchActivity : AppCompatActivity() {
             placeholderButton.visibility = View.GONE
         }
 
+        // TODO: разобраться с лишними методами:
         fun hideContainer()
         {
             hideRecycler()
             hidePlaceholder()
         }
 
-        val searchField = findViewById<EditText>(R.id.et_search_field)
         val appleApiProvider = AppleApiProvider()
 
         fun query()
@@ -114,7 +134,7 @@ class SearchActivity : AppCompatActivity() {
 
                                     if (response.body()?.results?.isNotEmpty() == true)
                                     {
-                                        trackAdapter.setTracks(response.body()?.results!!)
+                                        trackListAdapter.setTracks(response.body()?.results!!)
                                         showRecycler()
                                     }
                                     else
@@ -133,7 +153,7 @@ class SearchActivity : AppCompatActivity() {
 
                         override fun onFailure(call: Call<SearchResponse>, t: Throwable)
                         {
-                            Log.d("RESPONSE_ERROR", t.message.toString())
+                            Log.e("RESPONSE_ERROR", t.message.toString())
                             hideContainer()
                             showPlaceholder(resources.getString(PLACEHOLDER_INTERNET_ERROR))
                         }
@@ -141,7 +161,16 @@ class SearchActivity : AppCompatActivity() {
             }else{ clearTrackList() }
         }
 
-        // todo: чтобы обработать нажатие на кнопку "done", к экземпляру Edittext добаляется слушатель
+        // TODO: отслеживание состояния фокуса поля ввода:
+        searchField.setOnFocusChangeListener { view, hasFocus ->
+            if (searchHistory.getHistory().isNotEmpty()){
+                searchHistoryAdapter.setTracks(searchHistory.getHistory())
+                searchHistoryContainer.visibility =
+                    if (hasFocus && searchField.text.isEmpty()) View.VISIBLE else View.GONE
+            }
+        }
+
+        // TODO: отслеживание нажатие на кнопку "done":
         searchField.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 query()
@@ -152,13 +181,13 @@ class SearchActivity : AppCompatActivity() {
 
         placeholderButton.setOnClickListener { query() }
 
-        val resetButton = findViewById<ImageButton>(R.id.button_reset)
         resetButton.setOnClickListener {
             searchField.setText("")
+            // TODO: разобраться с лишними методами:
             clearTrackList()
             hideContainer()
 
-            // todo: спрятать виртуальную клавиатуру
+            // todo: спрятать виртуальную клавиатуру:
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(searchField.windowToken, 0)
@@ -170,10 +199,16 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(string: CharSequence?, start: Int, before: Int, count: Int) {
                 resetButton.visibility = resetButtonVisibility(string)
                 if (string != null) searchFieldContent = string.toString()
+
+                if (searchHistory.getHistory().isNotEmpty()){
+                    searchHistoryAdapter.setTracks(searchHistory.getHistory())
+                    searchHistoryContainer.visibility =
+                        if (searchField.hasFocus() && string?.isEmpty() == true) View.VISIBLE else View.GONE
+                }
             }
         }
         searchField.addTextChangedListener(textWatcher)
-    } // onCreate() ends...
+    }
 
     fun resetButtonVisibility(string: CharSequence?): Int {
         return if (string.isNullOrEmpty()) View.GONE else View.VISIBLE

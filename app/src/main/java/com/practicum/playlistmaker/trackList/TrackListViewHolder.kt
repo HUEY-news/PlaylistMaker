@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.trackList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,16 +7,19 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.model.Track
+import com.practicum.playlistmaker.pixelConverter
+import com.practicum.playlistmaker.trackTimeFormat
 
-class TrackViewHolder(parent: ViewGroup) :
+class TrackListViewHolder(parent: ViewGroup) :
     RecyclerView.ViewHolder(LayoutInflater.from(parent.context)
         .inflate(R.layout.item_track, parent, false))
  {
-    private val trackName: TextView = itemView.findViewById(R.id.TV_track_name)
-    private val artistName: TextView = itemView.findViewById(R.id.TV_artist_name)
-    private val trackTime: TextView = itemView.findViewById(R.id.TV_track_time)
-    private val artWork: ImageView = itemView.findViewById(R.id.IV_artwork)
+    private val trackName: TextView = itemView.findViewById(R.id.trackName)
+    private val artistName: TextView = itemView.findViewById(R.id.artistName)
+    private val trackTime: TextView = itemView.findViewById(R.id.trackTime)
+    private val artWork: ImageView = itemView.findViewById(R.id.artwork)
 
     fun bind(track: Track)
     {
