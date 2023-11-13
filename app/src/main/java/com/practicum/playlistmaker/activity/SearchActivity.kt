@@ -37,7 +37,6 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
 
         // TODO: реализовать activity_search через ViewBinding:
-        val backButton = findViewById<ImageButton>(R.id.backButton)
         val searchField = findViewById<EditText>(R.id.searchField)
         val resetButton = findViewById<ImageButton>(R.id.resetButton)
         val searchTrackList = findViewById<RecyclerView>(R.id.searchTrackList)
@@ -50,7 +49,7 @@ class SearchActivity : AppCompatActivity() {
         val searchHistoryTrackList = findViewById<RecyclerView>(R.id.searchHistoryTrackList)
         val searchHistoryButton = findViewById<Button>(R.id.searchHistoryButton)
 
-        backButton.setOnClickListener { finish() }
+        findViewById<ImageButton>(R.id.backButton).setOnClickListener { finish() }
 
         val trackListAdapter = TrackListAdapter(arrayListOf())
         searchTrackList.adapter = trackListAdapter
