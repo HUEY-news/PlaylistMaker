@@ -21,7 +21,7 @@
                 app:tint="?attr/primaryTextColor"
                 android:layout_gravity="center"
                 android:layout_marginRight="24dp"
-                android:src="@drawable/ic_arrow_back"
+                android:src="@drawable/ic_arrow_back_24"
                 android:foreground="?attr/selectableItemBackground" />
             <TextView
                 style="@style/SettingsActivity.TextView"
@@ -57,7 +57,7 @@
         <ImageView
             style="@style/SettingsActivity.ImageView"
             android:layout_gravity="end|center"
-            android:src="@drawable/ic_share"/>
+            android:src="@drawable/ic_share_24"/>
     </FrameLayout>
 
     <FrameLayout
@@ -70,7 +70,7 @@
         <ImageView
             style="@style/SettingsActivity.ImageView"
             android:layout_gravity="end|center"
-            android:src="@drawable/ic_support"/>
+            android:src="@drawable/ic_support_24"/>
     </FrameLayout>
 
     <FrameLayout

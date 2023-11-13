@@ -2,6 +2,7 @@
 
 <!-- ============================== БЛОК ИНИЦИАЛИЗАЦИИ АТРИБУТОВ ============================== -->
 
+    <!-- GENERAL -->
     <attr name="primaryBackgroundColor"/>
     <attr name="secondaryBackgroundColor"/>
     <attr name="primaryTextColor"/>
@@ -10,13 +11,19 @@
     <attr name="secondaryIconColor"/>
     <attr name="primaryButtonColor"/>
     <attr name="secondaryButtonColor"/>
-
+    <!-- PLACEHOLDERS -->
     <attr name="placeholderEmptyError"/>
     <attr name="placeholderInternetError"/>
+    <!-- BUTTONS -->
+    <attr name="buttonPlay"/>
+    <attr name="buttonAdd"/>
+    <attr name="buttonFavorite"/>
 
 <!-- ========================================================================================== -->
 
     <style name="Base.Theme.PlaylistMaker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="primaryBackgroundColor">@color/YP_Black</item>
+        <item name="secondaryBackgroundColor">@color/YP_White</item>
         <item name="android:statusBarColor">@color/YP_Black</item>
         <item name="android:navigationBarColor">@color/YP_Black</item>
     </style>
@@ -27,7 +34,6 @@
     </style>
 
     <style name="Base.Theme.PlaylistMaker.SettingsActivity" parent="Base.Theme.PlaylistMaker">
-        <item name="primaryBackgroundColor">@color/YP_Black</item>
         <item name="primaryTextColor">@color/YP_White</item>
         <item name="primaryIconColor">@color/YP_White</item>
         <item name="secondaryIconColor">@color/YP_Text_Gray</item>
@@ -36,7 +42,6 @@
     </style>
 
     <style name="Base.Theme.PlaylistMaker.SearchActivity" parent="Base.Theme.PlaylistMaker">
-        <item name="primaryBackgroundColor">@color/YP_Black</item>
         <item name="secondaryBackgroundColor">@color/YP_White</item>
         <item name="primaryTextColor">@color/YP_White</item>
         <item name="secondaryTextColor">@color/YP_Black</item>
@@ -49,10 +54,15 @@
     </style>
 
     <style name="Base.Theme.PlaylistMaker.Track" parent="Base.Theme.PlaylistMaker">
-        <item name="primaryBackgroundColor">@color/YP_Black</item>
         <item name="primaryTextColor">@color/YP_White</item>
         <item name="secondaryTextColor">@color/YP_White</item>
         <item name="primaryIconColor">@color/YP_White</item>
+    </style>
+
+    <style name="Base.Theme.PlaylistMaker.Player" parent="Base.Theme.PlaylistMaker">
+        <item name="buttonPlay">@drawable/ic_button_play_dark_100</item>
+        <item name="buttonAdd">@drawable/ic_button_add_dark_51</item>
+        <item name="buttonFavorite">@drawable/ic_button_favorite_dark_51</item>
     </style>
 
 </resources>

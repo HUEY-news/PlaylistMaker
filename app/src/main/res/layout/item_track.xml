@@ -8,11 +8,11 @@
     android:theme="@style/Base.Theme.PlaylistMaker.Track">
 
     <ImageView
-        android:id="@+id/artwork"
+        android:id="@+id/image_view_artwork_512"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/ic_placeholder" />
+        android:src="@drawable/ic_placeholder_45" />
 
     <LinearLayout
         android:layout_width="0dp"

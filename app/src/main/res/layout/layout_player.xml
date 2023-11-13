@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/Base.Theme.PlaylistMaker.Player">
+
+
+    <!-- BORDERS -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/border_left_16"
+        style="@style/Player.Border"
+        app:layout_constraintGuide_begin="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/border_right_16"
+        style="@style/Player.Border"
+        app:layout_constraintGuide_end="16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/border_left_24"
+        style="@style/Player.Border"
+        app:layout_constraintGuide_begin="24dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/border_right_24"
+        style="@style/Player.Border"
+        app:layout_constraintGuide_end="24dp" />
+
+
+    <!-- BUTTON BACK -->
+    <ImageButton
+        android:id="@+id/button_back"
+        style="@style/style_button_back"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@id/border_left_16"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <!-- BARRIER TRACK -->
+    <ImageView
+        android:id="@+id/image_view_artwork_512"
+        style="@style/Player.Artwork"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toStartOf="@id/border_right_24"
+        app:layout_constraintStart_toEndOf="@id/border_left_24"
+        app:layout_constraintTag="tag_artwork_512"
+        app:layout_constraintTop_toBottomOf="@id/button_back" />
+
+    <TextView
+        android:id="@+id/text_view_track_name"
+        style="@style/Player.Name.TrackName"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toStartOf="@id/border_right_24"
+        app:layout_constraintStart_toEndOf="@id/border_left_24"
+        app:layout_constraintTag="tag_track_name"
+        app:layout_constraintTop_toBottomOf="@id/image_view_artwork_512"
+        tools:text="Yesterday (Remastered 2009)" />
+
+    <TextView
+        android:id="@+id/text_view_artist_name"
+        style="@style/Player.Name.ArtistName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toStartOf="@id/border_right_24"
+        app:layout_constraintStart_toEndOf="@id/border_left_24"
+        app:layout_constraintTag="tag_artist_name"
+        app:layout_constraintTop_toBottomOf="@id/text_view_track_name"
+        tools:text="The Beatles" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier_track"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_tags="tag_artwork_512, tag_track_name, tag_artist_name" />
+
+
+    <!-- BARRIER BUTTONS -->
+    <ImageButton
+        android:id="@+id/button_play_pause"
+        style="@style/Player.Button.PlayPause"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTag="tag_button_play_pause"
+        app:layout_constraintTop_toBottomOf="@id/barrier_track" />
+
+    <ImageButton
+        android:id="@+id/button_add"
+        style="@style/Player.Button.Add"
+        app:layout_constraintBottom_toBottomOf="@id/button_play_pause"
+        app:layout_constraintStart_toEndOf="@id/border_left_24"
+        app:layout_constraintTag="tag_button_add"
+        app:layout_constraintTop_toTopOf="@id/button_play_pause" />
+
+    <ImageButton
+        android:id="@+id/button_favorite"
+        style="@style/Player.Button.Favorite"
+        app:layout_constraintBottom_toBottomOf="@id/button_play_pause"
+        app:layout_constraintEnd_toStartOf="@id/border_right_24"
+        app:layout_constraintTag="tag_button_favorite"
+        app:layout_constraintTop_toTopOf="@id/button_play_pause" />
+
+    <TextView
+        android:id="@+id/text_view_track_time"
+        style="@style/Player.Name.TrackTime"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="@id/button_play_pause"
+        app:layout_constraintStart_toStartOf="@id/button_play_pause"
+        app:layout_constraintTag="tag_track_time"
+        app:layout_constraintTop_toBottomOf="@id/button_play_pause"
+        tools:text="0:30" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_tags="tag_button_play_pause,
+        tag_button_add, tag_button_favorite, tag_track_time" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
