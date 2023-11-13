@@ -18,6 +18,9 @@ class PlayerActivity : AppCompatActivity() {
 
         findViewById<ImageButton>(R.id.button_back).setOnClickListener { finish() }
 
+        val trackName = findViewById<TextView>(R.id.text_view_track_name)
+        val artistName = findViewById<TextView>(R.id.text_view_artist_name)
+        val trackTime = findViewById<TextView>(R.id.text_view_track_time)
         val trackDuration = findViewById<TextView>(R.id.text_view_track_info_duration_content)
         val trackAlbum = findViewById<TextView>(R.id.text_view_track_info_album_content)
         val trackYear = findViewById<TextView>(R.id.text_view_track_info_year_content)
@@ -29,7 +32,10 @@ class PlayerActivity : AppCompatActivity() {
         fun createTrackFromJson(json: String): Track = Gson().fromJson(json, Track::class.java)
         track = if (json != null) createTrackFromJson(json) else null
 
-        trackDuration.text = trackTimeFormat(track?.trackTimeMillis!!)
+        trackTime.text = trackTimeFormat(track?.trackTimeMillis!!)
+        trackName.text = track.trackName
+        artistName.text = track.artistName
+        trackDuration.text = trackTimeFormat(track.trackTimeMillis)
         trackAlbum.text = track.collectionName
         trackYear.text = track.releaseDate
         trackGenre.text = track.primaryGenreName
