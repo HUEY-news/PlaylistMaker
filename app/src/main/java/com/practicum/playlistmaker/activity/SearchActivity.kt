@@ -161,7 +161,7 @@ class SearchActivity : AppCompatActivity() {
             }else{ clearTrackList() }
         }
 
-        // TODO: отслеживание состояния фокуса поля ввода:
+        // ОТСЛЕЖИВАНИЕ СОСТОЯНИЯ ФОКУСА ПОЛЯ ВВОДА:
         searchField.setOnFocusChangeListener { view, hasFocus ->
             if (searchHistory.getHistory().isNotEmpty()){
                 searchHistoryAdapter.setTracks(searchHistory.getHistory())
@@ -170,7 +170,7 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        // TODO: отслеживание нажатие на кнопку "done":
+        // ОТСЛЕЖИВАНИЕ НАЖАТИЯ НА КНОПКУ "DONE":
         searchField.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 query()
@@ -187,7 +187,7 @@ class SearchActivity : AppCompatActivity() {
             clearTrackList()
             hideContainer()
 
-            // todo: спрятать виртуальную клавиатуру:
+            // СПРЯТАТЬ ВИРТУАЛЬНУЮ КЛАВИАТУРУ:
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(searchField.windowToken, 0)

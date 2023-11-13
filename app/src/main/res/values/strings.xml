@@ -27,7 +27,7 @@
     <string name="placeholder_button">Обновить</string>
     <string name="search_history_header">Вы искали</string>
     <string name="search_history_button">Очистить историю</string>
-    
+
     <!-- PLAYER TRACK INFO -->
     <string name="track_info_duration_title">Длительность</string>
     <string name="track_info_album_title">Альбом</string>

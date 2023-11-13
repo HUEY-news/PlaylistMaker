@@ -59,7 +59,7 @@
         <item name="primaryIconColor">@color/YP_White</item>
     </style>
 
-    <style name="Base.Theme.PlaylistMaker.Player" parent="Base.Theme.PlaylistMaker">
+    <style name="Base.Theme.PlaylistMaker.PlayerActivity" parent="Base.Theme.PlaylistMaker">
         <item name="buttonPlay">@drawable/ic_button_play_dark_100</item>
         <item name="buttonAdd">@drawable/ic_button_add_dark_51</item>
         <item name="buttonFavorite">@drawable/ic_button_favorite_dark_51</item>
