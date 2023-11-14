@@ -10,4 +10,10 @@ data class Track(
     val releaseDate: String, // ГОД РЕЛИЗА ТРЕКА
     val primaryGenreName: String, // ЖАНР ТРЕКА
     val country: String // СТРАНА ИСПОЛНИТЕЛЯ
-)
+){
+
+    fun getCoverArtwork(): String {
+        return artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
+    }
+
+}
