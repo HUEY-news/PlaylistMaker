@@ -12,6 +12,9 @@ import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.model.Track
 import com.practicum.playlistmaker.pixelConverter
 import com.practicum.playlistmaker.trackTimeFormat
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.Date
 
 const val TRACK_ID = "TRACK_ID"
 
@@ -41,7 +44,6 @@ class PlayerActivity : AppCompatActivity() {
             .with(this)
             .load(track?.getCoverArtwork())
             .placeholder(R.drawable.ic_placeholder_artwork_240)
-            .centerCrop()
             .transform(RoundedCorners(pixelConverter(4f, this)))
             .into(artWork)
 
@@ -50,10 +52,16 @@ class PlayerActivity : AppCompatActivity() {
         artistName.text = track.artistName
         trackDuration.text = trackTimeFormat(track.trackTimeMillis)
         trackAlbum.text = track.collectionName
-        trackYear.text = track.releaseDate
+
+        val dateString: String = track.releaseDate
+        val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val date: Date = dateFormat.parse(dateString)
+        val yearFormat: DateFormat = SimpleDateFormat("yyyy")
+        val year: String = yearFormat.format(date)
+        trackYear.text = year
+
         trackGenre.text = track.primaryGenreName
         trackCountry.text = track.country
-
     }
 }
 
