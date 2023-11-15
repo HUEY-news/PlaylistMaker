@@ -52,14 +52,7 @@ class PlayerActivity : AppCompatActivity() {
         artistName.text = track.artistName
         trackDuration.text = trackTimeFormat(track.trackTimeMillis)
         trackAlbum.text = track.collectionName
-
-        val dateString: String = track.releaseDate
-        val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val date: Date = dateFormat.parse(dateString)
-        val yearFormat: DateFormat = SimpleDateFormat("yyyy")
-        val year: String = yearFormat.format(date)
-        trackYear.text = year
-
+        trackYear.text = track.getReleaseYear()
         trackGenre.text = track.primaryGenreName
         trackCountry.text = track.country
     }

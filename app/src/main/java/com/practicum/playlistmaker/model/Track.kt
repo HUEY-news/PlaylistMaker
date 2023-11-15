@@ -1,5 +1,9 @@
 package com.practicum.playlistmaker.model
 
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.Date
+
 data class Track(
     val trackId: Int, // ИДЕНТИФИКАТОР ТРЕКА
     val trackName: String, // НАЗВАНИЕ КОМПОЗИЦИИ
@@ -16,4 +20,11 @@ data class Track(
         return artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
     }
 
+    fun getReleaseYear(): String {
+        val dateString: String = releaseDate
+        val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val date: Date = dateFormat.parse(dateString)
+        val yearFormat: DateFormat = SimpleDateFormat("yyyy")
+        return yearFormat.format(date)
+    }
 }
