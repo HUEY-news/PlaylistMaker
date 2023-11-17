@@ -16,8 +16,6 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
 
-const val TRACK_ID = "TRACK_ID"
-
 class PlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +53,10 @@ class PlayerActivity : AppCompatActivity() {
         trackYear.text = track.getReleaseYear()
         trackGenre.text = track.primaryGenreName
         trackCountry.text = track.country
+    }
+
+    companion object{
+        const val TRACK_ID = "TRACK_ID"
     }
 }
 
