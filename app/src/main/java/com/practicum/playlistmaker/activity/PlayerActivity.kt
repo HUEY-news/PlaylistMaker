@@ -7,14 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.google.gson.Gson
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.model.Track
 import com.practicum.playlistmaker.pixelConverter
 import com.practicum.playlistmaker.trackTimeFormat
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.Date
 
 class PlayerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,10 +29,7 @@ class PlayerActivity : AppCompatActivity() {
         val trackGenre = findViewById<TextView>(R.id.text_view_track_info_genre_content)
         val trackCountry = findViewById<TextView>(R.id.text_view_track_info_country_content)
 
-        val track: Track?
-        val json = intent.getStringExtra(TRACK_ID)
-        fun createTrackFromJson(json: String): Track = Gson().fromJson(json, Track::class.java)
-        track = if (json != null) createTrackFromJson(json) else null
+        val track: Track? = intent.getParcelableExtra(TRACK_ID, Track::class.java)
 
         Glide
             .with(this)

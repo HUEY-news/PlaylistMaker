@@ -29,8 +29,7 @@ class SearchHistoryAdapter(private var trackList: ArrayList<Track>): RecyclerVie
 
             // ЗАПУСКАЕТ PLAYER ACTIVITY И ПЕРЕДАЁТ ТРЕК В ФОРМАТЕ JSON
             val intent = Intent(holder.itemView.context, PlayerActivity::class.java)
-            fun createJsonFromTrack(track: Track): String = Gson().toJson(track)
-            intent.putExtra(PlayerActivity.TRACK_ID, createJsonFromTrack(trackList[position]))
+            intent.putExtra(PlayerActivity.TRACK_ID, trackList[position])
             holder.itemView.context.startActivity(intent)
         }
     }
