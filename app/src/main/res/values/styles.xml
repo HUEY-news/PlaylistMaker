@@ -56,11 +56,10 @@
         <!-- ICON OPTIONS -->
         <item name="tint">?attr/primaryIconColor</item>
     </style>
-
-    <style name="SettingsActivity.ImageView.BackButton">
-        <!-- ICON OPTIONS -->
-        <item name="tint">?attr/primaryTextColor</item>
-    </style>
+        <style name="SettingsActivity.ImageView.BackButton">
+            <!-- ICON OPTIONS -->
+            <item name="tint">?attr/primaryTextColor</item>
+        </style>
 
     <style name="SettingsActivity.TextView">
         <!-- GENERAL OPTIONS -->
@@ -73,12 +72,11 @@
         <item name="android:textFontWeight">400</item>
         <item name="android:textSize">16sp</item>
     </style>
-
-    <style name="SettingsActivity.TextView.Switch">
-        <!-- ICON OPTIONS -->
-        <item name="thumbTint">?attr/primaryButtonColor</item>
-        <item name="trackTint">?attr/secondaryButtonColor</item>
-    </style>
+        <style name="SettingsActivity.TextView.Switch">
+            <!-- ICON OPTIONS -->
+            <item name="thumbTint">?attr/primaryButtonColor</item>
+            <item name="trackTint">?attr/secondaryButtonColor</item>
+        </style>
 
 <!-- ===================================== SEARCH ACTIVITY ===================================== -->
     <style name="SearchActivity">
@@ -110,15 +108,14 @@
         <!-- ICON OPTIONS -->
         <item name="tint">?attr/primaryIconColor</item>
     </style>
-
-    <style name="SearchActivity.ImageButton.ResetButton">
-        <!-- GENERAL OPTIONS -->
-        <item name="android:background">?attr/secondaryBackgroundColor</item>
-        <item name="android:layout_gravity">end|center</item>
-        <item name="android:layout_marginHorizontal">8dp</item>
-        <!-- ICON OPTIONS -->
-        <item name="tint">?attr/secondaryIconColor</item>
-    </style>
+        <style name="SearchActivity.ImageButton.ResetButton">
+            <!-- GENERAL OPTIONS -->
+            <item name="android:background">?attr/secondaryBackgroundColor</item>
+            <item name="android:layout_gravity">end|center</item>
+            <item name="android:layout_marginHorizontal">8dp</item>
+            <!-- ICON OPTIONS -->
+            <item name="tint">?attr/secondaryIconColor</item>
+        </style>
 
     <style name="SearchActivity.SearchField">
         <!-- GENERAL OPTIONS -->
@@ -163,12 +160,11 @@
         <item name="fontWeight">400</item>
         <item name="android:textSize">12sp</item>
     </style>
-
-    <style name="Track.TextView.TrackName">
-        <!-- TEXT OPTIONS -->
-        <item name="android:textColor">?attr/primaryTextColor</item>
-        <item name="android:textSize">16sp</item>
-    </style>
+        <style name="Track.TextView.TrackName">
+            <!-- TEXT OPTIONS -->
+            <item name="android:textColor">?attr/primaryTextColor</item>
+            <item name="android:textSize">16sp</item>
+        </style>
 
     <style name="Track.ImageButton">
         <!-- GENERAL OPTIONS -->
@@ -232,5 +228,108 @@
         <item name="android:textColor">?attr/secondaryButtonColor</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:letterSpacing">0</item>
+    </style>
+
+<!-- ========================================= PLAYER ========================================== -->
+    <style name="Player"/>
+
+    <style name="Player.Border">
+        <!-- GENERAL OPTIONS -->
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="Player.Artwork">
+        <!-- GENERAL OPTIONS -->
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <!-- ICON OPTIONS -->
+        <item name="android:src">@drawable/ic_placeholder_artwork_240</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="Player.Name">
+        <!-- GENERAL OPTIONS -->
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintHorizontal_bias">0.0</item>
+        <!-- TEXT OPTIONS -->
+        <item name="layout_constrainedWidth">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+    </style>
+        <style name="Player.Name.TrackName">
+            <!-- TEXT OPTIONS -->
+            <item name="android:textSize">22sp</item>
+            <item name="fontFamily">@font/ys_display_medium</item>
+            <item name="fontWeight">400</item>
+            <item name="android:textColor">?attr/secondaryBackgroundColor</item>
+        </style>
+        <style name="Player.Name.ArtistName">
+            <!-- TEXT OPTIONS -->
+            <item name="android:textSize">14sp</item>
+            <item name="fontFamily">@font/ys_display_medium</item>
+            <item name="fontWeight">400</item>
+            <item name="android:textColor">?attr/secondaryBackgroundColor</item>
+        </style>
+        <style name="Player.Name.TrackTime">
+            <!-- GENERAL OPTIONS -->
+            <item name="layout_constraintHorizontal_bias">0.5</item>
+            <!-- TEXT OPTIONS -->
+            <item name="android:textSize">14sp</item>
+            <item name="fontFamily">@font/ys_display_medium</item>
+            <item name="fontWeight">500</item>
+            <item name="android:textColor">?attr/secondaryBackgroundColor</item>
+        </style>
+        <style name="Player.Name.TrackInfoTitle">
+            <!-- TEXT OPTIONS -->
+            <item name="android:textSize">13sp</item>
+            <item name="fontFamily">@font/ys_display_regular</item>
+            <item name="fontWeight">400</item>
+            <item name="android:textColor">@color/YP_Text_Gray</item>
+        </style>
+        <style name="Player.Name.TrackInfoContent">
+            <!-- GENERAL OPTIONS -->
+            <item name="layout_constraintHorizontal_bias">1.0</item>
+            <!-- TEXT OPTIONS -->
+            <item name="android:textSize">13sp</item>
+            <item name="fontFamily">@font/ys_display_regular</item>
+            <item name="fontWeight">400</item>
+            <item name="android:textColor">?attr/secondaryBackgroundColor</item>
+        </style>
+
+    <style name="Player.Button">
+        <!-- GENERAL OPTIONS -->
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+        <style name="Player.Button.PlayPause">
+            <!-- ICON OPTIONS -->
+            <item name="android:src">?attr/buttonPlay</item>
+            <item name="android:background">@null</item>
+            <item name="android:tint">?attr/secondaryBackgroundColor</item>
+        </style>
+        <style name="Player.Button.Add">
+            <!-- ICON OPTIONS -->
+            <item name="android:src">?attr/buttonAdd</item>
+            <item name="android:background">@null</item>
+        </style>
+        <style name="Player.Button.Favorite">
+            <!-- ICON OPTIONS -->
+            <item name="android:src">?attr/buttonFavorite</item>
+            <item name="android:background">@null</item>
+        </style>
+
+<!-- ======================================= NAVIGATION ======================================== -->
+    <style name="style_button_back">
+        <!-- GENERAL OPTIONS -->
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="contentDescription">@string/back_button_description</item>
+        <!-- ICON OPTIONS -->
+        <item name="android:src">@drawable/ic_arrow_back_24</item>
+        <item name="android:background">@null</item>
+        <item name="android:tint">?attr/secondaryBackgroundColor</item>
     </style>
 </resources>

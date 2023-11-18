@@ -12,13 +12,13 @@ const val HISTORY_LIMIT = 10
 class SearchHistory(private val sharedPreferences: SharedPreferences) {
 
     // TODO: поместить список треков в JSON:
-    private fun createJsonFromFTrackList(trackList: ArrayList<Track>): String {
+    private fun createJsonFromTrackList(trackList: ArrayList<Track>): String {
         return Gson().toJson(trackList)
     }
     private fun saveHistory() {
         Log.d("TEST", "fun saveHistory() activated")
         with(sharedPreferences.edit()) {
-            putString(TRACK_LIST_KEY, createJsonFromFTrackList(history))
+            putString(TRACK_LIST_KEY, createJsonFromTrackList(history))
             apply()
         }
     }

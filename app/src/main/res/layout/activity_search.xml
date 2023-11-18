@@ -23,7 +23,7 @@
             style="@style/SearchActivity.ImageButton"
             android:contentDescription="@string/back_button_description"
             android:paddingVertical="16dp"
-            android:src="@drawable/ic_arrow_back" />
+            android:src="@drawable/ic_arrow_back_24" />
 
         <TextView style="@style/SearchActivity.Header" />
     </LinearLayout>

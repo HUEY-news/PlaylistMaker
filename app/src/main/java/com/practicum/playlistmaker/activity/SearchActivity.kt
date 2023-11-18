@@ -37,7 +37,6 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
 
         // TODO: реализовать activity_search через ViewBinding:
-        val backButton = findViewById<ImageButton>(R.id.backButton)
         val searchField = findViewById<EditText>(R.id.searchField)
         val resetButton = findViewById<ImageButton>(R.id.resetButton)
         val searchTrackList = findViewById<RecyclerView>(R.id.searchTrackList)
@@ -50,7 +49,7 @@ class SearchActivity : AppCompatActivity() {
         val searchHistoryTrackList = findViewById<RecyclerView>(R.id.searchHistoryTrackList)
         val searchHistoryButton = findViewById<Button>(R.id.searchHistoryButton)
 
-        backButton.setOnClickListener { finish() }
+        findViewById<ImageButton>(R.id.backButton).setOnClickListener { finish() }
 
         val trackListAdapter = TrackListAdapter(arrayListOf())
         searchTrackList.adapter = trackListAdapter
@@ -161,7 +160,7 @@ class SearchActivity : AppCompatActivity() {
             }else{ clearTrackList() }
         }
 
-        // TODO: отслеживание состояния фокуса поля ввода:
+        // ОТСЛЕЖИВАНИЕ СОСТОЯНИЯ ФОКУСА ПОЛЯ ВВОДА:
         searchField.setOnFocusChangeListener { view, hasFocus ->
             if (searchHistory.getHistory().isNotEmpty()){
                 searchHistoryAdapter.setTracks(searchHistory.getHistory())
@@ -170,7 +169,7 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        // TODO: отслеживание нажатие на кнопку "done":
+        // ОТСЛЕЖИВАНИЕ НАЖАТИЯ НА КНОПКУ "DONE":
         searchField.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 query()
@@ -187,7 +186,7 @@ class SearchActivity : AppCompatActivity() {
             clearTrackList()
             hideContainer()
 
-            // todo: спрятать виртуальную клавиатуру:
+            // СПРЯТАТЬ ВИРТУАЛЬНУЮ КЛАВИАТУРУ:
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(searchField.windowToken, 0)

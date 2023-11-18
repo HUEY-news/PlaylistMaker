@@ -19,7 +19,7 @@ class TrackListViewHolder(parent: ViewGroup) :
     private val trackName: TextView = itemView.findViewById(R.id.trackName)
     private val artistName: TextView = itemView.findViewById(R.id.artistName)
     private val trackTime: TextView = itemView.findViewById(R.id.trackTime)
-    private val artWork: ImageView = itemView.findViewById(R.id.artwork)
+    private val artWork: ImageView = itemView.findViewById(R.id.image_view_artwork_512)
 
     fun bind(track: Track)
     {
@@ -30,7 +30,7 @@ class TrackListViewHolder(parent: ViewGroup) :
         Glide
             .with(itemView.context)
             .load(track.artworkUrl100)
-            .placeholder(R.drawable.ic_placeholder)
+            .placeholder(R.drawable.ic_placeholder_45)
             .centerCrop()
             .transform(RoundedCorners(pixelConverter(4f, itemView.context)))
             .into(artWork)
