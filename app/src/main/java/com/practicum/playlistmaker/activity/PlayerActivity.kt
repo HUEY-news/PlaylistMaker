@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
@@ -15,7 +14,6 @@ import com.practicum.playlistmaker.pixelConverter
 import com.practicum.playlistmaker.trackTimeFormat
 
 class PlayerActivity : AppCompatActivity() {
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
@@ -32,7 +30,11 @@ class PlayerActivity : AppCompatActivity() {
         val trackGenre = findViewById<TextView>(R.id.text_view_track_info_genre_content)
         val trackCountry = findViewById<TextView>(R.id.text_view_track_info_country_content)
 
-        val track: Track? = intent.getParcelableExtra(TRACK_ID, Track::class.java)
+        val track: Track? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra(TRACK_ID, Track::class.java)
+        } else { // IF VERSION.SDK_INT < TIRAMISU
+            intent.getParcelableExtra(TRACK_ID)
+        }
 
         Glide
             .with(this)

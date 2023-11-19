@@ -3,7 +3,6 @@ package com.practicum.playlistmaker.trackList
 import android.content.Intent
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
 import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.activity.PlayerActivity
 import com.practicum.playlistmaker.model.Track
