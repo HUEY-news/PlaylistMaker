@@ -114,12 +114,10 @@ class SearchActivity : AppCompatActivity() {
             hidePlaceholder()
         }
 
-        val appleApiProvider = AppleApiProvider()
-
         fun query()
         {
             if (searchField.text.isNotEmpty()) {
-                appleApiProvider.api.search(searchField.text.toString())
+                AppleApiProvider().api.search(searchField.text.toString())
                     .enqueue(object : Callback<SearchResponse>
                     {
                         override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>)
