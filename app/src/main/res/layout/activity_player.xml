@@ -2,6 +2,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:theme="@style/Base.Theme.PlaylistMaker.PlayerActivity"
+    android:background="?attr/primaryBackgroundColor"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
