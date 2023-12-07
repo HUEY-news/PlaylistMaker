@@ -85,15 +85,6 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        // ОТСЛЕЖИВАНИЕ НАЖАТИЯ НА КНОПКУ "DONE":
-        searchField.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                searchRequest()
-                true
-            }
-            false
-        }
-
         placeholderButton.setOnClickListener { searchRequest() }
 
         resetButton.setOnClickListener {
