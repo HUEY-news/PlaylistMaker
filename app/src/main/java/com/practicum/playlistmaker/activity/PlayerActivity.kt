@@ -1,8 +1,10 @@
 package com.practicum.playlistmaker.activity
 
+import android.media.MediaPlayer
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -14,11 +16,26 @@ import com.practicum.playlistmaker.pixelConverter
 import com.practicum.playlistmaker.trackTimeFormat
 
 class PlayerActivity : AppCompatActivity() {
+
+    private lateinit var buttonPlayPause: Button
+    private var mediaPlayer = MediaPlayer()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
 
         findViewById<ImageButton>(R.id.button_back).setOnClickListener { finish() }
+
+        buttonPlayPause = findViewById(R.id.button_play_pause)
+        mediaPlayer.setDataSource("")
+        mediaPlayer.prepare()
+        mediaPlayer.prepareAsync()
+        mediaPlayer.setOnPreparedListener {  }
+        mediaPlayer.start()
+        mediaPlayer.pause()
+        mediaPlayer.stop()
+        mediaPlayer.setOnCompletionListener {  }
+        mediaPlayer.release()
 
         val artWork = findViewById<ImageView>(R.id.image_view_artwork_512)
         val trackName = findViewById<TextView>(R.id.text_view_track_name)
