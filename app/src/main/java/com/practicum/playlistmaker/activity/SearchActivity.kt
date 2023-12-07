@@ -8,13 +8,13 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -34,19 +34,17 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var searchField: EditText
     private lateinit var resetButton: ImageButton
-    private lateinit var searchTrackList: RecyclerView
-
+    private lateinit var trackRecycler: RecyclerView
     private lateinit var placeholderIcon: ImageView
     private lateinit var placeholderText: TextView
     private lateinit var placeholderButton: Button
-
     private lateinit var searchHistoryContainer: LinearLayout
     private lateinit var searchHistoryTrackList: RecyclerView
     private lateinit var searchHistoryButton: Button
-
     private lateinit var trackListAdapter: TrackListAdapter
     private lateinit var searchHistoryAdapter: SearchHistoryAdapter
     private lateinit var searchHistory: SearchHistory
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -54,20 +52,19 @@ class SearchActivity : AppCompatActivity() {
 
         searchField = findViewById(R.id.searchField)
         resetButton = findViewById(R.id.resetButton)
-        searchTrackList = findViewById(R.id.searchTrackList)
-
+        trackRecycler = findViewById(R.id.searchTrackList)
         placeholderIcon = findViewById(R.id.placeholderIcon)
         placeholderText = findViewById(R.id.placeholderText)
         placeholderButton = findViewById(R.id.placeholderButton)
-
         searchHistoryContainer = findViewById(R.id.searchHistoryContainer)
         searchHistoryTrackList = findViewById(R.id.searchHistoryTrackList)
         searchHistoryButton = findViewById(R.id.searchHistoryButton)
+        progressBar = findViewById(R.id.progressBar)
 
         findViewById<ImageButton>(R.id.backButton).setOnClickListener { finish() }
 
         trackListAdapter = TrackListAdapter(arrayListOf())
-        searchTrackList.adapter = trackListAdapter
+        trackRecycler.adapter = trackListAdapter
         searchHistoryAdapter = SearchHistoryAdapter(arrayListOf())
         searchHistoryTrackList.adapter = searchHistoryAdapter
 
@@ -106,8 +103,8 @@ class SearchActivity : AppCompatActivity() {
             override fun beforeTextChanged(string: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(string: Editable?) {}
             override fun onTextChanged(string: CharSequence?, start: Int, before: Int, count: Int) {
-                resetButton.visibility = resetButtonVisibility(string)
 
+                resetButton.visibility = resetButtonVisibility(string)
                 Debounce(this@SearchActivity).searchDebounce()
 
                 if (searchHistory.getHistory().isNotEmpty()){
@@ -123,18 +120,16 @@ class SearchActivity : AppCompatActivity() {
     fun searchRequest()
     {
         if (searchField.text.isNotEmpty()) {
-            AppleApiProvider().api.search(searchField.text.toString())
-                .enqueue(object : Callback<SearchResponse> {
+            progressBar.visibility = View.VISIBLE
+            AppleApiProvider().api.search(searchField.text.toString()).enqueue(object : Callback<SearchResponse> {
+
                     override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
+                        progressBar.visibility = View.GONE
                         if (response.code() == 200) {
-                            Log.d("RESPONSE_CODE", response.code().toString())
-                            Log.d("RESPONSE_BODY", response.body()?.results.toString())
-
                             hideContainer()
-
                             if (response.body()?.results?.isNotEmpty() == true) {
                                 trackListAdapter.setTracks(response.body()?.results!!)
-                                searchTrackList.visibility = View.VISIBLE
+                                trackRecycler.visibility = View.VISIBLE
                             } else {
                                 hideContainer()
                                 showPlaceholder(resources.getString(PLACEHOLDER_EMPTY_ERROR))
@@ -147,12 +142,12 @@ class SearchActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                        Log.e("RESPONSE_ERROR", t.message.toString())
+                        progressBar.visibility = View.GONE
                         hideContainer()
                         showPlaceholder(resources.getString(PLACEHOLDER_INTERNET_ERROR))
                     }
                 }
-                )
+            )
         } else { clearTrackList() }
     }
 
@@ -189,7 +184,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun hideRecycler(){
-        searchTrackList.visibility = View.GONE
+        trackRecycler.visibility = View.GONE
     }
 
     fun hideContainer()
