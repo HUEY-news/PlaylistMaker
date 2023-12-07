@@ -31,7 +31,7 @@ class TrackListAdapter(private var trackList: ArrayList<Track>) : RecyclerView.A
                 val searchHistory = SearchHistory(App.sharedPreferences)
                 searchHistory.addTrackToHistory(trackList[position])
 
-                // ЗАПУСКАЕТ PLAYER ACTIVITY И ПЕРЕДАЁТ ТРЕК В ФОРМАТЕ JSON
+                // ЗАПУСКАЕТ PLAYER ACTIVITY И ПЕРЕДАЁТ ТРЕК
                 val intent = Intent(holder.itemView.context, PlayerActivity::class.java)
                 intent.putExtra(PlayerActivity.TRACK_ID, trackList[position])
                 holder.itemView.context.startActivity(intent)

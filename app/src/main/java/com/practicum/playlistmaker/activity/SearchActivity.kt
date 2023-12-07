@@ -19,6 +19,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.App
+import com.practicum.playlistmaker.Debounce
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.trackList.TrackListAdapter
 import com.practicum.playlistmaker.model.SearchResponse
@@ -30,133 +31,50 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class SearchActivity : AppCompatActivity() {
-    private var searchFieldContent: String? = null
+
+    private lateinit var searchField: EditText
+    private lateinit var resetButton: ImageButton
+    private lateinit var searchTrackList: RecyclerView
+
+    private lateinit var placeholderIcon: ImageView
+    private lateinit var placeholderText: TextView
+    private lateinit var placeholderButton: Button
+
+    private lateinit var searchHistoryContainer: LinearLayout
+    private lateinit var searchHistoryTrackList: RecyclerView
+    private lateinit var searchHistoryButton: Button
+
+    private lateinit var trackListAdapter: TrackListAdapter
+    private lateinit var searchHistoryAdapter: SearchHistoryAdapter
+    private lateinit var searchHistory: SearchHistory
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         setContentView(R.layout.activity_search)
 
-        // TODO: реализовать activity_search через ViewBinding:
-        val searchField = findViewById<EditText>(R.id.searchField)
-        val resetButton = findViewById<ImageButton>(R.id.resetButton)
-        val searchTrackList = findViewById<RecyclerView>(R.id.searchTrackList)
-        // TODO: реализовать layout_placeholder через ViewBinding:
-        val placeholderIcon = findViewById<ImageView>(R.id.placeholderIcon)
-        val placeholderText = findViewById<TextView>(R.id.placeholderText)
-        val placeholderButton = findViewById<Button>(R.id.placeholderButton)
-        // TODO: реализовать layout_search_history через ViewBinding:
-        val searchHistoryContainer = findViewById<LinearLayout>(R.id.searchHistoryContainer)
-        val searchHistoryTrackList = findViewById<RecyclerView>(R.id.searchHistoryTrackList)
-        val searchHistoryButton = findViewById<Button>(R.id.searchHistoryButton)
+        searchField = findViewById(R.id.searchField)
+        resetButton = findViewById(R.id.resetButton)
+        searchTrackList = findViewById(R.id.searchTrackList)
+
+        placeholderIcon = findViewById(R.id.placeholderIcon)
+        placeholderText = findViewById(R.id.placeholderText)
+        placeholderButton = findViewById(R.id.placeholderButton)
+
+        searchHistoryContainer = findViewById(R.id.searchHistoryContainer)
+        searchHistoryTrackList = findViewById(R.id.searchHistoryTrackList)
+        searchHistoryButton = findViewById(R.id.searchHistoryButton)
 
         findViewById<ImageButton>(R.id.backButton).setOnClickListener { finish() }
 
-        val trackListAdapter = TrackListAdapter(arrayListOf())
+        trackListAdapter = TrackListAdapter(arrayListOf())
         searchTrackList.adapter = trackListAdapter
-        val searchHistoryAdapter = SearchHistoryAdapter(arrayListOf())
+        searchHistoryAdapter = SearchHistoryAdapter(arrayListOf())
         searchHistoryTrackList.adapter = searchHistoryAdapter
-        val searchHistory = SearchHistory(App.sharedPreferences)
+
+        searchHistory = SearchHistory(App.sharedPreferences)
         searchHistoryButton.setOnClickListener {
             searchHistoryContainer.visibility = View.GONE
             searchHistory.clearHistory() }
-
-        // TODO: разобраться с лишними методами:
-        fun clearTrackList() {
-            trackListAdapter.setTracks(arrayListOf())
-        }
-
-        // TODO: разобраться с лишними методами:
-        fun showRecycler(){
-            searchTrackList.visibility = View.VISIBLE
-        }
-
-        // TODO: разобраться с лишними методами:
-        fun hideRecycler(){
-            searchTrackList.visibility = View.GONE
-        }
-
-        fun showPlaceholder(text: String) {
-            clearTrackList()
-            hideRecycler()
-
-            fun getDrawable(attr: Int): Drawable? {
-                val attrs = intArrayOf(attr)
-                val typedArray = theme.obtainStyledAttributes(attrs)
-                val placeholderResourceId = typedArray.getResourceId(0, 0)
-                typedArray.recycle()
-
-                return ContextCompat.getDrawable(this, placeholderResourceId)
-            }
-
-            when (text) {
-                resources.getString(PLACEHOLDER_EMPTY_ERROR) -> {
-                    placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderEmptyError))
-                    placeholderText.setText(PLACEHOLDER_EMPTY_ERROR)
-                }
-                resources.getString(PLACEHOLDER_INTERNET_ERROR) -> {
-                    placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderInternetError))
-                    placeholderText.setText(PLACEHOLDER_INTERNET_ERROR)
-                    placeholderButton.visibility = View.VISIBLE
-                }
-            }
-        }
-
-        fun hidePlaceholder(){
-            placeholderIcon.setImageDrawable(null)
-            placeholderText.text = null
-            placeholderButton.visibility = View.GONE
-        }
-
-        // TODO: разобраться с лишними методами:
-        fun hideContainer()
-        {
-            hideRecycler()
-            hidePlaceholder()
-        }
-
-        fun query()
-        {
-            if (searchField.text.isNotEmpty()) {
-                AppleApiProvider().api.search(searchField.text.toString())
-                    .enqueue(object : Callback<SearchResponse>
-                    {
-                        override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>)
-                        {
-                            if (response.code() == 200)
-                            {
-                                    Log.d("RESPONSE_CODE", response.code().toString())
-                                    Log.d("RESPONSE_BODY", response.body()?.results.toString())
-
-                                    hideContainer()
-
-                                    if (response.body()?.results?.isNotEmpty() == true)
-                                    {
-                                        trackListAdapter.setTracks(response.body()?.results!!)
-                                        showRecycler()
-                                    }
-                                    else
-                                    {
-                                        hideContainer()
-                                        showPlaceholder(resources.getString(PLACEHOLDER_EMPTY_ERROR))
-                                    }
-                            }
-                            else
-                            {
-                                Log.d("RESPONSE_CODE", response.code().toString())
-                                hideContainer()
-                                showPlaceholder(resources.getString(PLACEHOLDER_INTERNET_ERROR))
-                            }
-                        }
-
-                        override fun onFailure(call: Call<SearchResponse>, t: Throwable)
-                        {
-                            Log.e("RESPONSE_ERROR", t.message.toString())
-                            hideContainer()
-                            showPlaceholder(resources.getString(PLACEHOLDER_INTERNET_ERROR))
-                        }
-                    })
-            }else{ clearTrackList() }
-        }
 
         // ОТСЛЕЖИВАНИЕ СОСТОЯНИЯ ФОКУСА ПОЛЯ ВВОДА:
         searchField.setOnFocusChangeListener { view, hasFocus ->
@@ -170,17 +88,16 @@ class SearchActivity : AppCompatActivity() {
         // ОТСЛЕЖИВАНИЕ НАЖАТИЯ НА КНОПКУ "DONE":
         searchField.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                query()
+                searchRequest()
                 true
             }
             false
         }
 
-        placeholderButton.setOnClickListener { query() }
+        placeholderButton.setOnClickListener { searchRequest() }
 
         resetButton.setOnClickListener {
             searchField.setText("")
-            // TODO: разобраться с лишними методами:
             clearTrackList()
             hideContainer()
 
@@ -190,12 +107,17 @@ class SearchActivity : AppCompatActivity() {
             inputMethodManager?.hideSoftInputFromWindow(searchField.windowToken, 0)
         }
 
+        fun resetButtonVisibility(string: CharSequence?): Int {
+            return if (string.isNullOrEmpty()) View.GONE else View.VISIBLE
+        }
+
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(string: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(string: Editable?) {}
             override fun onTextChanged(string: CharSequence?, start: Int, before: Int, count: Int) {
                 resetButton.visibility = resetButtonVisibility(string)
-                if (string != null) searchFieldContent = string.toString()
+
+                Debounce(this@SearchActivity).searchDebounce()
 
                 if (searchHistory.getHistory().isNotEmpty()){
                     searchHistoryAdapter.setTracks(searchHistory.getHistory())
@@ -207,22 +129,89 @@ class SearchActivity : AppCompatActivity() {
         searchField.addTextChangedListener(textWatcher)
     }
 
-    fun resetButtonVisibility(string: CharSequence?): Int {
-        return if (string.isNullOrEmpty()) View.GONE else View.VISIBLE
+    fun searchRequest()
+    {
+        if (searchField.text.isNotEmpty()) {
+            AppleApiProvider().api.search(searchField.text.toString())
+                .enqueue(object : Callback<SearchResponse> {
+                    override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
+                        if (response.code() == 200) {
+                            Log.d("RESPONSE_CODE", response.code().toString())
+                            Log.d("RESPONSE_BODY", response.body()?.results.toString())
+
+                            hideContainer()
+
+                            if (response.body()?.results?.isNotEmpty() == true) {
+                                trackListAdapter.setTracks(response.body()?.results!!)
+                                searchTrackList.visibility = View.VISIBLE
+                            } else {
+                                hideContainer()
+                                showPlaceholder(resources.getString(PLACEHOLDER_EMPTY_ERROR))
+                            }
+                        } else {
+                            Log.d("RESPONSE_CODE", response.code().toString())
+                            hideContainer()
+                            showPlaceholder(resources.getString(PLACEHOLDER_INTERNET_ERROR))
+                        }
+                    }
+
+                    override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
+                        Log.e("RESPONSE_ERROR", t.message.toString())
+                        hideContainer()
+                        showPlaceholder(resources.getString(PLACEHOLDER_INTERNET_ERROR))
+                    }
+                }
+                )
+        } else { clearTrackList() }
     }
 
-    override fun onRestoreInstanceState(state: Bundle) {
-        super.onRestoreInstanceState(state)
-        searchFieldContent = state.getString(SEARCH_FIELD_CONTENT, "")
+    fun showPlaceholder(text: String) {
+        clearTrackList()
+        hideRecycler()
+
+        fun getDrawable(attr: Int): Drawable? {
+            val attrs = intArrayOf(attr)
+            val typedArray = theme.obtainStyledAttributes(attrs)
+            val placeholderResourceId = typedArray.getResourceId(0, 0)
+            typedArray.recycle()
+
+            return ContextCompat.getDrawable(this, placeholderResourceId)
+        }
+
+        when (text) {
+            resources.getString(PLACEHOLDER_EMPTY_ERROR) -> {
+                placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderEmptyError))
+                placeholderText.setText(PLACEHOLDER_EMPTY_ERROR)
+            }
+            resources.getString(PLACEHOLDER_INTERNET_ERROR) -> {
+                placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderInternetError))
+                placeholderText.setText(PLACEHOLDER_INTERNET_ERROR)
+                placeholderButton.visibility = View.VISIBLE
+            }
+        }
     }
 
-    override fun onSaveInstanceState(state: Bundle) {
-        super.onSaveInstanceState(state)
-        state.putString(SEARCH_FIELD_CONTENT, searchFieldContent)
+    private fun hidePlaceholder(){
+        placeholderIcon.setImageDrawable(null)
+        placeholderText.text = null
+        placeholderButton.visibility = View.GONE
+    }
+
+    private fun hideRecycler(){
+        searchTrackList.visibility = View.GONE
+    }
+
+    fun hideContainer()
+    {
+        hideRecycler()
+        hidePlaceholder()
+    }
+
+    private fun clearTrackList() {
+        trackListAdapter.setTracks(arrayListOf())
     }
 
     companion object {
-        const val SEARCH_FIELD_CONTENT = "SEARCH_FIELD_CONTENT"
         const val PLACEHOLDER_EMPTY_ERROR = R.string.placeholder_empty_error
         const val PLACEHOLDER_INTERNET_ERROR = R.string.placeholder_internet_error
     }

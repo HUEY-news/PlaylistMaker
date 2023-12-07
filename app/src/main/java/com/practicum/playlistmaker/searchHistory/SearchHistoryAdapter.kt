@@ -27,7 +27,7 @@ class SearchHistoryAdapter(private var trackList: ArrayList<Track>): RecyclerVie
         holder.bind(trackList[position])
         holder.itemView.setOnClickListener {
             if (Debounce().clickDebounce()) {
-                // ЗАПУСКАЕТ PLAYER ACTIVITY И ПЕРЕДАЁТ ТРЕК В ФОРМАТЕ JSON
+                // ЗАПУСКАЕТ PLAYER ACTIVITY И ПЕРЕДАЁТ ТРЕК
                 val intent = Intent(holder.itemView.context, PlayerActivity::class.java)
                 intent.putExtra(PlayerActivity.TRACK_ID, trackList[position])
                 holder.itemView.context.startActivity(intent)
