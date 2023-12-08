@@ -4,6 +4,7 @@ import android.media.MediaPlayer
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,7 +20,7 @@ class PlayerActivity : AppCompatActivity() {
     private lateinit var buttonPlayPause: ImageButton
     private var mediaPlayer = MediaPlayer()
     private var playerState = STATE_DEFAULT
-    var url = "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/ac/c7/d1/acc7d13f-6634-495f-caf6-491eccb505e8/mzaf_4002676889906514534.plus.aac.p.m4a"
+    private var url: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +43,9 @@ class PlayerActivity : AppCompatActivity() {
         } else { // IF VERSION.SDK_INT < TIRAMISU
             intent.getParcelableExtra(TRACK_ID)
         }
+
+        url = track?.previewUrl
+        Log.d("PREVIEW_URL: ", "$url")
 
         Glide
             .with(this)
