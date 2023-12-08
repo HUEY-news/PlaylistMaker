@@ -1,5 +1,6 @@
 package com.practicum.playlistmaker.activity
 
+import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
@@ -86,6 +88,7 @@ class PlayerActivity : AppCompatActivity() {
             playerState = STATE_PREPARED
         }
         mediaPlayer.setOnCompletionListener {
+            buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPlay))
             playerState = STATE_PREPARED
         }
     }
@@ -99,12 +102,23 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun startPlayer(){
         mediaPlayer.start()
+        buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPause))
         playerState = STATE_PLAYING
     }
 
     private fun pausePlayer(){
         mediaPlayer.pause()
+        buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPlay))
         playerState = STATE_PAUSED
+    }
+
+    private fun getAttribute(attr: Int): Drawable? {
+        val attrs = intArrayOf(attr)
+        val typedArray = theme.obtainStyledAttributes(attrs)
+        val drawableResourceId = typedArray.getResourceId(0, 0)
+        typedArray.recycle()
+
+        return ContextCompat.getDrawable(this, drawableResourceId)
     }
 
     companion object{
