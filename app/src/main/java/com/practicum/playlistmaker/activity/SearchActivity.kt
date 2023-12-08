@@ -103,7 +103,7 @@ class SearchActivity : AppCompatActivity() {
             override fun beforeTextChanged(string: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(string: Editable?) {}
             override fun onTextChanged(string: CharSequence?, start: Int, before: Int, count: Int) {
-
+                if (string.isNullOrEmpty()) hidePlaceholder()
                 resetButton.visibility = resetButtonVisibility(string)
                 Debounce(this@SearchActivity).searchDebounce()
 
@@ -120,6 +120,7 @@ class SearchActivity : AppCompatActivity() {
     fun searchRequest()
     {
         if (searchField.text.isNotEmpty()) {
+            hidePlaceholder()
             progressBar.visibility = View.VISIBLE
             AppleApiProvider().api.search(searchField.text.toString()).enqueue(object : Callback<SearchResponse> {
 
