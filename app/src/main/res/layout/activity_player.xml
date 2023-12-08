@@ -143,31 +143,41 @@
         style="@style/Player.Name.TrackInfoContent"
         tools:text="5:35"
         app:layout_constraintBaseline_toBaselineOf="@id/text_view_track_info_duration_title"
-        app:layout_constraintEnd_toEndOf="@id/border_right_16" />
+        app:layout_constraintEnd_toEndOf="@id/border_right_16"
+        app:layout_constraintStart_toEndOf="@+id/text_view_track_info_duration_title"
+        android:layout_marginStart="16dp" />
     <TextView
         android:id="@+id/text_view_track_info_album_content"
         style="@style/Player.Name.TrackInfoContent"
         tools:text="Yesterday (Remastered 2009)"
         app:layout_constraintBaseline_toBaselineOf="@id/text_view_track_info_album_title"
-        app:layout_constraintEnd_toEndOf="@id/border_right_16" />
+        app:layout_constraintEnd_toEndOf="@id/border_right_16"
+        app:layout_constraintStart_toEndOf="@+id/text_view_track_info_duration_title"
+        android:layout_marginStart="16dp"  />
     <TextView
         android:id="@+id/text_view_track_info_year_content"
         style="@style/Player.Name.TrackInfoContent"
         tools:text="1965"
         app:layout_constraintBaseline_toBaselineOf="@id/text_view_track_info_year_title"
-        app:layout_constraintEnd_toEndOf="@id/border_right_16" />
+        app:layout_constraintEnd_toEndOf="@id/border_right_16"
+        app:layout_constraintStart_toEndOf="@+id/text_view_track_info_duration_title"
+        android:layout_marginStart="16dp" />
     <TextView
         android:id="@+id/text_view_track_info_genre_content"
         style="@style/Player.Name.TrackInfoContent"
         tools:text="Rock"
         app:layout_constraintBaseline_toBaselineOf="@id/text_view_track_info_genre_title"
-        app:layout_constraintEnd_toEndOf="@id/border_right_16" />
+        app:layout_constraintEnd_toEndOf="@id/border_right_16"
+        app:layout_constraintStart_toEndOf="@+id/text_view_track_info_duration_title"
+        android:layout_marginStart="16dp" />
     <TextView
         android:id="@+id/text_view_track_info_country_content"
         style="@style/Player.Name.TrackInfoContent"
         tools:text="Великобритания"
         app:layout_constraintBaseline_toBaselineOf="@id/text_view_track_info_country_title"
-        app:layout_constraintEnd_toEndOf="@id/border_right_16" />
+        app:layout_constraintEnd_toEndOf="@id/border_right_16"
+        app:layout_constraintStart_toEndOf="@+id/text_view_track_info_duration_title"
+        android:layout_marginStart="16dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
