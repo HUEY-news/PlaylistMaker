@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -87,7 +86,6 @@ class SearchActivity : AppCompatActivity() {
         resetButton.setOnClickListener {
             searchField.setText("")
             clearTrackList()
-            hideContainer()
 
             // СПРЯТАТЬ ВИРТУАЛЬНУЮ КЛАВИАТУРУ:
             val inputMethodManager =
@@ -127,24 +125,19 @@ class SearchActivity : AppCompatActivity() {
                     override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
                         progressBar.visibility = View.GONE
                         if (response.code() == 200) {
-                            hideContainer()
                             if (response.body()?.results?.isNotEmpty() == true) {
                                 trackListAdapter.setTracks(response.body()?.results!!)
                                 trackRecycler.visibility = View.VISIBLE
                             } else {
-                                hideContainer()
                                 showPlaceholder(resources.getString(PLACEHOLDER_EMPTY_ERROR))
                             }
                         } else {
-                            Log.d("RESPONSE_CODE", response.code().toString())
-                            hideContainer()
                             showPlaceholder(resources.getString(PLACEHOLDER_INTERNET_ERROR))
                         }
                     }
 
                     override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
                         progressBar.visibility = View.GONE
-                        hideContainer()
                         showPlaceholder(resources.getString(PLACEHOLDER_INTERNET_ERROR))
                     }
                 }
@@ -186,12 +179,6 @@ class SearchActivity : AppCompatActivity() {
 
     private fun hideRecycler(){
         trackRecycler.visibility = View.GONE
-    }
-
-    fun hideContainer()
-    {
-        hideRecycler()
-        hidePlaceholder()
     }
 
     private fun clearTrackList() {
