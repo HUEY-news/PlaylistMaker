@@ -82,6 +82,8 @@ class PlayerActivity : AppCompatActivity() {
         trackPlayer.stopUpdater()
     }
 
+    // TODO: А зачем вот это делать? Ты же и так айди передаёшь параметром, можно же просто
+    //  ContextCompat.getDrawable(this, attr)
     fun getAttribute(attr: Int): Drawable? {
         val attrs = intArrayOf(attr)
         val typedArray = theme.obtainStyledAttributes(attrs)

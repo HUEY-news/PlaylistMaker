@@ -117,17 +117,20 @@ class SearchActivity : AppCompatActivity() {
         searchField.addTextChangedListener(textWatcher)
     }
 
+    // TODO: Текст для поиска лучше передавать параметром в эту функцию
     fun searchRequest()
     {
         if (searchField.text.isNotEmpty()) {
             hidePlaceholder()
             progressBar.visibility = View.VISIBLE
+            // TODO: А зачем на каждый запрос создавать новый объект AppleApiProvider? Можно сделать синглтон
             AppleApiProvider().api.search(searchField.text.toString()).enqueue(object : Callback<SearchResponse> {
 
                     override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
                         progressBar.visibility = View.GONE
                         if (response.code() == 200) {
                             if (response.body()?.results?.isNotEmpty() == true) {
+                                // TODO: response.body()?.results нужно в отдельную переменную выносить, чтобы не использовать оператор !!
                                 trackListAdapter.setTracks(response.body()?.results!!)
                                 trackRecycler.visibility = View.VISIBLE
                             } else {
@@ -151,6 +154,7 @@ class SearchActivity : AppCompatActivity() {
         clearTrackList()
         hideRecycler()
 
+        // TODO: Зачем нужно объявлять функцию внутри другой функции?
         fun getDrawable(attr: Int): Drawable? {
             val attrs = intArrayOf(attr)
             val typedArray = theme.obtainStyledAttributes(attrs)

@@ -6,6 +6,11 @@ import android.os.Looper
 import android.util.Log
 import com.practicum.playlistmaker.activity.SearchActivity
 
+// TODO: В класс вынесена логика с дебаунсом на клики. Но мне не нравится, что сюда передан контекст,
+//  который к тому же ещё кастится к SearchActivity. Во-первых это утёчка памяти,
+//  во-вторых класс становится не таким универсальным, т.к. теперь он привязан к поиску.
+//  Я бы всё, что касается дебаунса оставил в этом классе, а всё,
+//  что касается поиска - вынес в SearchActivity
 class Debouncer(context: Context?) {
 
     constructor() : this (context = null)
