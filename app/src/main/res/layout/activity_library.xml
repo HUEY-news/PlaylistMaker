@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
+    android:theme="@style/Base.Theme.PlaylistMaker"
+    android:background="?attr/primaryBackgroundColor"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.LibraryActivity">
+    tools:context=".activity.LibraryActivity" >
 
     <TextView
         android:id="@+id/header"

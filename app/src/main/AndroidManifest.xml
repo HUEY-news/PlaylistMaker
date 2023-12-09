@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <!-- ПРИЛОЖЕНИЮ ТРЕБУЕТСЯ РАЗРЕШЕНИЕ НА ИСПОЛЬЗОВАНИЕ ИНТЕРНЕТА -->
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -14,31 +17,35 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.PlaylistMaker"
         tools:targetApi="33">
+
         <activity
             android:name=".activity.PlayerActivity"
             android:exported="false"
             android:theme="@style/Base.Theme.PlaylistMaker.PlayerActivity"/>
+
         <activity
             android:name=".activity.SearchActivity"
             android:exported="false"
             android:theme="@style/Base.Theme.PlaylistMaker.SearchActivity" />
+
         <activity
             android:name=".activity.LibraryActivity"
             android:exported="false" />
+
         <activity
             android:name=".activity.SettingsActivity"
             android:exported="false"
             android:theme="@style/Base.Theme.PlaylistMaker.SettingsActivity" />
+
         <activity
             android:name=".activity.MainActivity"
             android:exported="true"
             android:theme="@style/Base.Theme.PlaylistMaker.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+    </application>
 </manifest>

@@ -2,6 +2,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:theme="@style/Base.Theme.PlaylistMaker.PlayerActivity"
+    android:background="?attr/primaryBackgroundColor"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -73,8 +74,8 @@
         style="@style/Player.Button.PlayPause"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/text_view_track_time"
-        android:layout_marginBottom="4dp"/>
+        app:layout_constraintBottom_toTopOf="@id/text_view_track_timer"
+        android:layout_marginBottom="4dp" />
     <ImageButton
         android:id="@+id/button_add"
         style="@style/Player.Button.Add"
@@ -88,13 +89,13 @@
         app:layout_constraintEnd_toStartOf="@id/border_right_24"
         app:layout_constraintTop_toTopOf="@id/button_play_pause" />
     <TextView
-        android:id="@+id/text_view_track_time"
+        android:id="@+id/text_view_track_timer"
         style="@style/Player.Name.TrackTime"
         app:layout_constraintEnd_toEndOf="@id/button_play_pause"
         app:layout_constraintStart_toStartOf="@id/button_play_pause"
         app:layout_constraintBottom_toTopOf="@id/text_view_track_info_duration_title"
         android:layout_marginBottom="24dp"
-        tools:text="0:30" />
+        android:text="00:00" />
 
 
     <!-- TRACK INFO TITLE -->
@@ -142,31 +143,40 @@
         style="@style/Player.Name.TrackInfoContent"
         tools:text="5:35"
         app:layout_constraintBaseline_toBaselineOf="@id/text_view_track_info_duration_title"
-        app:layout_constraintEnd_toEndOf="@id/border_right_16" />
+        app:layout_constraintEnd_toEndOf="@id/border_right_16"
+        app:layout_constraintStart_toEndOf="@+id/text_view_track_info_duration_title"
+        android:layout_marginStart="16dp" />
     <TextView
         android:id="@+id/text_view_track_info_album_content"
         style="@style/Player.Name.TrackInfoContent"
         tools:text="Yesterday (Remastered 2009)"
         app:layout_constraintBaseline_toBaselineOf="@id/text_view_track_info_album_title"
-        app:layout_constraintEnd_toEndOf="@id/border_right_16" />
+        app:layout_constraintEnd_toEndOf="@id/border_right_16"
+        app:layout_constraintStart_toEndOf="@+id/text_view_track_info_duration_title"
+        android:layout_marginStart="16dp"  />
     <TextView
         android:id="@+id/text_view_track_info_year_content"
         style="@style/Player.Name.TrackInfoContent"
         tools:text="1965"
         app:layout_constraintBaseline_toBaselineOf="@id/text_view_track_info_year_title"
-        app:layout_constraintEnd_toEndOf="@id/border_right_16" />
+        app:layout_constraintEnd_toEndOf="@id/border_right_16"
+        app:layout_constraintStart_toEndOf="@+id/text_view_track_info_duration_title"
+        android:layout_marginStart="16dp" />
     <TextView
         android:id="@+id/text_view_track_info_genre_content"
         style="@style/Player.Name.TrackInfoContent"
         tools:text="Rock"
         app:layout_constraintBaseline_toBaselineOf="@id/text_view_track_info_genre_title"
-        app:layout_constraintEnd_toEndOf="@id/border_right_16" />
+        app:layout_constraintEnd_toEndOf="@id/border_right_16"
+        app:layout_constraintStart_toEndOf="@+id/text_view_track_info_duration_title"
+        android:layout_marginStart="16dp" />
     <TextView
         android:id="@+id/text_view_track_info_country_content"
         style="@style/Player.Name.TrackInfoContent"
         tools:text="Великобритания"
         app:layout_constraintBaseline_toBaselineOf="@id/text_view_track_info_country_title"
-        app:layout_constraintEnd_toEndOf="@id/border_right_16" />
-
+        app:layout_constraintEnd_toEndOf="@id/border_right_16"
+        app:layout_constraintStart_toEndOf="@+id/text_view_track_info_duration_title"
+        android:layout_marginStart="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
