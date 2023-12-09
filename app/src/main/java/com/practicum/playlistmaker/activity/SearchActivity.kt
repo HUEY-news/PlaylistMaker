@@ -95,16 +95,12 @@ class SearchActivity : AppCompatActivity() {
             inputMethodManager?.hideSoftInputFromWindow(searchField.windowToken, 0)
         }
 
-        fun resetButtonVisibility(string: CharSequence?): Int {
-            return if (string.isNullOrEmpty()) View.GONE else View.VISIBLE
-        }
-
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(string: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(string: Editable?) {}
             override fun onTextChanged(string: CharSequence?, start: Int, before: Int, count: Int) {
                 if (string.isNullOrEmpty()) hidePlaceholder()
-                resetButton.visibility = resetButtonVisibility(string)
+                resetButton.visibility = if (string.isNullOrEmpty()) View.GONE else View.VISIBLE
                 debouncer.searchDebounce()
 
                 if (searchHistory.getHistory().isNotEmpty()){
@@ -123,14 +119,16 @@ class SearchActivity : AppCompatActivity() {
         if (searchField.text.isNotEmpty()) {
             hidePlaceholder()
             progressBar.visibility = View.VISIBLE
-            // TODO: А зачем на каждый запрос создавать новый объект AppleApiProvider? Можно сделать синглтон
+            // TODO: А зачем на каждый запрос создавать новый объект AppleApiProvider?
+            //  Можно сделать синглтон
             AppleApiProvider().api.search(searchField.text.toString()).enqueue(object : Callback<SearchResponse> {
 
                     override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
                         progressBar.visibility = View.GONE
                         if (response.code() == 200) {
                             if (response.body()?.results?.isNotEmpty() == true) {
-                                // TODO: response.body()?.results нужно в отдельную переменную выносить, чтобы не использовать оператор !!
+                                // TODO: response.body()?.results нужно в отдельную переменную выносить,
+                                //  чтобы не использовать оператор !!
                                 trackListAdapter.setTracks(response.body()?.results!!)
                                 trackRecycler.visibility = View.VISIBLE
                             } else {
