@@ -3,9 +3,10 @@ package com.practicum.playlistmaker.model
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import com.practicum.playlistmaker.activity.SearchActivity
 
-class Debounce(context: Context?) {
+class Debouncer(context: Context?) {
 
     constructor() : this (context = null)
 
@@ -14,6 +15,7 @@ class Debounce(context: Context?) {
     private val searchRunnable = Runnable { (context as SearchActivity).searchRequest() }
 
     fun clickDebounce() : Boolean {
+        Log.d("myLOG", "clickDebounce() activated")
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
@@ -23,6 +25,7 @@ class Debounce(context: Context?) {
     }
 
     fun searchDebounce() {
+        Log.d("myLOG", "searchDebounce() activated")
         handler.removeCallbacks(searchRunnable)
         handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
     }

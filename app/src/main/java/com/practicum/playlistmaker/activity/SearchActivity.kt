@@ -18,7 +18,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.App
-import com.practicum.playlistmaker.model.Debounce
+import com.practicum.playlistmaker.model.Debouncer
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.trackList.TrackListAdapter
 import com.practicum.playlistmaker.model.SearchResponse
@@ -67,6 +67,8 @@ class SearchActivity : AppCompatActivity() {
         searchHistoryAdapter = SearchHistoryAdapter(arrayListOf())
         searchHistoryTrackList.adapter = searchHistoryAdapter
 
+        val debouncer = Debouncer(this@SearchActivity)
+
         searchHistory = SearchHistory(App.sharedPreferences)
         searchHistoryButton.setOnClickListener {
             searchHistoryContainer.visibility = View.GONE
@@ -103,7 +105,7 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(string: CharSequence?, start: Int, before: Int, count: Int) {
                 if (string.isNullOrEmpty()) hidePlaceholder()
                 resetButton.visibility = resetButtonVisibility(string)
-                Debounce(this@SearchActivity).searchDebounce()
+                debouncer.searchDebounce()
 
                 if (searchHistory.getHistory().isNotEmpty()){
                     searchHistoryAdapter.setTracks(searchHistory.getHistory())
