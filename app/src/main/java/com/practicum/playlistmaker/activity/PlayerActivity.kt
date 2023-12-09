@@ -1,19 +1,30 @@
 package com.practicum.playlistmaker.activity
 
+import android.graphics.drawable.Drawable
+import android.media.MediaPlayer
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.model.Track
+import com.practicum.playlistmaker.model.TrackPlayer
 import com.practicum.playlistmaker.pixelConverter
 import com.practicum.playlistmaker.trackTimeFormat
 
 class PlayerActivity : AppCompatActivity() {
+
+    private lateinit var buttonPlayPause: ImageButton
+    private var url: String? = null
+    private lateinit var trackTimer: TextView
+    private var mediaPlayer = MediaPlayer()
+    private lateinit var trackPlayer: TrackPlayer
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player)
@@ -23,7 +34,7 @@ class PlayerActivity : AppCompatActivity() {
         val artWork = findViewById<ImageView>(R.id.image_view_artwork_512)
         val trackName = findViewById<TextView>(R.id.text_view_track_name)
         val artistName = findViewById<TextView>(R.id.text_view_artist_name)
-        val trackTime = findViewById<TextView>(R.id.text_view_track_time)
+        trackTimer = findViewById(R.id.text_view_track_timer)
         val trackDuration = findViewById<TextView>(R.id.text_view_track_info_duration_content)
         val trackAlbum = findViewById<TextView>(R.id.text_view_track_info_album_content)
         val trackYear = findViewById<TextView>(R.id.text_view_track_info_year_content)
@@ -36,6 +47,8 @@ class PlayerActivity : AppCompatActivity() {
             intent.getParcelableExtra(TRACK_ID)
         }
 
+        url = track?.previewUrl.toString()
+
         Glide
             .with(this)
             .load(track?.getCoverArtwork())
@@ -43,14 +56,39 @@ class PlayerActivity : AppCompatActivity() {
             .transform(RoundedCorners(pixelConverter(4f, this)))
             .into(artWork)
 
-        trackTime.text = trackTimeFormat(track?.trackTimeMillis!!)
-        trackName.text = track.trackName
+        trackName.text = track?.trackName!!
         artistName.text = track.artistName
         trackDuration.text = trackTimeFormat(track.trackTimeMillis)
         trackAlbum.text = track.collectionName
         trackYear.text = track.getReleaseYear()
         trackGenre.text = track.primaryGenreName
         trackCountry.text = track.country
+
+        buttonPlayPause = findViewById(R.id.button_play_pause)
+        trackPlayer = TrackPlayer(this, mediaPlayer, url, buttonPlayPause, trackTimer)
+        trackPlayer.preparePlayer()
+        buttonPlayPause.setOnClickListener { trackPlayer.playbackControl() }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        trackPlayer.pausePlayer()
+        trackPlayer.stopUpdater()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer.release()
+        trackPlayer.stopUpdater()
+    }
+
+    fun getAttribute(attr: Int): Drawable? {
+        val attrs = intArrayOf(attr)
+        val typedArray = theme.obtainStyledAttributes(attrs)
+        val drawableResourceId = typedArray.getResourceId(0, 0)
+        typedArray.recycle()
+
+        return ContextCompat.getDrawable(this, drawableResourceId)
     }
 
     companion object{
