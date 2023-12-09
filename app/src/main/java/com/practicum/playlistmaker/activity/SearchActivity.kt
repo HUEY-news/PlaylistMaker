@@ -118,6 +118,7 @@ class SearchActivity : AppCompatActivity() {
     {
         if (searchField.text.isNotEmpty()) {
             hidePlaceholder()
+            clearTrackList()
             progressBar.visibility = View.VISIBLE
             // TODO: А зачем на каждый запрос создавать новый объект AppleApiProvider?
             //  Можно сделать синглтон
