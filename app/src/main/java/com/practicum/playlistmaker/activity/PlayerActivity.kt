@@ -5,7 +5,8 @@ import android.media.MediaPlayer
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,13 +17,18 @@ import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.model.Track
 import com.practicum.playlistmaker.pixelConverter
 import com.practicum.playlistmaker.trackTimeFormat
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class PlayerActivity : AppCompatActivity() {
 
+    private lateinit var mainThreadHandler: Handler
     private lateinit var buttonPlayPause: ImageButton
     private var mediaPlayer = MediaPlayer()
     private var playerState = STATE_DEFAULT
     private var url: String? = null
+    private val timerUpdateRunnable = Runnable { updateTimer() }
+    private lateinit var trackTimer: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +39,7 @@ class PlayerActivity : AppCompatActivity() {
         val artWork = findViewById<ImageView>(R.id.image_view_artwork_512)
         val trackName = findViewById<TextView>(R.id.text_view_track_name)
         val artistName = findViewById<TextView>(R.id.text_view_artist_name)
-        val trackTime = findViewById<TextView>(R.id.text_view_track_time)
+        trackTimer = findViewById(R.id.text_view_track_timer)
         val trackDuration = findViewById<TextView>(R.id.text_view_track_info_duration_content)
         val trackAlbum = findViewById<TextView>(R.id.text_view_track_info_album_content)
         val trackYear = findViewById<TextView>(R.id.text_view_track_info_year_content)
@@ -47,7 +53,6 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         url = track?.previewUrl
-        Log.d("PREVIEW_URL: ", "$url")
 
         Glide
             .with(this)
@@ -56,8 +61,7 @@ class PlayerActivity : AppCompatActivity() {
             .transform(RoundedCorners(pixelConverter(4f, this)))
             .into(artWork)
 
-        trackTime.text = trackTimeFormat(track?.trackTimeMillis!!)
-        trackName.text = track.trackName
+        trackName.text = track?.trackName!!
         artistName.text = track.artistName
         trackDuration.text = trackTimeFormat(track.trackTimeMillis)
         trackAlbum.text = track.collectionName
@@ -65,6 +69,7 @@ class PlayerActivity : AppCompatActivity() {
         trackGenre.text = track.primaryGenreName
         trackCountry.text = track.country
 
+        mainThreadHandler = Handler(Looper.getMainLooper())
         buttonPlayPause = findViewById(R.id.button_play_pause)
         preparePlayer()
         buttonPlayPause.setOnClickListener { playbackControl() }
@@ -73,11 +78,13 @@ class PlayerActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         pausePlayer()
+        mainThreadHandler.removeCallbacks(timerUpdateRunnable)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer.release()
+        mainThreadHandler.removeCallbacks(timerUpdateRunnable)
     }
 
     private fun preparePlayer(){
@@ -90,6 +97,8 @@ class PlayerActivity : AppCompatActivity() {
         mediaPlayer.setOnCompletionListener {
             buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPlay))
             playerState = STATE_PREPARED
+            mainThreadHandler.removeCallbacks(timerUpdateRunnable)
+            trackTimer.text = ZERO_CONDITION
         }
     }
 
@@ -104,12 +113,25 @@ class PlayerActivity : AppCompatActivity() {
         mediaPlayer.start()
         buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPause))
         playerState = STATE_PLAYING
+        mainThreadHandler.post(timerUpdateRunnable)
     }
 
     private fun pausePlayer(){
         mediaPlayer.pause()
         buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPlay))
         playerState = STATE_PAUSED
+    }
+
+    private fun updateTimer () : Runnable {
+        return object : Runnable {
+            override fun run() {
+                if (playerState == STATE_PLAYING){
+                    trackTimer.text = SimpleDateFormat("mm:ss", Locale.getDefault())
+                        .format(mediaPlayer.currentPosition)
+                    mainThreadHandler.postDelayed(this, DELAY)
+                }
+            }
+        }
     }
 
     private fun getAttribute(attr: Int): Drawable? {
@@ -123,11 +145,14 @@ class PlayerActivity : AppCompatActivity() {
 
     companion object{
         const val TRACK_ID = "TRACK_ID"
+        const val ZERO_CONDITION = "00:00"
 
         private const val STATE_DEFAULT = 0
         private const val STATE_PREPARED = 1
         private const val STATE_PLAYING = 2
         private const val STATE_PAUSED = 3
+
+        private const val DELAY = 500L
     }
 }
 
