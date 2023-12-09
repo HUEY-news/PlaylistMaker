@@ -4,7 +4,7 @@ import android.content.Intent
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.App
-import com.practicum.playlistmaker.Debounce
+import com.practicum.playlistmaker.model.Debounce
 import com.practicum.playlistmaker.activity.PlayerActivity
 import com.practicum.playlistmaker.model.Track
 import com.practicum.playlistmaker.searchHistory.SearchHistory
