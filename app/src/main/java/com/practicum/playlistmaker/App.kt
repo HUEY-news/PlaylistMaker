@@ -17,7 +17,7 @@ class App : Application() {
         super.onCreate()
         init(this)
 
-        // TODO: реализация загрузки темы:
+        // реализация загрузки темы:
         darkTheme = sharedPreferences.getBoolean(DARK_THEME_KEY, darkTheme)
         AppCompatDelegate.setDefaultNightMode(
             if (darkTheme) AppCompatDelegate.MODE_NIGHT_YES
@@ -25,7 +25,7 @@ class App : Application() {
         )
     }
 
-    // TODO: реализация переключения темы:
+    // реализация переключения темы:
     fun switchTheme(darkThemeEnabled: Boolean) {
         darkTheme = darkThemeEnabled
         AppCompatDelegate.setDefaultNightMode(
@@ -33,7 +33,7 @@ class App : Application() {
             else AppCompatDelegate.MODE_NIGHT_NO
         )
 
-        // TODO: реализация сохранения темы:
+        // реализация сохранения темы:
         with(sharedPreferences.edit()) {
             putBoolean(DARK_THEME_KEY, darkTheme)
             apply()

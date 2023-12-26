@@ -77,8 +77,6 @@ class TrackPlayer (
         mainThreadHandler.removeCallbacks(timerUpdateRunnable)
     }
 
-    // TODO: А зачем вот это делать? Ты же и так айди передаёшь параметром, можно же просто
-    //  ContextCompat.getDrawable(this, attr)
     private fun getAttribute(attr: Int): Drawable? {
         val attrs = intArrayOf(attr)
         val typedArray = context.theme.obtainStyledAttributes(attrs)

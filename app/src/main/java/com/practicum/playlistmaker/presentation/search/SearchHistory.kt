@@ -11,7 +11,7 @@ const val HISTORY_LIMIT = 10
 
 class SearchHistory(private val sharedPreferences: SharedPreferences) {
 
-    // TODO: поместить список треков в JSON:
+    // поместить список треков в JSON:
     private fun createJsonFromTrackList(trackList: ArrayList<Track>): String {
         return Gson().toJson(trackList)
     }
@@ -23,7 +23,7 @@ class SearchHistory(private val sharedPreferences: SharedPreferences) {
         }
     }
 
-    // TODO: достать список треков из JSON:
+    // достать список треков из JSON:
     private fun createTrackListFromJson(json: String): ArrayList<Track> {
         val listType = object : TypeToken<ArrayList<Track>>() {}.type
         return Gson().fromJson(json, listType)

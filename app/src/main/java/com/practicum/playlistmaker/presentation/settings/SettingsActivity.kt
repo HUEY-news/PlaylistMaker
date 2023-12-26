@@ -18,20 +18,20 @@ class SettingsActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         
-        // TODO: реализация переключения темы: 
+        // реализация переключения темы:
         val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
         themeSwitcher.isChecked = isUsingNightModeResources
         themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
             (applicationContext as App).switchTheme(checked)
         }
 
-        // TODO: реализация кнопки "назад": 
+        // реализация кнопки "назад":
         val backButton = findViewById<ImageView>(R.id.backButton)
         backButton.setOnClickListener {
             finish()
         }
 
-        // TODO: реализация кнопки "поделиться приложением": 
+        // реализация кнопки "поделиться приложением":
         val shareButton = findViewById<FrameLayout>(R.id.shareContainer)
         shareButton.setOnClickListener {
             val shareIntent = Intent(Intent.ACTION_SEND)
@@ -42,7 +42,7 @@ class SettingsActivity : AppCompatActivity()
             startActivity(Intent.createChooser(shareIntent, shareIntentTitle))
         }
 
-        // TODO: реализация кнопки "написать в поддержку": 
+        // реализация кнопки "написать в поддержку":
         val supportButton = findViewById<FrameLayout>(R.id.supportContainer)
         supportButton.setOnClickListener {
             val supportIntent = Intent(Intent.ACTION_SEND)
@@ -57,7 +57,7 @@ class SettingsActivity : AppCompatActivity()
             startActivity(Intent.createChooser(supportIntent, supportIntentTitle))
         }
 
-        // TODO: реализация кнопки "пользовательское соглашение":
+        // реализация кнопки "пользовательское соглашение":
         val agreementButton = findViewById<FrameLayout>(R.id.agreementContainer)
         agreementButton.setOnClickListener {
             val agreementIntent = Intent(Intent.ACTION_VIEW)

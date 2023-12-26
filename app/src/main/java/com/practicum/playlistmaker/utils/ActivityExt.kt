@@ -3,7 +3,7 @@ package com.practicum.playlistmaker.utils
 import android.app.Activity
 import android.content.res.Configuration
 
-// TODO: реализация проверки использования ресурсов тёмной темы:
+// реализация проверки использования ресурсов тёмной темы:
 val Activity.isUsingNightModeResources : Boolean
     get()
     {

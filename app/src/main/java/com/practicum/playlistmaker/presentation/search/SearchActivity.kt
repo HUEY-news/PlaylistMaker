@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.data.network.AppleApiProvider
-import com.practicum.playlistmaker.data.network.dto.SearchResponse
+import com.practicum.playlistmaker.data.dto.SearchResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
