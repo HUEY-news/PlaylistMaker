@@ -117,7 +117,7 @@ class SearchActivity : AppCompatActivity() {
         handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
     }
 
-    fun searchRequest(request: String)
+    private fun searchRequest(request: String)
     {
         if (request.isNotEmpty()) {
             hidePlaceholder()
