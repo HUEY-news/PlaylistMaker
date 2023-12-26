@@ -143,16 +143,16 @@ class SearchActivity : AppCompatActivity() {
                                 searchTrackAdapter.setTracks(response.body()?.results!!)
                                 trackRecycler.visibility = View.VISIBLE
                             } else {
-                                showPlaceholder(resources.getString(PLACEHOLDER_EMPTY_ERROR))
+                                showPlaceholder(resources.getString(R.string.placeholder_empty_error))
                             }
                         } else {
-                            showPlaceholder(resources.getString(PLACEHOLDER_INTERNET_ERROR))
+                            showPlaceholder(resources.getString(R.string.placeholder_internet_error))
                         }
                     }
 
                     override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
                         progressBar.visibility = View.GONE
-                        showPlaceholder(resources.getString(PLACEHOLDER_INTERNET_ERROR))
+                        showPlaceholder(resources.getString(R.string.placeholder_internet_error))
                     }
                 }
             )
@@ -164,13 +164,13 @@ class SearchActivity : AppCompatActivity() {
         hideRecycler()
 
         when (text) {
-            resources.getString(PLACEHOLDER_EMPTY_ERROR) -> {
+            resources.getString(R.string.placeholder_empty_error) -> {
                 placeholderIcon.setImageDrawable(getAttribute(R.attr.placeholderEmptyError))
-                placeholderText.setText(PLACEHOLDER_EMPTY_ERROR)
+                placeholderText.setText(R.string.placeholder_empty_error)
             }
-            resources.getString(PLACEHOLDER_INTERNET_ERROR) -> {
+            resources.getString(R.string.placeholder_internet_error) -> {
                 placeholderIcon.setImageDrawable(getAttribute(R.attr.placeholderInternetError))
-                placeholderText.setText(PLACEHOLDER_INTERNET_ERROR)
+                placeholderText.setText(R.string.placeholder_internet_error)
                 placeholderButton.visibility = View.VISIBLE
             }
         }
@@ -200,10 +200,6 @@ class SearchActivity : AppCompatActivity() {
     }
 
     companion object {
-
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
-
-        const val PLACEHOLDER_EMPTY_ERROR = R.string.placeholder_empty_error
-        const val PLACEHOLDER_INTERNET_ERROR = R.string.placeholder_internet_error
     }
 }
