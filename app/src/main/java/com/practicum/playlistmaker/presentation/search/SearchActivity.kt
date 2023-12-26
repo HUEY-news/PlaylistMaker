@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.activity
+package com.practicum.playlistmaker.presentation.search
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -18,13 +18,10 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.App
-import com.practicum.playlistmaker.model.Debouncer
+import com.practicum.playlistmaker.utils.Debouncer
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.trackList.TrackListAdapter
-import com.practicum.playlistmaker.model.SearchResponse
-import com.practicum.playlistmaker.network.AppleApiProvider
-import com.practicum.playlistmaker.searchHistory.SearchHistory
-import com.practicum.playlistmaker.searchHistory.SearchHistoryAdapter
+import com.practicum.playlistmaker.data.network.dto.SearchResponse
+import com.practicum.playlistmaker.data.network.AppleApiProvider
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,7 +37,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchHistoryContainer: LinearLayout
     private lateinit var searchHistoryTrackList: RecyclerView
     private lateinit var searchHistoryButton: Button
-    private lateinit var trackListAdapter: TrackListAdapter
+    private lateinit var searchTrackAdapter: SearchTrackAdapter
     private lateinit var searchHistoryAdapter: SearchHistoryAdapter
     private lateinit var searchHistory: SearchHistory
     private lateinit var progressBar: ProgressBar
@@ -62,8 +59,8 @@ class SearchActivity : AppCompatActivity() {
 
         findViewById<ImageButton>(R.id.backButton).setOnClickListener { finish() }
 
-        trackListAdapter = TrackListAdapter(arrayListOf())
-        trackRecycler.adapter = trackListAdapter
+        searchTrackAdapter = SearchTrackAdapter(arrayListOf())
+        trackRecycler.adapter = searchTrackAdapter
         searchHistoryAdapter = SearchHistoryAdapter(arrayListOf())
         searchHistoryTrackList.adapter = searchHistoryAdapter
 
@@ -130,7 +127,7 @@ class SearchActivity : AppCompatActivity() {
                             if (response.body()?.results?.isNotEmpty() == true) {
                                 // TODO: response.body()?.results нужно в отдельную переменную выносить,
                                 //  чтобы не использовать оператор !!
-                                trackListAdapter.setTracks(response.body()?.results!!)
+                                searchTrackAdapter.setTracks(response.body()?.results!!)
                                 trackRecycler.visibility = View.VISIBLE
                             } else {
                                 showPlaceholder(resources.getString(PLACEHOLDER_EMPTY_ERROR))
@@ -187,7 +184,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun clearTrackList() {
-        trackListAdapter.setTracks(arrayListOf())
+        searchTrackAdapter.setTracks(arrayListOf())
     }
 
     companion object {

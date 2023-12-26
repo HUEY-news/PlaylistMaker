@@ -1,10 +1,10 @@
-package com.practicum.playlistmaker.model
+package com.practicum.playlistmaker.utils
 
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import com.practicum.playlistmaker.activity.SearchActivity
+import com.practicum.playlistmaker.presentation.search.SearchActivity
 
 // TODO: В класс вынесена логика с дебаунсом на клики. Но мне не нравится, что сюда передан контекст,
 //  который к тому же ещё кастится к SearchActivity. Во-первых это утёчка памяти,

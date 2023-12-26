@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.trackList
+package com.practicum.playlistmaker.presentation.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.model.Track
-import com.practicum.playlistmaker.pixelConverter
-import com.practicum.playlistmaker.trackTimeFormat
+import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.utils.pixelConverter
+import com.practicum.playlistmaker.utils.trackTimeFormat
 
-class TrackListViewHolder(parent: ViewGroup) :
+class SearchTrackViewHolder(parent: ViewGroup) :
     RecyclerView.ViewHolder(LayoutInflater.from(parent.context)
         .inflate(R.layout.item_track, parent, false))
  {

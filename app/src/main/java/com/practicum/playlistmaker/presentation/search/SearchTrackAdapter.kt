@@ -1,16 +1,15 @@
-package com.practicum.playlistmaker.trackList
+package com.practicum.playlistmaker.presentation.search
 
 import android.content.Intent
 import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.App
-import com.practicum.playlistmaker.model.Debouncer
-import com.practicum.playlistmaker.activity.PlayerActivity
-import com.practicum.playlistmaker.model.Track
-import com.practicum.playlistmaker.searchHistory.SearchHistory
+import com.practicum.playlistmaker.utils.Debouncer
+import com.practicum.playlistmaker.presentation.player.PlayerActivity
+import com.practicum.playlistmaker.domain.models.Track
 
-class TrackListAdapter(private var trackList: ArrayList<Track>) : RecyclerView.Adapter<TrackListViewHolder>() {
+class SearchTrackAdapter(private var trackList: ArrayList<Track>) : RecyclerView.Adapter<SearchTrackViewHolder>() {
 
     val debouncer = Debouncer()
 
@@ -19,19 +18,20 @@ class TrackListAdapter(private var trackList: ArrayList<Track>) : RecyclerView.A
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackListViewHolder{
-        return TrackListViewHolder(parent)
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchTrackViewHolder {
+        return SearchTrackViewHolder(parent)
+    }
 
     override fun getItemCount(): Int {
         return trackList.size
     }
 
-    override fun onBindViewHolder(holder: TrackListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: SearchTrackViewHolder, position: Int) {
         holder.bind(trackList[position])
         holder.itemView.setOnClickListener {
             Log.d("myLOG", "TrackListAdapter item clicked!")
             if (debouncer.clickDebounce()) {
+
                 // ДОБАВЛЯЕТ ТРЕК В ИСТОРИЮ ПОИСКА
                 val searchHistory = SearchHistory(App.sharedPreferences)
                 searchHistory.addTrackToHistory(trackList[position])

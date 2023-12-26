@@ -1,21 +1,18 @@
-package com.practicum.playlistmaker.activity
+package com.practicum.playlistmaker.presentation.player
 
-import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.model.Track
-import com.practicum.playlistmaker.model.TrackPlayer
-import com.practicum.playlistmaker.pixelConverter
-import com.practicum.playlistmaker.trackTimeFormat
+import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.utils.pixelConverter
+import com.practicum.playlistmaker.utils.trackTimeFormat
 
 class PlayerActivity : AppCompatActivity() {
 
@@ -80,17 +77,6 @@ class PlayerActivity : AppCompatActivity() {
         super.onDestroy()
         mediaPlayer.release()
         trackPlayer.stopUpdater()
-    }
-
-    // TODO: А зачем вот это делать? Ты же и так айди передаёшь параметром, можно же просто
-    //  ContextCompat.getDrawable(this, attr)
-    fun getAttribute(attr: Int): Drawable? {
-        val attrs = intArrayOf(attr)
-        val typedArray = theme.obtainStyledAttributes(attrs)
-        val drawableResourceId = typedArray.getResourceId(0, 0)
-        typedArray.recycle()
-
-        return ContextCompat.getDrawable(this, drawableResourceId)
     }
 
     companion object{

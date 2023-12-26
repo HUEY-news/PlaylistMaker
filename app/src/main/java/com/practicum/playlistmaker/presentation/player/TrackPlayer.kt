@@ -1,13 +1,14 @@
-package com.practicum.playlistmaker.model
+package com.practicum.playlistmaker.presentation.player
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.activity.PlayerActivity
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -31,12 +32,14 @@ class TrackPlayer (
             playerState = STATE_PREPARED
         }
         mediaPlayer.setOnCompletionListener {
-            buttonPlayPause.setImageDrawable((context as PlayerActivity).getAttribute(R.attr.buttonPlay))
+            buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPlay))
             playerState = STATE_PREPARED
             stopUpdater()
             trackTimer.text = ZERO_CONDITION
         }
     }
+
+
 
     fun playbackControl(){
         when (playerState) {
@@ -47,14 +50,14 @@ class TrackPlayer (
 
     private fun startPlayer(){
         mediaPlayer.start()
-        buttonPlayPause.setImageDrawable((context as PlayerActivity).getAttribute(R.attr.buttonPause))
+        buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPause))
         playerState = STATE_PLAYING
         mainThreadHandler.post(timerUpdateRunnable)
     }
 
     fun pausePlayer(){
         mediaPlayer.pause()
-        buttonPlayPause.setImageDrawable((context as PlayerActivity).getAttribute(R.attr.buttonPlay))
+        buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPlay))
         playerState = STATE_PAUSED
     }
 
@@ -72,6 +75,17 @@ class TrackPlayer (
 
     fun stopUpdater () {
         mainThreadHandler.removeCallbacks(timerUpdateRunnable)
+    }
+
+    // TODO: А зачем вот это делать? Ты же и так айди передаёшь параметром, можно же просто
+    //  ContextCompat.getDrawable(this, attr)
+    private fun getAttribute(attr: Int): Drawable? {
+        val attrs = intArrayOf(attr)
+        val typedArray = context.theme.obtainStyledAttributes(attrs)
+        val drawableResourceId = typedArray.getResourceId(0, 0)
+        typedArray.recycle()
+
+        return ContextCompat.getDrawable(context, drawableResourceId)
     }
 
     companion object {
