@@ -1,16 +1,27 @@
 package com.practicum.playlistmaker.presentation.search
 
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.practicum.playlistmaker.utils.Debouncer
-import com.practicum.playlistmaker.presentation.player.PlayerActivity
 import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.presentation.player.PlayerActivity
 
 class SearchHistoryAdapter(private var trackList: ArrayList<Track>): RecyclerView.Adapter<SearchTrackViewHolder>(){
 
-    val debouncer = Debouncer()
+    private var isClickAllowed = true
+    private val handler = Handler(Looper.getMainLooper())
+
+    private fun clickDebounce() : Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+        }
+        return current
+    }
 
     fun setTracks(tracks: ArrayList<Track>) {
         trackList = tracks
@@ -29,12 +40,16 @@ class SearchHistoryAdapter(private var trackList: ArrayList<Track>): RecyclerVie
         holder.bind(trackList[position])
         holder.itemView.setOnClickListener {
             Log.d("myLOG", "SearchHistoryAdapter item clicked!")
-            if (debouncer.clickDebounce()) {
+            if (clickDebounce()) {
                 // ЗАПУСКАЕТ PLAYER ACTIVITY И ПЕРЕДАЁТ ТРЕК
                 val intent = Intent(holder.itemView.context, PlayerActivity::class.java)
                 intent.putExtra(PlayerActivity.TRACK_ID, trackList[position])
                 holder.itemView.context.startActivity(intent)
             }
         }
+    }
+
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 }

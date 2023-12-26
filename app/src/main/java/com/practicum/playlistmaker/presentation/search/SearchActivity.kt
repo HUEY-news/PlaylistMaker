@@ -2,8 +2,9 @@ package com.practicum.playlistmaker.presentation.search
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -15,13 +16,13 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.App
-import com.practicum.playlistmaker.utils.Debouncer
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.data.network.dto.SearchResponse
 import com.practicum.playlistmaker.data.network.AppleApiProvider
+import com.practicum.playlistmaker.data.network.dto.SearchResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -64,8 +65,6 @@ class SearchActivity : AppCompatActivity() {
         searchHistoryAdapter = SearchHistoryAdapter(arrayListOf())
         searchHistoryTrackList.adapter = searchHistoryAdapter
 
-        val debouncer = Debouncer(this@SearchActivity)
-
         searchHistory = SearchHistory(App.sharedPreferences)
         searchHistoryButton.setOnClickListener {
             searchHistoryContainer.visibility = View.GONE
@@ -98,7 +97,7 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(string: CharSequence?, start: Int, before: Int, count: Int) {
                 if (string.isNullOrEmpty()) hidePlaceholder()
                 resetButton.visibility = if (string.isNullOrEmpty()) View.GONE else View.VISIBLE
-                debouncer.searchDebounce()
+                searchDebounce()
 
                 if (searchHistory.getHistory().isNotEmpty()){
                     searchHistoryAdapter.setTracks(searchHistory.getHistory())
@@ -108,6 +107,14 @@ class SearchActivity : AppCompatActivity() {
             }
         }
         searchField.addTextChangedListener(textWatcher)
+    }
+
+    private val searchRunnable = Runnable { searchRequest(searchField.text.toString()) }
+    private val handler = Handler(Looper.getMainLooper())
+
+    private fun searchDebounce() {
+        handler.removeCallbacks(searchRunnable)
+        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
     }
 
     fun searchRequest(request: String)
@@ -186,6 +193,9 @@ class SearchActivity : AppCompatActivity() {
     }
 
     companion object {
+
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
+
         const val PLACEHOLDER_EMPTY_ERROR = R.string.placeholder_empty_error
         const val PLACEHOLDER_INTERNET_ERROR = R.string.placeholder_internet_error
     }
