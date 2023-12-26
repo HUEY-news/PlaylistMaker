@@ -80,7 +80,7 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-        placeholderButton.setOnClickListener { searchRequest() }
+        placeholderButton.setOnClickListener { searchRequest(searchField.text.toString()) }
 
         resetButton.setOnClickListener {
             searchField.setText("")
@@ -110,15 +110,14 @@ class SearchActivity : AppCompatActivity() {
         searchField.addTextChangedListener(textWatcher)
     }
 
-    // TODO: Текст для поиска лучше передавать параметром в эту функцию
-    fun searchRequest()
+    fun searchRequest(request: String)
     {
-        if (searchField.text.isNotEmpty()) {
+        if (request.isNotEmpty()) {
             hidePlaceholder()
             clearTrackList()
             progressBar.visibility = View.VISIBLE
 
-            AppleApiProvider.api.search(searchField.text.toString()).enqueue(object : Callback<SearchResponse> {
+            AppleApiProvider.api.search(request).enqueue(object : Callback<SearchResponse> {
 
                     override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
                         progressBar.visibility = View.GONE
