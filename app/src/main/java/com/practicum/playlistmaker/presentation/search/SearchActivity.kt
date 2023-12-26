@@ -155,23 +155,13 @@ class SearchActivity : AppCompatActivity() {
         clearTrackList()
         hideRecycler()
 
-        // TODO: Зачем нужно объявлять функцию внутри другой функции?
-        fun getDrawable(attr: Int): Drawable? {
-            val attrs = intArrayOf(attr)
-            val typedArray = theme.obtainStyledAttributes(attrs)
-            val placeholderResourceId = typedArray.getResourceId(0, 0)
-            typedArray.recycle()
-
-            return ContextCompat.getDrawable(this, placeholderResourceId)
-        }
-
         when (text) {
             resources.getString(PLACEHOLDER_EMPTY_ERROR) -> {
-                placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderEmptyError))
+                placeholderIcon.setImageDrawable(getAttribute(R.attr.placeholderEmptyError))
                 placeholderText.setText(PLACEHOLDER_EMPTY_ERROR)
             }
             resources.getString(PLACEHOLDER_INTERNET_ERROR) -> {
-                placeholderIcon.setImageDrawable(getDrawable(R.attr.placeholderInternetError))
+                placeholderIcon.setImageDrawable(getAttribute(R.attr.placeholderInternetError))
                 placeholderText.setText(PLACEHOLDER_INTERNET_ERROR)
                 placeholderButton.visibility = View.VISIBLE
             }
@@ -190,6 +180,15 @@ class SearchActivity : AppCompatActivity() {
 
     private fun clearTrackList() {
         searchTrackAdapter.setTracks(arrayListOf())
+    }
+
+    private fun getAttribute(attr: Int): Drawable? {
+        val attrs = intArrayOf(attr)
+        val typedArray = theme.obtainStyledAttributes(attrs)
+        val placeholderResourceId = typedArray.getResourceId(0, 0)
+        typedArray.recycle()
+
+        return ContextCompat.getDrawable(this, placeholderResourceId)
     }
 
     companion object {
