@@ -129,9 +129,8 @@ class SearchActivity : AppCompatActivity() {
                     override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
                         progressBar.visibility = View.GONE
                         if (response.code() == 200) {
-                            if (response.body()?.results?.isNotEmpty() == true) {
-                                // TODO: response.body()?.results нужно в отдельную переменную выносить,
-                                //  чтобы не использовать оператор !!
+                            val result = response.body()?.results
+                            if (result?.isNotEmpty() == true) {
                                 searchTrackAdapter.setTracks(response.body()?.results!!)
                                 trackRecycler.visibility = View.VISIBLE
                             } else {
