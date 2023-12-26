@@ -48,6 +48,7 @@
         android:layout_marginTop="24dp"
         app:layout_constraintBottom_toTopOf="@id/text_view_track_name"
         android:layout_marginBottom="24dp" />
+
     <TextView
         android:id="@+id/text_view_track_name"
         style="@style/Player.Name.TrackName"
@@ -56,6 +57,7 @@
         app:layout_constraintBottom_toTopOf="@id/text_view_artist_name"
         android:layout_marginBottom="12dp"
         tools:text="Yesterday (Remastered 2009)" />
+
     <TextView
         android:id="@+id/text_view_artist_name"
         style="@style/Player.Name.ArtistName"
