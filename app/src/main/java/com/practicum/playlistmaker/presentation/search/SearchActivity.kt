@@ -117,9 +117,8 @@ class SearchActivity : AppCompatActivity() {
             hidePlaceholder()
             clearTrackList()
             progressBar.visibility = View.VISIBLE
-            // TODO: А зачем на каждый запрос создавать новый объект AppleApiProvider?
-            //  Можно сделать синглтон
-            AppleApiProvider().api.search(searchField.text.toString()).enqueue(object : Callback<SearchResponse> {
+
+            AppleApiProvider.api.search(searchField.text.toString()).enqueue(object : Callback<SearchResponse> {
 
                     override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
                         progressBar.visibility = View.GONE

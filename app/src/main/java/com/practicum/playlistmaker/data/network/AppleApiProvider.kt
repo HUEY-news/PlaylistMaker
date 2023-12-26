@@ -3,7 +3,7 @@ package com.practicum.playlistmaker.data.network
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class AppleApiProvider {
+object AppleApiProvider {
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://itunes.apple.com")
