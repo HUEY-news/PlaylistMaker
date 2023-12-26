@@ -66,11 +66,17 @@ class SearchActivity : AppCompatActivity() {
         searchHistoryTrackList.adapter = searchHistoryAdapter
 
         searchHistory = SearchHistory(App.sharedPreferences)
+
+        if (searchHistory.getHistory().isNotEmpty()) {
+            searchHistoryAdapter.setTracks(searchHistory.getHistory())
+            searchHistoryContainer.visibility = View.VISIBLE
+        }
+
         searchHistoryButton.setOnClickListener {
             searchHistoryContainer.visibility = View.GONE
             searchHistory.clearHistory() }
 
-        // ОТСЛЕЖИВАНИЕ СОСТОЯНИЯ ФОКУСА ПОЛЯ ВВОДА:
+        // отслеживание состояния фокуса поля ввода:
         searchField.setOnFocusChangeListener { view, hasFocus ->
             if (searchHistory.getHistory().isNotEmpty()){
                 searchHistoryAdapter.setTracks(searchHistory.getHistory())
@@ -85,7 +91,7 @@ class SearchActivity : AppCompatActivity() {
             searchField.setText("")
             clearTrackList()
 
-            // СПРЯТАТЬ ВИРТУАЛЬНУЮ КЛАВИАТУРУ:
+            // спрятать виртуальную клавиатуру:
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(searchField.windowToken, 0)
@@ -95,8 +101,11 @@ class SearchActivity : AppCompatActivity() {
             override fun beforeTextChanged(string: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(string: Editable?) {}
             override fun onTextChanged(string: CharSequence?, start: Int, before: Int, count: Int) {
+
                 if (string.isNullOrEmpty()) hidePlaceholder()
+
                 resetButton.visibility = if (string.isNullOrEmpty()) View.GONE else View.VISIBLE
+                clearTrackList()
                 searchDebounce()
 
                 if (searchHistory.getHistory().isNotEmpty()){
