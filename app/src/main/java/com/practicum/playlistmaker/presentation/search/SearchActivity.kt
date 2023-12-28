@@ -21,7 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.data.network.AppleApiProvider
+import com.practicum.playlistmaker.data.network.RetrofitNetworkClient
 import com.practicum.playlistmaker.data.dto.SearchResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -133,14 +133,14 @@ class SearchActivity : AppCompatActivity() {
             clearTrackList()
             progressBar.visibility = View.VISIBLE
 
-            AppleApiProvider.api.search(request).enqueue(object : Callback<SearchResponse> {
+            RetrofitNetworkClient.iTunesService.search(request).enqueue(object : Callback<SearchResponse> {
 
                     override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
                         progressBar.visibility = View.GONE
                         if (response.code() == 200) {
                             val result = response.body()?.results
                             if (result?.isNotEmpty() == true) {
-                                searchTrackAdapter.setTracks(response.body()?.results!!)
+                                searchTrackAdapter.setTracks(result)
                                 trackRecycler.visibility = View.VISIBLE
                             } else {
                                 showPlaceholder(resources.getString(R.string.placeholder_empty_error))

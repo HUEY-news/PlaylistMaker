@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.domain.models.Track
 import com.practicum.playlistmaker.presentation.player.PlayerActivity
 
-class SearchHistoryAdapter(private var trackList: ArrayList<Track>): RecyclerView.Adapter<SearchTrackViewHolder>(){
+class SearchHistoryAdapter(private var trackList: List<Track>): RecyclerView.Adapter<SearchTrackViewHolder>(){
 
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
@@ -23,7 +23,7 @@ class SearchHistoryAdapter(private var trackList: ArrayList<Track>): RecyclerVie
         return current
     }
 
-    fun setTracks(tracks: ArrayList<Track>) {
+    fun setTracks(tracks: List<Track>) {
         trackList = tracks
         notifyDataSetChanged()
     }

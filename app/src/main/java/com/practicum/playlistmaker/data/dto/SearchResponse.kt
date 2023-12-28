@@ -4,5 +4,6 @@ import com.practicum.playlistmaker.domain.models.Track
 
 data class SearchResponse(
     val resultCount: Int,
-    val results: ArrayList<Track>)
+    val results: List<Track>
+): Response()
 

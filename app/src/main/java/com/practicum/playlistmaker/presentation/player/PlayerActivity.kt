@@ -1,42 +1,29 @@
 package com.practicum.playlistmaker.presentation.player
 
-import android.media.MediaPlayer
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
+import com.practicum.playlistmaker.domain.api.PlayerInteractor
 import com.practicum.playlistmaker.domain.models.Track
 import com.practicum.playlistmaker.utils.pixelConverter
 import com.practicum.playlistmaker.utils.trackTimeFormat
 
 class PlayerActivity : AppCompatActivity() {
 
-    private lateinit var buttonPlayPause: ImageButton
-    private var url: String? = null
-    private lateinit var trackTimer: TextView
-    private var mediaPlayer = MediaPlayer()
-    private lateinit var trackPlayer: TrackPlayer
+    private lateinit var  binding: ActivityPlayerBinding
+    private lateinit var player: PlayerInteractor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_player)
+        binding = ActivityPlayerBinding.inflate(layoutInflater)
 
-        findViewById<ImageButton>(R.id.button_back).setOnClickListener { finish() }
-
-        val artWork = findViewById<ImageView>(R.id.image_view_artwork_512)
-        val trackName = findViewById<TextView>(R.id.text_view_track_name)
-        val artistName = findViewById<TextView>(R.id.text_view_artist_name)
-        trackTimer = findViewById(R.id.text_view_track_timer)
-        val trackDuration = findViewById<TextView>(R.id.text_view_track_info_duration_content)
-        val trackAlbum = findViewById<TextView>(R.id.text_view_track_info_album_content)
-        val trackYear = findViewById<TextView>(R.id.text_view_track_info_year_content)
-        val trackGenre = findViewById<TextView>(R.id.text_view_track_info_genre_content)
-        val trackCountry = findViewById<TextView>(R.id.text_view_track_info_country_content)
+        binding.buttonBack.setOnClickListener { finish() }
 
         val track: Track? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra(TRACK_ID, Track::class.java)
@@ -44,43 +31,66 @@ class PlayerActivity : AppCompatActivity() {
             intent.getParcelableExtra(TRACK_ID)
         }
 
-        url = track?.previewUrl.toString()
-
         Glide
             .with(this)
             .load(track?.getCoverArtwork())
             .placeholder(R.drawable.ic_placeholder_artwork_240)
             .transform(RoundedCorners(pixelConverter(4f, this)))
-            .into(artWork)
+            .into(binding.imageViewArtwork512)
 
-        trackName.text = track?.trackName!!
-        artistName.text = track.artistName
-        trackDuration.text = trackTimeFormat(track.trackTimeMillis)
-        trackAlbum.text = track.collectionName
-        trackYear.text = track.getReleaseYear()
-        trackGenre.text = track.primaryGenreName
-        trackCountry.text = track.country
+        binding.textViewTrackName.text = track?.trackName!!
+        binding.textViewArtistName.text = track.artistName
+        binding.textViewTrackInfoDurationContent.text = trackTimeFormat(track.trackTimeMillis)
+        binding.textViewTrackInfoYearContent.text = track.collectionName
+        binding.textViewTrackInfoYearContent.text = track.getReleaseYear()
+        binding.textViewTrackInfoGenreContent.text = track.primaryGenreName
+        binding.textViewTrackInfoCountryContent.text = track.country
 
-        buttonPlayPause = findViewById(R.id.button_play_pause)
-        trackPlayer = TrackPlayer(this, mediaPlayer, url, buttonPlayPause, trackTimer)
-        trackPlayer.preparePlayer()
-        buttonPlayPause.setOnClickListener { trackPlayer.playbackControl() }
+        player = PlayerInteractor(
+            trackTimer = binding.textViewTrackTimer)
+        player.preparePlayer(track)
+        binding.buttonPlayPause.setOnClickListener {
+            checkButtonState(player.getPlayerState())
+            player.playbackControl()
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        trackPlayer.pausePlayer()
-        trackPlayer.stopUpdater()
+        checkButtonState(player.getPlayerState())
+        player.onPause()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer.release()
-        trackPlayer.stopUpdater()
+        checkButtonState(player.getPlayerState())
+        player.onDestroy()
+    }
+
+    private fun checkButtonState(state: Int) {
+        when (state) {
+            STATE_PLAYING ->
+                binding.buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPause))
+            STATE_PREPARED, STATE_PAUSED ->
+                binding.buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPlay))
+        }
+    }
+
+    private fun getAttribute(attr: Int): Drawable? {
+        val attrs = intArrayOf(attr)
+        val typedArray = applicationContext.theme.obtainStyledAttributes(attrs)
+        val drawableResourceId = typedArray.getResourceId(0, 0)
+        typedArray.recycle()
+
+        return ContextCompat.getDrawable(applicationContext, drawableResourceId)
     }
 
     companion object{
         const val TRACK_ID = "TRACK_ID"
+
+        private const val STATE_PREPARED = 1
+        private const val STATE_PLAYING = 2
+        private const val STATE_PAUSED = 3
     }
 }
 
