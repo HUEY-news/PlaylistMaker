@@ -50,20 +50,19 @@ class PlayerActivity : AppCompatActivity() {
             trackTimer = binding.textViewTrackTimer)
         player.preparePlayer(track)
         binding.buttonPlayPause.setOnClickListener {
-            checkButtonState(player.getPlayerState())
             player.playbackControl()
+            checkButtonState(player.getPlayerState())
         }
     }
 
     override fun onPause() {
         super.onPause()
-        checkButtonState(player.getPlayerState())
         player.onPause()
+        checkButtonState(player.getPlayerState())
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        checkButtonState(player.getPlayerState())
         player.onDestroy()
     }
 
