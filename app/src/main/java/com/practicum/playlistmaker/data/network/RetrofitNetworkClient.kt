@@ -7,10 +7,8 @@ object RetrofitNetworkClient {
 
     private val iTunesBaseUrl = "https://itunes.apple.com"
 
-    private val retrofit = Retrofit.Builder()
+    val retrofit = Retrofit.Builder()
         .baseUrl(iTunesBaseUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-
-    val iTunesService = retrofit.create(iTunesApiService::class.java)
 }

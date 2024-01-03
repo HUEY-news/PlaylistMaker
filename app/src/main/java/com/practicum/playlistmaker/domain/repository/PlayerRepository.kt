@@ -1,10 +1,11 @@
-package com.practicum.playlistmaker.domain.api
+package com.practicum.playlistmaker.domain.repository
 
 import com.practicum.playlistmaker.domain.models.Track
+import kotlinx.coroutines.flow.Flow
 
-interface PlayerInteractor {
+interface PlayerRepository {
 
-    fun getPlayerState(): Int
+    fun getPlayerState(): Flow<Int>
     fun getPlayerCurrentPosition(): Int
 
     fun preparePlayer(track: Track)

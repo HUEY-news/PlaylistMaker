@@ -8,15 +8,18 @@ import android.os.Looper
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.practicum.playlistmaker.Creator
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
-import com.practicum.playlistmaker.domain.api.PlayerInteractor
-import com.practicum.playlistmaker.domain.impl.PlayerInteractorImpl
 import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.domain.player.PlayerInteractor
 import com.practicum.playlistmaker.utils.pixelConverter
 import com.practicum.playlistmaker.utils.trackTimeFormat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -24,9 +27,12 @@ class PlayerActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityPlayerBinding
 
+    private val creator = Creator()
+    private val player: PlayerInteractor = creator.providePlayerInteractor()
+    private var state = STATE_DEFAULT
+
     private lateinit var  mainThreadHandler: Handler
     private lateinit var  timerUpdateRunnable: Runnable
-    private lateinit var player: PlayerInteractor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,11 +64,17 @@ class PlayerActivity : AppCompatActivity() {
         binding.textViewTrackInfoGenreContent.text = track.primaryGenreName
         binding.textViewTrackInfoCountryContent.text = track.country
 
-        player = PlayerInteractorImpl()
+
         player.preparePlayer(track)
         binding.buttonPlayPause.setOnClickListener {
             player.playbackControl()
-            checkPlayerState(player.getPlayerState())
+        }
+
+        lifecycleScope.launch(Dispatchers.IO){
+            player.getPlayerState().collect { state ->
+                this@PlayerActivity.state = state
+                mainThreadHandler.post { checkPlayerState(state) }
+            }
         }
     }
 
@@ -70,7 +82,6 @@ class PlayerActivity : AppCompatActivity() {
         super.onPause()
         player.onPause()
         stopUpdater()
-        checkPlayerState(player.getPlayerState())
     }
 
     override fun onDestroy() {
@@ -93,13 +104,14 @@ class PlayerActivity : AppCompatActivity() {
             STATE_PAUSED -> {
                 binding.buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPlay))
             }
+            else ->{}
         }
     }
 
     private fun updateTimer(trackTimer: TextView) : Runnable {
         return object : Runnable {
             override fun run() {
-                if (player.getPlayerState() == STATE_PLAYING){
+                if (state == STATE_PLAYING){
                     trackTimer.text = SimpleDateFormat("mm:ss", Locale.getDefault())
                         .format(player.getPlayerCurrentPosition())
                     mainThreadHandler.postDelayed(this, DELAY)
@@ -125,6 +137,7 @@ class PlayerActivity : AppCompatActivity() {
         const val TRACK_ID = "TRACK_ID"
 
         private const val ZERO_CONDITION = "00:00"
+        private const val STATE_DEFAULT = 0
         private const val STATE_PREPARED = 1
         private const val STATE_PLAYING = 2
         private const val STATE_PAUSED = 3

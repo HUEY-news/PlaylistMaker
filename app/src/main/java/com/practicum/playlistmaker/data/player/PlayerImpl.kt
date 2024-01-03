@@ -1,35 +1,36 @@
-package com.practicum.playlistmaker.domain.impl
+package com.practicum.playlistmaker.data.player
 
 import android.media.MediaPlayer
-import com.practicum.playlistmaker.domain.api.PlayerInteractor
-import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.data.dto.TrackDto
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 
-class PlayerInteractorImpl: PlayerInteractor {
+class PlayerImpl: Player {
 
     private val mediaPlayer = MediaPlayer()
-    private var playerState = STATE_DEFAULT
+    private val flow = MutableStateFlow(STATE_DEFAULT)
 
-    override fun getPlayerState(): Int {
-        return playerState
+    override fun getPlayerState(): Flow<Int> {
+        return flow
     }
 
     override fun getPlayerCurrentPosition(): Int {
         return mediaPlayer.currentPosition
     }
 
-    override fun preparePlayer(track: Track) {
+    override fun preparePlayer(track: TrackDto) {
         mediaPlayer.setDataSource(track.previewUrl)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {
-            playerState = STATE_PREPARED
+            flow.value = STATE_PREPARED
         }
         mediaPlayer.setOnCompletionListener {
-            playerState = STATE_PREPARED
+            flow.value = STATE_PREPARED
         }
     }
 
     override fun playbackControl(){
-        when (playerState) {
+        when (flow.value) {
             STATE_PLAYING -> pausePlayer()
             STATE_PREPARED, STATE_PAUSED -> startPlayer()
         }
@@ -37,12 +38,12 @@ class PlayerInteractorImpl: PlayerInteractor {
 
     private fun startPlayer() {
         mediaPlayer.start()
-        playerState = STATE_PLAYING
+        flow.value = STATE_PLAYING
     }
 
     private fun pausePlayer() {
         mediaPlayer.pause()
-        playerState = STATE_PAUSED
+        flow.value = STATE_PAUSED
     }
 
     override fun onPause() {

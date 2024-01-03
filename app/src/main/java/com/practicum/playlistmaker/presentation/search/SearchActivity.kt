@@ -20,14 +20,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.App
+import com.practicum.playlistmaker.Creator
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.data.network.RetrofitNetworkClient
 import com.practicum.playlistmaker.data.dto.SearchResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class SearchActivity : AppCompatActivity() {
+
+    private val creator = Creator()
 
     private lateinit var searchField: EditText
     private lateinit var resetButton: ImageButton
@@ -133,7 +135,7 @@ class SearchActivity : AppCompatActivity() {
             clearTrackList()
             progressBar.visibility = View.VISIBLE
 
-            RetrofitNetworkClient.iTunesService.search(request).enqueue(object : Callback<SearchResponse> {
+            creator.provideApiService().search(request).enqueue(object : Callback<SearchResponse> {
 
                     override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
                         progressBar.visibility = View.GONE
