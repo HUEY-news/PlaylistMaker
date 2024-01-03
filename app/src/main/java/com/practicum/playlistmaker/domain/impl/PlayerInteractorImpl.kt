@@ -7,7 +7,6 @@ import com.practicum.playlistmaker.domain.models.Track
 class PlayerInteractorImpl: PlayerInteractor {
 
     private val mediaPlayer = MediaPlayer()
-
     private var playerState = STATE_DEFAULT
 
     override fun getPlayerState(): Int {

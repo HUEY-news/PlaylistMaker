@@ -22,14 +22,16 @@ import java.util.Locale
 
 class PlayerActivity : AppCompatActivity() {
 
-    private lateinit var  binding: ActivityPlayerBinding
+    private lateinit var binding : ActivityPlayerBinding
+
     private lateinit var  mainThreadHandler: Handler
     private lateinit var  timerUpdateRunnable: Runnable
     private lateinit var player: PlayerInteractor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityPlayerBinding.inflate(layoutInflater)
+
+        binding = ActivityPlayerBinding.inflate(layoutInflater).also {setContentView(it.root) }
         mainThreadHandler = Handler(Looper.getMainLooper())
         timerUpdateRunnable = updateTimer(binding.textViewTrackTimer)
 
@@ -112,11 +114,11 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun getAttribute(attr: Int): Drawable? {
         val attrs = intArrayOf(attr)
-        val typedArray = applicationContext.theme.obtainStyledAttributes(attrs)
+        val typedArray = theme.obtainStyledAttributes(attrs)
         val drawableResourceId = typedArray.getResourceId(0, 0)
         typedArray.recycle()
 
-        return ContextCompat.getDrawable(applicationContext, drawableResourceId)
+        return ContextCompat.getDrawable(this, drawableResourceId)
     }
 
     companion object{
