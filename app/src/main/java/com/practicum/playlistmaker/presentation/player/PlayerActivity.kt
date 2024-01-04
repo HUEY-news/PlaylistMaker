@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -49,6 +50,19 @@ class PlayerActivity : AppCompatActivity() {
             intent.getParcelableExtra(TRACK_ID)
         }
 
+        fun render(track: Track) {
+            binding.textViewTrackName.text = track.trackName
+            binding.textViewArtistName.text = track.artistName
+            binding.textViewTrackInfoDurationContent.text = trackTimeFormat(track.trackTimeMillis)
+            binding.textViewTrackInfoYearContent.text = track.collectionName
+            binding.textViewTrackInfoYearContent.text = track.getReleaseYear()
+            binding.textViewTrackInfoGenreContent.text = track.primaryGenreName
+            binding.textViewTrackInfoCountryContent.text = track.country
+        }
+
+        if (track != null) render(track)
+        else Log.e("HOUSTON_LOG_ERROR", "Вместо объекта класса Track из интента получен null")
+
         Glide
             .with(this)
             .load(track?.getCoverArtwork())
@@ -56,16 +70,7 @@ class PlayerActivity : AppCompatActivity() {
             .transform(RoundedCorners(pixelConverter(4f, this)))
             .into(binding.imageViewArtwork512)
 
-        binding.textViewTrackName.text = track?.trackName!!
-        binding.textViewArtistName.text = track.artistName
-        binding.textViewTrackInfoDurationContent.text = trackTimeFormat(track.trackTimeMillis)
-        binding.textViewTrackInfoYearContent.text = track.collectionName
-        binding.textViewTrackInfoYearContent.text = track.getReleaseYear()
-        binding.textViewTrackInfoGenreContent.text = track.primaryGenreName
-        binding.textViewTrackInfoCountryContent.text = track.country
-
-
-        player.preparePlayer(track)
+        player.preparePlayer(track as Track)
         binding.buttonPlayPause.setOnClickListener {
             player.playbackControl()
         }
