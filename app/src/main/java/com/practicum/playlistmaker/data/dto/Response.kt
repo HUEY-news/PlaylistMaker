@@ -1,4 +1,3 @@
 package com.practicum.playlistmaker.data.dto
 
-open class Response {
-}
+open class Response
