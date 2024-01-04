@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.edit
 
 const val PREFERENCES_FOLDER_NAME = "PREFERENCES"
 const val DARK_THEME_KEY = "DARK_THEME_ENABLED"
@@ -34,9 +35,8 @@ class App : Application() {
         )
 
         // реализация сохранения темы:
-        with(sharedPreferences.edit()) {
+        sharedPreferences.edit {
             putBoolean(DARK_THEME_KEY, darkTheme)
-            apply()
         }
     }
 
