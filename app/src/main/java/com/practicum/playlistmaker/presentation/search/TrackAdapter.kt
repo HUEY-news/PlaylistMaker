@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.domain.model.Track
 
-class SearchHistoryAdapter(
+class TrackAdapter(
     private val onItemClick: (track: Track) -> Unit
-) : RecyclerView.Adapter<SearchTrackViewHolder>() {
+) : RecyclerView.Adapter<TrackViewHolder>() {
     private var trackList: List<Track> = emptyList()
 
     fun setItems(items: List<Track>) {
@@ -16,9 +16,9 @@ class SearchHistoryAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchTrackViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_track, parent, false)
-        return SearchTrackViewHolder(itemView) { position: Int ->
+        return TrackViewHolder(itemView) { position: Int ->
             if (position != RecyclerView.NO_POSITION) {
                 trackList.getOrNull(position)?.let { track ->
                     onItemClick(track)
@@ -31,10 +31,9 @@ class SearchHistoryAdapter(
         return trackList.size
     }
 
-    override fun onBindViewHolder(holder: SearchTrackViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         trackList.getOrNull(position)?.let { track ->
             holder.bind(track)
         }
     }
 }
-

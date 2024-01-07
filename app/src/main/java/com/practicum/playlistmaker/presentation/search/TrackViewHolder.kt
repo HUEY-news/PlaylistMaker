@@ -11,7 +11,7 @@ import com.practicum.playlistmaker.domain.model.Track
 import com.practicum.playlistmaker.utils.convertPixel
 import com.practicum.playlistmaker.utils.convertTime
 
-class SearchTrackViewHolder(
+class TrackViewHolder(
     itemView: View,
     onItemClick: (position: Int) -> Unit
 ) : RecyclerView.ViewHolder(itemView) {

@@ -41,8 +41,8 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchHistoryContainer: LinearLayout
     private lateinit var searchHistoryTrackList: RecyclerView
     private lateinit var searchHistoryButton: Button
-    private lateinit var searchTrackAdapter: SearchTrackAdapter
-    private lateinit var searchHistoryAdapter: SearchHistoryAdapter
+    private lateinit var searchAdapter: TrackAdapter
+    private lateinit var historyAdapter: TrackAdapter
     private lateinit var progressBar: ProgressBar
 
     override fun onCreate(state: Bundle?) {
@@ -61,7 +61,7 @@ class SearchActivity : AppCompatActivity() {
         findViewById<ImageButton>(R.id.backButton).setOnClickListener { finish() }
 
         val searchHistory = SearchHistory(App.sharedPreferences)
-        searchTrackAdapter = SearchTrackAdapter { track ->
+        searchAdapter = TrackAdapter { track ->
             if (clickDebounce()) {
                 searchHistory.addTrackToHistory(track)
                 val intent = Intent(this, PlayerActivity::class.java)
@@ -69,18 +69,18 @@ class SearchActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-        searchHistoryAdapter = SearchHistoryAdapter { track ->
+        historyAdapter = TrackAdapter { track ->
             if (clickDebounce()) {
                 val intent = Intent(this, PlayerActivity::class.java)
                 intent.putExtra(PlayerActivity.TRACK_ID, track)
                 startActivity(intent)
             }
         }
-        activitySearchBinding.searchRecycler.adapter = searchTrackAdapter
-        searchHistoryTrackList.adapter = searchHistoryAdapter
+        activitySearchBinding.searchRecycler.adapter = searchAdapter
+        searchHistoryTrackList.adapter = historyAdapter
 
         if (searchHistory.getHistory().isNotEmpty()) {
-            searchHistoryAdapter.setItems(searchHistory.getHistory())
+            historyAdapter.setItems(searchHistory.getHistory())
             searchHistoryContainer.isVisible = true
         }
 
@@ -91,7 +91,7 @@ class SearchActivity : AppCompatActivity() {
         // отслеживание состояния фокуса поля ввода:
         activitySearchBinding.searchField.setOnFocusChangeListener { view, hasFocus ->
             if (searchHistory.getHistory().isNotEmpty()){
-                searchHistoryAdapter.setItems(searchHistory.getHistory())
+                historyAdapter.setItems(searchHistory.getHistory())
                 searchHistoryContainer.isVisible =
                     if (hasFocus && activitySearchBinding.searchField.text.isEmpty()) {
                         true
@@ -133,7 +133,7 @@ class SearchActivity : AppCompatActivity() {
                 searchDebounce()
 
                 if (searchHistory.getHistory().isNotEmpty()){
-                    searchHistoryAdapter.setItems(searchHistory.getHistory())
+                    historyAdapter.setItems(searchHistory.getHistory())
                     searchHistoryContainer.isVisible =
                         if (activitySearchBinding.searchField.hasFocus() && string?.isEmpty() == true) {
                             true
@@ -169,7 +169,7 @@ class SearchActivity : AppCompatActivity() {
                         if (response.code() == 200) {
                             val result = response.body()?.results
                             if (result?.isNotEmpty() == true) {
-                                searchTrackAdapter.setItems(result)
+                                searchAdapter.setItems(result)
                                 activitySearchBinding.searchRecycler.isVisible = true
                             } else {
                                 showPlaceholder(resources.getString(R.string.placeholder_empty_error))
@@ -216,7 +216,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun clearTrackList() {
-        searchTrackAdapter.setItems(arrayListOf())
+        searchAdapter.setItems(arrayListOf())
     }
 
     private fun getAttribute(attr: Int): Drawable? {
