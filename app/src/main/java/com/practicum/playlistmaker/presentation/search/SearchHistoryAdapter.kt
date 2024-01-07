@@ -1,35 +1,30 @@
 package com.practicum.playlistmaker.presentation.search
 
-import android.content.Intent
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.domain.model.Track
-import com.practicum.playlistmaker.presentation.player.PlayerActivity
 
-class SearchHistoryAdapter(private var trackList: List<Track>): RecyclerView.Adapter<SearchTrackViewHolder>(){
+class SearchHistoryAdapter(
+    private val onItemClick: (track: Track) -> Unit
+) : RecyclerView.Adapter<SearchTrackViewHolder>() {
+    private var trackList: List<Track> = emptyList()
 
-    private var isClickAllowed = true
-    private val handler = Handler(Looper.getMainLooper())
-
-    private fun clickDebounce() : Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
-        }
-        return current
-    }
-
-    fun setTracks(tracks: List<Track>) {
-        trackList = tracks
+    fun setItems(items: List<Track>) {
+        trackList = items
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchTrackViewHolder {
-        return SearchTrackViewHolder(parent)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_track, parent, false)
+        return SearchTrackViewHolder(itemView) { position: Int ->
+            if (position != RecyclerView.NO_POSITION) {
+                trackList.getOrNull(position)?.let { track ->
+                    onItemClick(track)
+                }
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -37,19 +32,9 @@ class SearchHistoryAdapter(private var trackList: List<Track>): RecyclerView.Ada
     }
 
     override fun onBindViewHolder(holder: SearchTrackViewHolder, position: Int) {
-        holder.bind(trackList[position])
-        holder.itemView.setOnClickListener {
-            Log.d("myLOG", "SearchHistoryAdapter item clicked!")
-            if (clickDebounce()) {
-                // ЗАПУСКАЕТ PLAYER ACTIVITY И ПЕРЕДАЁТ ТРЕК
-                val intent = Intent(holder.itemView.context, PlayerActivity::class.java)
-                intent.putExtra(PlayerActivity.TRACK_ID, trackList[position])
-                holder.itemView.context.startActivity(intent)
-            }
+        trackList.getOrNull(position)?.let { track ->
+            holder.bind(track)
         }
     }
-
-    companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
-    }
 }
+

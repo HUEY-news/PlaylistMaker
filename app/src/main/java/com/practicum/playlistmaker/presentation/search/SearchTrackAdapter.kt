@@ -18,7 +18,7 @@ class SearchTrackAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchTrackViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_track, parent, false)
-        return SearchTrackViewHolder(itemView) {position: Int ->
+        return SearchTrackViewHolder(itemView) { position: Int ->
             if (position != RecyclerView.NO_POSITION) {
                 trackList.getOrNull(position)?.let { track ->
                     onItemClick(track)

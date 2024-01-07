@@ -43,7 +43,6 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchHistoryButton: Button
     private lateinit var searchTrackAdapter: SearchTrackAdapter
     private lateinit var searchHistoryAdapter: SearchHistoryAdapter
-    private lateinit var searchHistory: SearchHistory
     private lateinit var progressBar: ProgressBar
 
     override fun onCreate(state: Bundle?) {
@@ -61,27 +60,27 @@ class SearchActivity : AppCompatActivity() {
 
         findViewById<ImageButton>(R.id.backButton).setOnClickListener { finish() }
 
-        searchTrackAdapter = SearchTrackAdapter {track ->
+        val searchHistory = SearchHistory(App.sharedPreferences)
+        searchTrackAdapter = SearchTrackAdapter { track ->
             if (clickDebounce()) {
-
-                // ДОБАВЛЯЕТ ТРЕК В ИСТОРИЮ ПОИСКА
-                val searchHistory = SearchHistory(App.sharedPreferences)
                 searchHistory.addTrackToHistory(track)
-
-                // ЗАПУСКАЕТ PLAYER ACTIVITY И ПЕРЕДАЁТ ТРЕК
                 val intent = Intent(this, PlayerActivity::class.java)
                 intent.putExtra(PlayerActivity.TRACK_ID, track)
                 startActivity(intent)
             }
         }
-        activitySearchBinding.searchTrackList.adapter = searchTrackAdapter
-        searchHistoryAdapter = SearchHistoryAdapter(arrayListOf())
+        searchHistoryAdapter = SearchHistoryAdapter { track ->
+            if (clickDebounce()) {
+                val intent = Intent(this, PlayerActivity::class.java)
+                intent.putExtra(PlayerActivity.TRACK_ID, track)
+                startActivity(intent)
+            }
+        }
+        activitySearchBinding.searchRecycler.adapter = searchTrackAdapter
         searchHistoryTrackList.adapter = searchHistoryAdapter
 
-        searchHistory = SearchHistory(App.sharedPreferences)
-
         if (searchHistory.getHistory().isNotEmpty()) {
-            searchHistoryAdapter.setTracks(searchHistory.getHistory())
+            searchHistoryAdapter.setItems(searchHistory.getHistory())
             searchHistoryContainer.isVisible = true
         }
 
@@ -92,7 +91,7 @@ class SearchActivity : AppCompatActivity() {
         // отслеживание состояния фокуса поля ввода:
         activitySearchBinding.searchField.setOnFocusChangeListener { view, hasFocus ->
             if (searchHistory.getHistory().isNotEmpty()){
-                searchHistoryAdapter.setTracks(searchHistory.getHistory())
+                searchHistoryAdapter.setItems(searchHistory.getHistory())
                 searchHistoryContainer.isVisible =
                     if (hasFocus && activitySearchBinding.searchField.text.isEmpty()) {
                         true
@@ -134,7 +133,7 @@ class SearchActivity : AppCompatActivity() {
                 searchDebounce()
 
                 if (searchHistory.getHistory().isNotEmpty()){
-                    searchHistoryAdapter.setTracks(searchHistory.getHistory())
+                    searchHistoryAdapter.setItems(searchHistory.getHistory())
                     searchHistoryContainer.isVisible =
                         if (activitySearchBinding.searchField.hasFocus() && string?.isEmpty() == true) {
                             true
@@ -171,7 +170,7 @@ class SearchActivity : AppCompatActivity() {
                             val result = response.body()?.results
                             if (result?.isNotEmpty() == true) {
                                 searchTrackAdapter.setItems(result)
-                                activitySearchBinding.searchTrackList.isVisible = true
+                                activitySearchBinding.searchRecycler.isVisible = true
                             } else {
                                 showPlaceholder(resources.getString(R.string.placeholder_empty_error))
                             }
@@ -213,7 +212,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun hideRecycler(){
-        activitySearchBinding.searchTrackList.visibility = View.GONE
+        activitySearchBinding.searchRecycler.visibility = View.GONE
     }
 
     private fun clearTrackList() {
