@@ -17,6 +17,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.Creator
@@ -67,19 +68,23 @@ class SearchActivity : AppCompatActivity() {
 
         if (searchHistory.getHistory().isNotEmpty()) {
             searchHistoryAdapter.setTracks(searchHistory.getHistory())
-            searchHistoryContainer.visibility = View.VISIBLE
+            searchHistoryContainer.isVisible = true
         }
 
         searchHistoryButton.setOnClickListener {
-            searchHistoryContainer.visibility = View.GONE
+            searchHistoryContainer.isVisible = false
             searchHistory.clearHistory() }
 
         // отслеживание состояния фокуса поля ввода:
         activitySearchBinding.searchField.setOnFocusChangeListener { view, hasFocus ->
             if (searchHistory.getHistory().isNotEmpty()){
                 searchHistoryAdapter.setTracks(searchHistory.getHistory())
-                searchHistoryContainer.visibility =
-                    if (hasFocus && activitySearchBinding.searchField.text.isEmpty()) View.VISIBLE else View.GONE
+                searchHistoryContainer.isVisible =
+                    if (hasFocus && activitySearchBinding.searchField.text.isEmpty()) {
+                        true
+                    } else {
+                        false
+                    }
             }
         }
 
@@ -104,11 +109,11 @@ class SearchActivity : AppCompatActivity() {
 
                 if (string.isNullOrEmpty()) hidePlaceholder()
 
-                activitySearchBinding.resetButton.visibility =
+                activitySearchBinding.resetButton.isVisible =
                     if (string.isNullOrEmpty()) {
-                        View.GONE
+                        false
                     } else {
-                        View.VISIBLE
+                        true
                     }
 
                 clearTrackList()
@@ -116,11 +121,11 @@ class SearchActivity : AppCompatActivity() {
 
                 if (searchHistory.getHistory().isNotEmpty()){
                     searchHistoryAdapter.setTracks(searchHistory.getHistory())
-                    searchHistoryContainer.visibility =
+                    searchHistoryContainer.isVisible =
                         if (activitySearchBinding.searchField.hasFocus() && string?.isEmpty() == true) {
-                            View.VISIBLE
+                            true
                         } else {
-                            View.GONE
+                            false
                         }
                 }
             }
@@ -142,7 +147,7 @@ class SearchActivity : AppCompatActivity() {
         if (request.isNotEmpty()) {
             hidePlaceholder()
             clearTrackList()
-            progressBar.visibility = View.VISIBLE
+            progressBar.isVisible = true
 
             creator.provideApiService().search(request).enqueue(object : Callback<SearchResponse> {
 
@@ -152,7 +157,7 @@ class SearchActivity : AppCompatActivity() {
                             val result = response.body()?.results
                             if (result?.isNotEmpty() == true) {
                                 searchTrackAdapter.setTracks(result)
-                                activitySearchBinding.searchTrackList.visibility = View.VISIBLE
+                                activitySearchBinding.searchTrackList.isVisible = true
                             } else {
                                 showPlaceholder(resources.getString(R.string.placeholder_empty_error))
                             }
@@ -162,7 +167,7 @@ class SearchActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                        progressBar.visibility = View.GONE
+                        progressBar.isVisible = false
                         showPlaceholder(resources.getString(R.string.placeholder_internet_error))
                     }
                 }
@@ -182,7 +187,7 @@ class SearchActivity : AppCompatActivity() {
             resources.getString(R.string.placeholder_internet_error) -> {
                 placeholderIcon.setImageDrawable(getAttribute(R.attr.placeholderInternetError))
                 placeholderText.setText(R.string.placeholder_internet_error)
-                placeholderButton.visibility = View.VISIBLE
+                placeholderButton.isVisible = true
             }
         }
     }
@@ -190,7 +195,7 @@ class SearchActivity : AppCompatActivity() {
     private fun hidePlaceholder(){
         placeholderIcon.setImageDrawable(null)
         placeholderText.text = null
-        placeholderButton.visibility = View.GONE
+        placeholderButton.isVisible = false
     }
 
     private fun hideRecycler(){
