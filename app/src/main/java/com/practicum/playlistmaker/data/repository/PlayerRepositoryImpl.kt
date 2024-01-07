@@ -1,11 +1,14 @@
 package com.practicum.playlistmaker.data.repository
 
-import com.practicum.playlistmaker.data.mappers.PlayerMapper
+import com.practicum.playlistmaker.data.mapper.PlayerMapper
 import com.practicum.playlistmaker.data.player.Player
-import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.domain.model.Track
 import com.practicum.playlistmaker.domain.repository.PlayerRepository
 
-class PlayerRepositoryImpl(private val player: Player, private val mapper: PlayerMapper): PlayerRepository {
+class PlayerRepositoryImpl(
+    private val player: Player,
+    private val mapper: PlayerMapper
+): PlayerRepository {
 
     override fun getPlayerState() = player.getPlayerState()
     override fun getPlayerCurrentPosition() = player.getPlayerCurrentPosition()

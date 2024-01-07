@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.presentation.player
+package com.practicum.playlistmaker.presentation.ui.player
 
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -15,10 +15,10 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.Creator
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
-import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.domain.model.Track
 import com.practicum.playlistmaker.domain.player.PlayerInteractor
-import com.practicum.playlistmaker.utils.pixelConverter
-import com.practicum.playlistmaker.utils.trackTimeFormat
+import com.practicum.playlistmaker.utils.convertPixel
+import com.practicum.playlistmaker.utils.convertTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -26,7 +26,7 @@ import java.util.Locale
 
 class PlayerActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityPlayerBinding
+    private lateinit var activityPlayerBinding : ActivityPlayerBinding
 
     private val creator = Creator()
     private val player: PlayerInteractor = creator.providePlayerInteractor()
@@ -37,12 +37,13 @@ class PlayerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        activityPlayerBinding = ActivityPlayerBinding.inflate(layoutInflater)
+        setContentView(activityPlayerBinding.root)
 
-        binding = ActivityPlayerBinding.inflate(layoutInflater).also {setContentView(it.root) }
         mainThreadHandler = Handler(Looper.getMainLooper())
-        timerUpdateRunnable = updateTimer(binding.textViewTrackTimer)
+        timerUpdateRunnable = updateTimer(activityPlayerBinding.textViewTrackTimer)
 
-        binding.buttonBack.setOnClickListener { finish() }
+        activityPlayerBinding.buttonBack.setOnClickListener { finish() }
 
         val track: Track? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra(TRACK_ID, Track::class.java)
@@ -51,13 +52,13 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         fun render(track: Track) {
-            binding.textViewTrackName.text = track.trackName
-            binding.textViewArtistName.text = track.artistName
-            binding.textViewTrackInfoDurationContent.text = trackTimeFormat(track.trackTimeMillis)
-            binding.textViewTrackInfoYearContent.text = track.collectionName
-            binding.textViewTrackInfoYearContent.text = track.getReleaseYear()
-            binding.textViewTrackInfoGenreContent.text = track.primaryGenreName
-            binding.textViewTrackInfoCountryContent.text = track.country
+            activityPlayerBinding.textViewTrackName.text = track.trackName
+            activityPlayerBinding.textViewArtistName.text = track.artistName
+            activityPlayerBinding.textViewTrackInfoDurationContent.text = convertTime(track.trackTimeMillis)
+            activityPlayerBinding.textViewTrackInfoYearContent.text = track.collectionName
+            activityPlayerBinding.textViewTrackInfoYearContent.text = track.getReleaseYear()
+            activityPlayerBinding.textViewTrackInfoGenreContent.text = track.primaryGenreName
+            activityPlayerBinding.textViewTrackInfoCountryContent.text = track.country
         }
 
         if (track != null) render(track)
@@ -67,11 +68,11 @@ class PlayerActivity : AppCompatActivity() {
             .with(this)
             .load(track?.getCoverArtwork())
             .placeholder(R.drawable.ic_placeholder_artwork_240)
-            .transform(RoundedCorners(pixelConverter(4f, this)))
-            .into(binding.imageViewArtwork512)
+            .transform(RoundedCorners(convertPixel(4f, this)))
+            .into(activityPlayerBinding.imageViewArtwork512)
 
         player.preparePlayer(track as Track)
-        binding.buttonPlayPause.setOnClickListener {
+        activityPlayerBinding.buttonPlayPause.setOnClickListener {
             player.playbackControl()
         }
 
@@ -98,16 +99,16 @@ class PlayerActivity : AppCompatActivity() {
     private fun checkPlayerState(state: Int) {
         when (state) {
             STATE_PLAYING -> {
-                binding.buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPause))
+                activityPlayerBinding.buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPause))
                 mainThreadHandler.post(timerUpdateRunnable)
             }
             STATE_PREPARED -> {
-                binding.buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPlay))
+                activityPlayerBinding.buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPlay))
                 stopUpdater()
-                binding.textViewTrackTimer.text = ZERO_CONDITION
+                activityPlayerBinding.textViewTrackTimer.text = ZERO_CONDITION
             }
             STATE_PAUSED -> {
-                binding.buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPlay))
+                activityPlayerBinding.buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPlay))
             }
             else ->{}
         }

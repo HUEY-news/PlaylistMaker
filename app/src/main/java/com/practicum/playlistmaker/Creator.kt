@@ -1,6 +1,6 @@
 package com.practicum.playlistmaker
 
-import com.practicum.playlistmaker.data.mappers.PlayerMapper
+import com.practicum.playlistmaker.data.mapper.PlayerMapper
 import com.practicum.playlistmaker.data.network.RetrofitNetworkClient
 import com.practicum.playlistmaker.data.network.iTunesApiService
 import com.practicum.playlistmaker.data.player.Player

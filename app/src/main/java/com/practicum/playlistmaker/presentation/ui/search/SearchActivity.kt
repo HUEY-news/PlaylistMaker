@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.presentation.search
+package com.practicum.playlistmaker.presentation.ui.search
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -10,7 +10,6 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -23,17 +22,16 @@ import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.Creator
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.data.dto.SearchResponse
+import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class SearchActivity : AppCompatActivity() {
 
+    lateinit var activitySearchBinding: ActivitySearchBinding
     private val creator = Creator()
 
-    private lateinit var searchField: EditText
-    private lateinit var resetButton: ImageButton
-    private lateinit var trackRecycler: RecyclerView
     private lateinit var placeholderIcon: ImageView
     private lateinit var placeholderText: TextView
     private lateinit var placeholderButton: Button
@@ -47,11 +45,9 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
-        setContentView(R.layout.activity_search)
+        activitySearchBinding = ActivitySearchBinding.inflate(layoutInflater)
+        setContentView(activitySearchBinding.root)
 
-        searchField = findViewById(R.id.searchField)
-        resetButton = findViewById(R.id.resetButton)
-        trackRecycler = findViewById(R.id.searchTrackList)
         placeholderIcon = findViewById(R.id.placeholderIcon)
         placeholderText = findViewById(R.id.placeholderText)
         placeholderButton = findViewById(R.id.placeholderButton)
@@ -63,7 +59,7 @@ class SearchActivity : AppCompatActivity() {
         findViewById<ImageButton>(R.id.backButton).setOnClickListener { finish() }
 
         searchTrackAdapter = SearchTrackAdapter(arrayListOf())
-        trackRecycler.adapter = searchTrackAdapter
+        activitySearchBinding.searchTrackList.adapter = searchTrackAdapter
         searchHistoryAdapter = SearchHistoryAdapter(arrayListOf())
         searchHistoryTrackList.adapter = searchHistoryAdapter
 
@@ -79,48 +75,61 @@ class SearchActivity : AppCompatActivity() {
             searchHistory.clearHistory() }
 
         // отслеживание состояния фокуса поля ввода:
-        searchField.setOnFocusChangeListener { view, hasFocus ->
+        activitySearchBinding.searchField.setOnFocusChangeListener { view, hasFocus ->
             if (searchHistory.getHistory().isNotEmpty()){
                 searchHistoryAdapter.setTracks(searchHistory.getHistory())
                 searchHistoryContainer.visibility =
-                    if (hasFocus && searchField.text.isEmpty()) View.VISIBLE else View.GONE
+                    if (hasFocus && activitySearchBinding.searchField.text.isEmpty()) View.VISIBLE else View.GONE
             }
         }
 
-        placeholderButton.setOnClickListener { searchRequest(searchField.text.toString()) }
+        placeholderButton.setOnClickListener {
+            searchRequest(activitySearchBinding.searchField.text.toString()) }
 
-        resetButton.setOnClickListener {
-            searchField.setText("")
+        activitySearchBinding.resetButton.setOnClickListener {
+            activitySearchBinding.searchField.setText("")
             clearTrackList()
 
             // спрятать виртуальную клавиатуру:
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            inputMethodManager?.hideSoftInputFromWindow(searchField.windowToken, 0)
+            inputMethodManager?.hideSoftInputFromWindow(activitySearchBinding.searchField.windowToken, 0)
         }
 
         val textWatcher = object : TextWatcher {
+
             override fun beforeTextChanged(string: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(string: Editable?) {}
             override fun onTextChanged(string: CharSequence?, start: Int, before: Int, count: Int) {
 
                 if (string.isNullOrEmpty()) hidePlaceholder()
 
-                resetButton.visibility = if (string.isNullOrEmpty()) View.GONE else View.VISIBLE
+                activitySearchBinding.resetButton.visibility =
+                    if (string.isNullOrEmpty()) {
+                        View.GONE
+                    } else {
+                        View.VISIBLE
+                    }
+
                 clearTrackList()
                 searchDebounce()
 
                 if (searchHistory.getHistory().isNotEmpty()){
                     searchHistoryAdapter.setTracks(searchHistory.getHistory())
                     searchHistoryContainer.visibility =
-                        if (searchField.hasFocus() && string?.isEmpty() == true) View.VISIBLE else View.GONE
+                        if (activitySearchBinding.searchField.hasFocus() && string?.isEmpty() == true) {
+                            View.VISIBLE
+                        } else {
+                            View.GONE
+                        }
                 }
             }
         }
-        searchField.addTextChangedListener(textWatcher)
+        activitySearchBinding.searchField.addTextChangedListener(textWatcher)
     }
 
-    private val searchRunnable = Runnable { searchRequest(searchField.text.toString()) }
+    private val searchRunnable = Runnable {
+        searchRequest(activitySearchBinding.searchField.text.toString()) }
     private val handler = Handler(Looper.getMainLooper())
 
     private fun searchDebounce() {
@@ -143,7 +152,7 @@ class SearchActivity : AppCompatActivity() {
                             val result = response.body()?.results
                             if (result?.isNotEmpty() == true) {
                                 searchTrackAdapter.setTracks(result)
-                                trackRecycler.visibility = View.VISIBLE
+                                activitySearchBinding.searchTrackList.visibility = View.VISIBLE
                             } else {
                                 showPlaceholder(resources.getString(R.string.placeholder_empty_error))
                             }
@@ -185,7 +194,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun hideRecycler(){
-        trackRecycler.visibility = View.GONE
+        activitySearchBinding.searchTrackList.visibility = View.GONE
     }
 
     private fun clearTrackList() {

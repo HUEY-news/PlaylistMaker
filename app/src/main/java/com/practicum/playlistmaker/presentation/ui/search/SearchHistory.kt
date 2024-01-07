@@ -1,10 +1,10 @@
-package com.practicum.playlistmaker.presentation.search
+package com.practicum.playlistmaker.presentation.ui.search
 
 import android.content.SharedPreferences
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.domain.model.Track
 
 const val TRACK_LIST_KEY = "TRACK_LIST"
 const val HISTORY_LIMIT = 10

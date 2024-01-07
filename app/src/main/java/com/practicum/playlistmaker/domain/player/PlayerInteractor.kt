@@ -1,6 +1,6 @@
 package com.practicum.playlistmaker.domain.player
 
-import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.domain.model.Track
 import kotlinx.coroutines.flow.Flow
 
 interface PlayerInteractor {
