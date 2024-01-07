@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.presentation.ui.search
+package com.practicum.playlistmaker.presentation.search
 
 import android.content.Intent
 import android.os.Handler
@@ -6,11 +6,10 @@ import android.os.Looper
 import android.util.Log
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.domain.model.Track
-import com.practicum.playlistmaker.presentation.ui.player.PlayerActivity
+import com.practicum.playlistmaker.presentation.player.PlayerActivity
 
-class SearchTrackAdapter(private var trackList: List<Track>) : RecyclerView.Adapter<SearchTrackViewHolder>() {
+class SearchHistoryAdapter(private var trackList: List<Track>): RecyclerView.Adapter<SearchTrackViewHolder>(){
 
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
@@ -40,13 +39,8 @@ class SearchTrackAdapter(private var trackList: List<Track>) : RecyclerView.Adap
     override fun onBindViewHolder(holder: SearchTrackViewHolder, position: Int) {
         holder.bind(trackList[position])
         holder.itemView.setOnClickListener {
-            Log.d("myLOG", "TrackListAdapter item clicked!")
+            Log.d("myLOG", "SearchHistoryAdapter item clicked!")
             if (clickDebounce()) {
-
-                // ДОБАВЛЯЕТ ТРЕК В ИСТОРИЮ ПОИСКА
-                val searchHistory = SearchHistory(App.sharedPreferences)
-                searchHistory.addTrackToHistory(trackList[position])
-
                 // ЗАПУСКАЕТ PLAYER ACTIVITY И ПЕРЕДАЁТ ТРЕК
                 val intent = Intent(holder.itemView.context, PlayerActivity::class.java)
                 intent.putExtra(PlayerActivity.TRACK_ID, trackList[position])

@@ -1,6 +1,6 @@
 package com.practicum.playlistmaker.data.player
 
-import com.practicum.playlistmaker.data.dto.TrackDto
+import com.practicum.playlistmaker.domain.model.Track
 import kotlinx.coroutines.flow.Flow
 
 interface Player {
@@ -8,7 +8,7 @@ interface Player {
     fun getPlayerState(): Flow<Int>
     fun getPlayerCurrentPosition(): Int
 
-    fun preparePlayer(track: TrackDto)
+    fun preparePlayer(track: Track)
     fun playbackControl()
 
     fun onPause()

@@ -1,7 +1,7 @@
 package com.practicum.playlistmaker.data.player
 
 import android.media.MediaPlayer
-import com.practicum.playlistmaker.data.dto.TrackDto
+import com.practicum.playlistmaker.domain.model.Track
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -18,7 +18,7 @@ class PlayerImpl: Player {
         return mediaPlayer.currentPosition
     }
 
-    override fun preparePlayer(track: TrackDto) {
+    override fun preparePlayer(track: Track) {
         mediaPlayer.setDataSource(track.previewUrl)
         mediaPlayer.prepareAsync()
         mediaPlayer.setOnPreparedListener {

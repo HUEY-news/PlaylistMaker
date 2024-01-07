@@ -40,7 +40,7 @@
 
     <!-- TRACK HEADER -->
     <ImageView
-        android:id="@+id/image_view_artwork_512"
+        android:id="@+id/imageViewArtwork512"
         style="@style/Player.Artwork"
         app:layout_constraintEnd_toStartOf="@id/border_right_24"
         app:layout_constraintStart_toEndOf="@id/border_left_24"

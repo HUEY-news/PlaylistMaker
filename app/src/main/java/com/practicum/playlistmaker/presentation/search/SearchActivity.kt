@@ -1,6 +1,7 @@
-package com.practicum.playlistmaker.presentation.ui.search
+package com.practicum.playlistmaker.presentation.search
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
@@ -24,6 +25,7 @@ import com.practicum.playlistmaker.Creator
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.data.dto.SearchResponse
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
+import com.practicum.playlistmaker.presentation.player.PlayerActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -59,7 +61,19 @@ class SearchActivity : AppCompatActivity() {
 
         findViewById<ImageButton>(R.id.backButton).setOnClickListener { finish() }
 
-        searchTrackAdapter = SearchTrackAdapter(arrayListOf())
+        searchTrackAdapter = SearchTrackAdapter {track ->
+            if (clickDebounce()) {
+
+                // ДОБАВЛЯЕТ ТРЕК В ИСТОРИЮ ПОИСКА
+                val searchHistory = SearchHistory(App.sharedPreferences)
+                searchHistory.addTrackToHistory(track)
+
+                // ЗАПУСКАЕТ PLAYER ACTIVITY И ПЕРЕДАЁТ ТРЕК
+                val intent = Intent(this, PlayerActivity::class.java)
+                intent.putExtra(PlayerActivity.TRACK_ID, track)
+                startActivity(intent)
+            }
+        }
         activitySearchBinding.searchTrackList.adapter = searchTrackAdapter
         searchHistoryAdapter = SearchHistoryAdapter(arrayListOf())
         searchHistoryTrackList.adapter = searchHistoryAdapter
@@ -156,7 +170,7 @@ class SearchActivity : AppCompatActivity() {
                         if (response.code() == 200) {
                             val result = response.body()?.results
                             if (result?.isNotEmpty() == true) {
-                                searchTrackAdapter.setTracks(result)
+                                searchTrackAdapter.setItems(result)
                                 activitySearchBinding.searchTrackList.isVisible = true
                             } else {
                                 showPlaceholder(resources.getString(R.string.placeholder_empty_error))
@@ -203,7 +217,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun clearTrackList() {
-        searchTrackAdapter.setTracks(arrayListOf())
+        searchTrackAdapter.setItems(arrayListOf())
     }
 
     private fun getAttribute(attr: Int): Drawable? {
@@ -215,7 +229,18 @@ class SearchActivity : AppCompatActivity() {
         return ContextCompat.getDrawable(this, placeholderResourceId)
     }
 
+    private var isClickAllowed = true
+    private fun clickDebounce() : Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+        }
+        return current
+    }
+
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 }
