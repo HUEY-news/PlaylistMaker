@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.presentation.search
+package com.practicum.playlistmaker.data
 
 import android.content.SharedPreferences
 import android.util.Log
@@ -11,7 +11,6 @@ const val HISTORY_LIMIT = 10
 
 class SearchHistory(private val sharedPreferences: SharedPreferences) {
 
-    // поместить список треков в JSON:
     private fun createJsonFromTrackList(trackList: ArrayList<Track>): String {
         return Gson().toJson(trackList)
     }
@@ -23,7 +22,6 @@ class SearchHistory(private val sharedPreferences: SharedPreferences) {
         }
     }
 
-    // достать список треков из JSON:
     private fun createTrackListFromJson(json: String): ArrayList<Track> {
         val listType = object : TypeToken<ArrayList<Track>>() {}.type
         return Gson().fromJson(json, listType)

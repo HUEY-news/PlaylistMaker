@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.Creator
 import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.data.SearchHistory
 import com.practicum.playlistmaker.data.dto.SearchResponse
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.presentation.player.PlayerActivity
