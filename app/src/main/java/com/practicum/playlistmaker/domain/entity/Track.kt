@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.domain.model
+package com.practicum.playlistmaker.domain.entity
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
@@ -18,7 +18,7 @@ data class Track(
     val primaryGenreName: String,
     val country: String,
     val previewUrl: String
-): Parcelable{
+): Parcelable {
 
     fun getCoverArtwork(): String {
         return artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")

@@ -1,10 +1,10 @@
-package com.practicum.playlistmaker.presentation.search
+package com.practicum.playlistmaker.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.domain.model.Track
+import com.practicum.playlistmaker.domain.entity.Track
 
 class TrackAdapter(
     private val onItemClick: (track: Track) -> Unit

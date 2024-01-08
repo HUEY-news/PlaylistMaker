@@ -1,7 +1,7 @@
 package com.practicum.playlistmaker.data.repository
 
 import com.practicum.playlistmaker.data.player.Player
-import com.practicum.playlistmaker.domain.model.Track
+import com.practicum.playlistmaker.domain.entity.Track
 import com.practicum.playlistmaker.domain.repository.PlayerRepository
 
 class PlayerRepositoryImpl(

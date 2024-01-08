@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.presentation.search
+package com.practicum.playlistmaker.presentation
 
 import android.content.Context
 import android.content.Intent
@@ -34,7 +34,7 @@ import retrofit2.Response
 class SearchActivity : AppCompatActivity() {
 
     lateinit var activitySearchBinding: ActivitySearchBinding
-    private val creator = Creator()
+    private val trackInteractor = Creator.provideTrackInteractor()
 
     private lateinit var placeholderIcon: ImageView
     private lateinit var placeholderText: TextView
@@ -148,7 +148,10 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private val searchRunnable = Runnable {
-        searchRequest(activitySearchBinding.searchField.text.toString()) }
+        searchRequest(
+            activitySearchBinding.searchField.text.toString()
+        )
+    }
     private val handler = Handler(Looper.getMainLooper())
 
     private fun searchDebounce() {
@@ -163,7 +166,7 @@ class SearchActivity : AppCompatActivity() {
             clearTrackList()
             progressBar.isVisible = true
 
-            creator.provideApiService().search(request).enqueue(object : Callback<SearchResponse> {
+            Creator.provideApiService().search(request).enqueue(object : Callback<SearchResponse> {
 
                     override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
                         progressBar.visibility = View.GONE
