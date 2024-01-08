@@ -166,7 +166,9 @@ class SearchActivity : AppCompatActivity() {
             clearTrackList()
             progressBar.isVisible = true
 
-            Creator.provideApiService().search(request).enqueue(object : Callback<SearchResponse> {
+            trackInteractor.searchTrack(request) {}
+
+            Creator.provideTrackInteractor().searchTrack(request).enqueue(object : Callback<SearchResponse> {
 
                     override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
                         progressBar.visibility = View.GONE
