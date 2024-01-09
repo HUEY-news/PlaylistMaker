@@ -13,12 +13,8 @@ class Creator {
 
     fun provideApiService() = RetrofitNetworkClient.retrofit.create(iTunesApiService::class.java)
 
-    fun providePlayer(): Player = PlayerImpl()
 
-    fun providePlayerRepository(): PlayerRepository = PlayerRepositoryImpl(
-        player = providePlayer())
-
-    fun providePlayerInteractor(): PlayerInteractor = PlayerInteractorImpl(
-        playerRepository = providePlayerRepository()
-    )
+    fun providePlayerInteractor(): PlayerInteractor = PlayerInteractorImpl(playerRepository = providePlayerRepository())
+    private fun providePlayerRepository(): PlayerRepository = PlayerRepositoryImpl(player = providePlayer())
+    private fun providePlayer(): Player = PlayerImpl()
 }
