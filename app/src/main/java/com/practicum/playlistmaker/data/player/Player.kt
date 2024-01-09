@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface Player {
 
-    fun getPlayerState(): Flow<Int>
+    fun getPlayerStateFlow(): Flow<Int>
     fun getPlayerCurrentPosition(): Int
 
     fun preparePlayer(track: Track)

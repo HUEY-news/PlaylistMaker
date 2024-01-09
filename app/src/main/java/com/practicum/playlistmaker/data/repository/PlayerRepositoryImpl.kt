@@ -8,7 +8,7 @@ class PlayerRepositoryImpl(
     private val player: Player,
 ): PlayerRepository {
 
-    override fun getPlayerState() = player.getPlayerState()
+    override fun getPlayerState() = player.getPlayerStateFlow()
     override fun getPlayerCurrentPosition() = player.getPlayerCurrentPosition()
     override fun preparePlayer(track: Track) = player.preparePlayer(track)
     override fun playbackControl() = player.playbackControl()

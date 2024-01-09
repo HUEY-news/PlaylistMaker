@@ -10,7 +10,7 @@ class PlayerImpl: Player {
     private val mediaPlayer = MediaPlayer()
     private val flow = MutableStateFlow(STATE_DEFAULT)
 
-    override fun getPlayerState(): Flow<Int> {
+    override fun getPlayerStateFlow(): Flow<Int> {
         return flow
     }
 
