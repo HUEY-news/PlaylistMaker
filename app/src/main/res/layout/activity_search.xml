@@ -59,7 +59,7 @@
 
         <!-- ========== TRACKLIST RECYCLER VIEW ========== -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/searchTrackList"
+            android:id="@+id/searchRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
