@@ -235,18 +235,21 @@
 
     <style name="Player.Border">
         <!-- GENERAL OPTIONS -->
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
         <item name="android:orientation">vertical</item>
     </style>
 
     <style name="Player.Artwork">
         <!-- GENERAL OPTIONS -->
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">0dp</item>
+        <item name="layout_constrainedWidth">true</item>
+        <item name="android:layout_height">wrap_content</item>
+
         <!-- ICON OPTIONS -->
+        <item name="android:background">@drawable/ic_placeholder_artwork_240</item>
         <item name="android:src">@drawable/ic_placeholder_artwork_240</item>
-        <item name="android:scaleType">centerInside</item>
+        <item name="android:scaleType">centerCrop</item>
     </style>
 
     <style name="Player.Name">
