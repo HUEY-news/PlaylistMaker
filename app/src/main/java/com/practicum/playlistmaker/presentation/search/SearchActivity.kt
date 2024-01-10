@@ -202,6 +202,14 @@ class SearchActivity : AppCompatActivity() {
         placeholderText.text = internetErrorText
         placeholderButton.isVisible = true
     }
+    private fun getAttribute(attr: Int): Drawable? {
+        val attrs = intArrayOf(attr)
+        val typedArray = theme.obtainStyledAttributes(attrs)
+        val placeholderResourceId = typedArray.getResourceId(0, 0)
+        typedArray.recycle()
+
+        return ContextCompat.getDrawable(this, placeholderResourceId)
+    }
 
     private fun hidePlaceholder() {
         placeholderIcon.setImageDrawable(null)
@@ -215,15 +223,6 @@ class SearchActivity : AppCompatActivity() {
 
     private fun clearTrackList() {
         searchAdapter.setItems(arrayListOf())
-    }
-
-    private fun getAttribute(attr: Int): Drawable? {
-        val attrs = intArrayOf(attr)
-        val typedArray = theme.obtainStyledAttributes(attrs)
-        val placeholderResourceId = typedArray.getResourceId(0, 0)
-        typedArray.recycle()
-
-        return ContextCompat.getDrawable(this, placeholderResourceId)
     }
 
     private var isClickAllowed = true
