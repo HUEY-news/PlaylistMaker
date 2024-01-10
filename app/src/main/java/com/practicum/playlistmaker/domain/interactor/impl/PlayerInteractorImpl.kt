@@ -1,6 +1,7 @@
-package com.practicum.playlistmaker.domain.player
+package com.practicum.playlistmaker.domain.interactor.impl
 
-import com.practicum.playlistmaker.domain.model.Track
+import com.practicum.playlistmaker.domain.entity.Track
+import com.practicum.playlistmaker.domain.interactor.api.PlayerInteractor
 import com.practicum.playlistmaker.domain.repository.PlayerRepository
 
 class PlayerInteractorImpl(private val playerRepository: PlayerRepository): PlayerInteractor {
