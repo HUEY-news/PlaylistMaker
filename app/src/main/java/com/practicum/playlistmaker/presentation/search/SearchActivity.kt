@@ -6,8 +6,6 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -19,6 +17,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.Creator
@@ -87,23 +86,21 @@ class SearchActivity : AppCompatActivity() {
 
         searchHistoryButton.setOnClickListener {
             searchHistoryContainer.isVisible = false
-            searchHistory.clearHistory() }
+            searchHistory.clearHistory()
+        }
 
-        // отслеживание состояния фокуса поля ввода:
+        // реализация отслеживания состояния фокуса поля поиска:
         activitySearchBinding.searchField.setOnFocusChangeListener { view, hasFocus ->
-            if (searchHistory.getHistory().isNotEmpty()){
+            if (searchHistory.getHistory().isNotEmpty()) {
                 historyAdapter.setItems(searchHistory.getHistory())
                 searchHistoryContainer.isVisible =
-                    if (hasFocus && activitySearchBinding.searchField.text.isEmpty()) {
-                        true
-                    } else {
-                        false
-                    }
+                    hasFocus && activitySearchBinding.searchField.text.isEmpty()
             }
         }
 
         placeholderButton.setOnClickListener {
-            searchRequest(activitySearchBinding.searchField.text.toString()) }
+            searchRequest(activitySearchBinding.searchField.text.toString())
+        }
 
         activitySearchBinding.resetButton.setOnClickListener {
             activitySearchBinding.searchField.setText("")
@@ -112,43 +109,33 @@ class SearchActivity : AppCompatActivity() {
             // спрятать виртуальную клавиатуру:
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            inputMethodManager?.hideSoftInputFromWindow(activitySearchBinding.searchField.windowToken, 0)
+            inputMethodManager?.hideSoftInputFromWindow(
+                activitySearchBinding.searchField.windowToken,
+                0
+            )
         }
 
-        val textWatcher = object : TextWatcher {
+        // реализация реакции на изменение текста в поле поиска:
+        activitySearchBinding.searchField.addTextChangedListener(
+            onTextChanged = { charSequence, _, _, _ ->
 
-            override fun beforeTextChanged(string: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun afterTextChanged(string: Editable?) {}
-            override fun onTextChanged(string: CharSequence?, start: Int, before: Int, count: Int) {
-
-                if (string.isNullOrEmpty()) hidePlaceholder()
-
-                activitySearchBinding.resetButton.isVisible =
-                    if (string.isNullOrEmpty()) {
-                        false
-                    } else {
-                        true
-                    }
-
+                if (charSequence.isNullOrEmpty()) hidePlaceholder()
+                activitySearchBinding.resetButton.isVisible = !charSequence.isNullOrEmpty()
                 clearTrackList()
                 searchDebounce()
 
-                if (searchHistory.getHistory().isNotEmpty()){
+                if (searchHistory.getHistory().isNotEmpty()) {
                     historyAdapter.setItems(searchHistory.getHistory())
                     searchHistoryContainer.isVisible =
-                        if (activitySearchBinding.searchField.hasFocus() && string?.isEmpty() == true) {
-                            true
-                        } else {
-                            false
-                        }
+                        activitySearchBinding.searchField.hasFocus() && charSequence?.isEmpty() == true
                 }
             }
-        }
-        activitySearchBinding.searchField.addTextChangedListener(textWatcher)
+        )
     }
 
     private val searchRunnable = Runnable {
-        searchRequest(activitySearchBinding.searchField.text.toString()) }
+        searchRequest(activitySearchBinding.searchField.text.toString())
+    }
     private val handler = Handler(Looper.getMainLooper())
 
     private fun searchDebounce() {
@@ -156,8 +143,7 @@ class SearchActivity : AppCompatActivity() {
         handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
     }
 
-    private fun searchRequest(request: String)
-    {
+    private fun searchRequest(request: String) {
         if (request.isNotEmpty()) {
             hidePlaceholder()
             clearTrackList()
@@ -165,28 +151,33 @@ class SearchActivity : AppCompatActivity() {
 
             creator.provideApiService().search(request).enqueue(object : Callback<SearchResponse> {
 
-                    override fun onResponse(call: Call<SearchResponse>, response: Response<SearchResponse>) {
-                        progressBar.visibility = View.GONE
-                        if (response.code() == 200) {
-                            val result = response.body()?.results
-                            if (result?.isNotEmpty() == true) {
-                                searchAdapter.setItems(result)
-                                activitySearchBinding.searchRecycler.isVisible = true
-                            } else {
-                                showPlaceholder(resources.getString(R.string.placeholder_empty_error))
-                            }
+                override fun onResponse(
+                    call: Call<SearchResponse>,
+                    response: Response<SearchResponse>
+                ) {
+                    progressBar.visibility = View.GONE
+                    if (response.code() == 200) {
+                        val result = response.body()?.results
+                        if (result?.isNotEmpty() == true) {
+                            searchAdapter.setItems(result)
+                            activitySearchBinding.searchRecycler.isVisible = true
                         } else {
-                            showPlaceholder(resources.getString(R.string.placeholder_internet_error))
+                            showPlaceholder(resources.getString(R.string.placeholder_empty_error))
                         }
-                    }
-
-                    override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                        progressBar.isVisible = false
+                    } else {
                         showPlaceholder(resources.getString(R.string.placeholder_internet_error))
                     }
                 }
+
+                override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
+                    progressBar.isVisible = false
+                    showPlaceholder(resources.getString(R.string.placeholder_internet_error))
+                }
+            }
             )
-        } else { clearTrackList() }
+        } else {
+            clearTrackList()
+        }
     }
 
     fun showPlaceholder(text: String) {
@@ -198,6 +189,7 @@ class SearchActivity : AppCompatActivity() {
                 placeholderIcon.setImageDrawable(getAttribute(R.attr.placeholderEmptyError))
                 placeholderText.setText(R.string.placeholder_empty_error)
             }
+
             resources.getString(R.string.placeholder_internet_error) -> {
                 placeholderIcon.setImageDrawable(getAttribute(R.attr.placeholderInternetError))
                 placeholderText.setText(R.string.placeholder_internet_error)
@@ -206,13 +198,13 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun hidePlaceholder(){
+    private fun hidePlaceholder() {
         placeholderIcon.setImageDrawable(null)
         placeholderText.text = null
         placeholderButton.isVisible = false
     }
 
-    private fun hideRecycler(){
+    private fun hideRecycler() {
         activitySearchBinding.searchRecycler.visibility = View.GONE
     }
 
@@ -230,7 +222,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private var isClickAllowed = true
-    private fun clickDebounce() : Boolean {
+    private fun clickDebounce(): Boolean {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
