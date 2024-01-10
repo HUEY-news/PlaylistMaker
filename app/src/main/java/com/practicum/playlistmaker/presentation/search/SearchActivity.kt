@@ -35,10 +35,10 @@ class SearchActivity : AppCompatActivity() {
     lateinit var activitySearchBinding: ActivitySearchBinding
     private val creator = Creator()
 
-    private val emptyErrorText = resources.getString(R.string.placeholder_empty_error)
-    private val internetErrorText = resources.getString(R.string.placeholder_internet_error)
-    private val emptyErrorPlaceholder = R.attr.placeholderEmptyError
-    private val internetErrorPlaceholder = R.attr.placeholderInternetError
+    private lateinit var emptyErrorText: String
+    private lateinit var internetErrorText: String
+    private var emptyErrorPlaceholder: Int = 0
+    private var internetErrorPlaceholder: Int = 0
 
     private lateinit var placeholderIcon: ImageView
     private lateinit var placeholderText: TextView
@@ -54,6 +54,11 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(state)
         activitySearchBinding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(activitySearchBinding.root)
+
+        emptyErrorText = resources.getString(R.string.placeholder_empty_error)
+        internetErrorText = resources.getString(R.string.placeholder_internet_error)
+        emptyErrorPlaceholder = R.attr.placeholderEmptyError
+        internetErrorPlaceholder = R.attr.placeholderInternetError
 
         placeholderIcon = findViewById(R.id.placeholderIcon)
         placeholderText = findViewById(R.id.placeholderText)
