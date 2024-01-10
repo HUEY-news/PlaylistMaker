@@ -53,13 +53,15 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         fun render(track: Track) {
-            activityPlayerBinding.textViewTrackName.text = track.trackName
-            activityPlayerBinding.textViewArtistName.text = track.artistName
-            activityPlayerBinding.textViewTrackInfoDurationContent.text = convertTime(track.trackTimeMillis)
-            activityPlayerBinding.textViewTrackInfoYearContent.text = track.collectionName
-            activityPlayerBinding.textViewTrackInfoYearContent.text = track.getReleaseYear()
-            activityPlayerBinding.textViewTrackInfoGenreContent.text = track.primaryGenreName
-            activityPlayerBinding.textViewTrackInfoCountryContent.text = track.country
+            with(activityPlayerBinding) {
+                textViewTrackName.text = track.trackName
+                textViewArtistName.text = track.artistName
+                textViewTrackInfoDurationContent.text = convertTime(track.trackTimeMillis)
+                textViewTrackInfoYearContent.text = track.collectionName
+                textViewTrackInfoYearContent.text = track.getReleaseYear()
+                textViewTrackInfoGenreContent.text = track.primaryGenreName
+                textViewTrackInfoCountryContent.text = track.country
+            }
         }
 
         if (track != null) render(track)
