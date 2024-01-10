@@ -35,6 +35,11 @@ class SearchActivity : AppCompatActivity() {
     lateinit var activitySearchBinding: ActivitySearchBinding
     private val creator = Creator()
 
+    private val emptyErrorText = resources.getString(R.string.placeholder_empty_error)
+    private val internetErrorText = resources.getString(R.string.placeholder_internet_error)
+    private val emptyErrorPlaceholder = R.attr.placeholderEmptyError
+    private val internetErrorPlaceholder = R.attr.placeholderInternetError
+
     private lateinit var placeholderIcon: ImageView
     private lateinit var placeholderText: TextView
     private lateinit var placeholderButton: Button
@@ -180,22 +185,22 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    fun showPlaceholder(text: String) {
+    private fun showPlaceholder(text: String) {
         clearTrackList()
         hideRecycler()
 
-        when (text) {
-            resources.getString(R.string.placeholder_empty_error) -> {
-                placeholderIcon.setImageDrawable(getAttribute(R.attr.placeholderEmptyError))
-                placeholderText.setText(R.string.placeholder_empty_error)
-            }
-
-            resources.getString(R.string.placeholder_internet_error) -> {
-                placeholderIcon.setImageDrawable(getAttribute(R.attr.placeholderInternetError))
-                placeholderText.setText(R.string.placeholder_internet_error)
-                placeholderButton.isVisible = true
-            }
-        }
+        if (text == emptyErrorText) setEmptyErrorState()
+        else if (text == internetErrorText) setInternetErrorState()
+    }
+    private fun setEmptyErrorState() {
+        placeholderIcon.setImageDrawable(getAttribute(emptyErrorPlaceholder))
+        placeholderText.text = emptyErrorText
+        placeholderButton.isVisible = false
+    }
+    private fun setInternetErrorState() {
+        placeholderIcon.setImageDrawable(getAttribute(internetErrorPlaceholder))
+        placeholderText.text = internetErrorText
+        placeholderButton.isVisible = true
     }
 
     private fun hidePlaceholder() {
