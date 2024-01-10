@@ -1,5 +1,6 @@
 package com.practicum.playlistmaker
 
+import android.media.MediaPlayer
 import com.practicum.playlistmaker.data.network.RetrofitNetworkClient
 import com.practicum.playlistmaker.data.network.iTunesApiService
 import com.practicum.playlistmaker.data.player.Player
@@ -14,7 +15,7 @@ class Creator {
     fun provideApiService() = RetrofitNetworkClient.retrofit.create(iTunesApiService::class.java)
 
 
-    fun providePlayerInteractor(): PlayerInteractor = PlayerInteractorImpl(playerRepository = providePlayerRepository())
-    private fun providePlayerRepository(): PlayerRepository = PlayerRepositoryImpl(player = providePlayer())
-    private fun providePlayer(): Player = PlayerImpl()
+    fun providePlayerInteractor(): PlayerInteractor = PlayerInteractorImpl(playerRepository = getPlayerRepository())
+    private fun getPlayerRepository(): PlayerRepository = PlayerRepositoryImpl(player = getPlayer())
+    private fun getPlayer(): Player = PlayerImpl(player = MediaPlayer())
 }

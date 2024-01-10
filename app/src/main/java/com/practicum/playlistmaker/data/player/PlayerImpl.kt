@@ -5,9 +5,7 @@ import com.practicum.playlistmaker.domain.model.Track
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class PlayerImpl: Player {
-
-    private val mediaPlayer = MediaPlayer()
+class PlayerImpl(private val player: MediaPlayer): Player {
     private val flow = MutableStateFlow(STATE_DEFAULT)
 
     override fun getPlayerStateFlow(): Flow<Int> {
@@ -15,16 +13,16 @@ class PlayerImpl: Player {
     }
 
     override fun getPlayerCurrentPosition(): Int {
-        return mediaPlayer.currentPosition
+        return this.player.currentPosition
     }
 
     override fun preparePlayer(track: Track) {
-        mediaPlayer.setDataSource(track.previewUrl)
-        mediaPlayer.prepareAsync()
-        mediaPlayer.setOnPreparedListener {
+        this.player.setDataSource(track.previewUrl)
+        this.player.prepareAsync()
+        this.player.setOnPreparedListener {
             flow.value = STATE_PREPARED
         }
-        mediaPlayer.setOnCompletionListener {
+        this.player.setOnCompletionListener {
             flow.value = STATE_PREPARED
         }
     }
@@ -37,12 +35,12 @@ class PlayerImpl: Player {
     }
 
     private fun startPlayer() {
-        mediaPlayer.start()
+        this.player.start()
         flow.value = STATE_PLAYING
     }
 
     private fun pausePlayer() {
-        mediaPlayer.pause()
+        this.player.pause()
         flow.value = STATE_PAUSED
     }
 
@@ -51,7 +49,7 @@ class PlayerImpl: Player {
     }
 
     override fun onDestroy() {
-        mediaPlayer.release()
+        this.player.release()
     }
 
     companion object {
