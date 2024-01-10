@@ -17,6 +17,7 @@ import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
 import com.practicum.playlistmaker.domain.model.Track
 import com.practicum.playlistmaker.domain.player.PlayerInteractor
+import com.practicum.playlistmaker.domain.player.PlayerState
 import com.practicum.playlistmaker.utils.convertPixel
 import com.practicum.playlistmaker.utils.convertTime
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +31,7 @@ class PlayerActivity : AppCompatActivity() {
 
     private val creator = Creator()
     private val player: PlayerInteractor = creator.providePlayerInteractor()
-    private var state = STATE_DEFAULT
+    private var state = PlayerState.DEFAULT
 
     private lateinit var  mainThreadHandler: Handler
     private lateinit var  timerUpdateRunnable: Runnable
@@ -96,18 +97,18 @@ class PlayerActivity : AppCompatActivity() {
         stopUpdater()
     }
 
-    private fun checkPlayerState(state: Int) {
+    private fun checkPlayerState(state: PlayerState) {
         when (state) {
-            STATE_PLAYING -> {
+            PlayerState.PLAYING -> {
                 activityPlayerBinding.buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPause))
                 mainThreadHandler.post(timerUpdateRunnable)
             }
-            STATE_PREPARED -> {
+            PlayerState.PREPARED -> {
                 activityPlayerBinding.buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPlay))
                 stopUpdater()
                 activityPlayerBinding.textViewTrackTimer.text = ZERO_CONDITION
             }
-            STATE_PAUSED -> {
+            PlayerState.PAUSED -> {
                 activityPlayerBinding.buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPlay))
             }
             else ->{}
@@ -117,7 +118,7 @@ class PlayerActivity : AppCompatActivity() {
     private fun updateTimer(trackTimer: TextView) : Runnable {
         return object : Runnable {
             override fun run() {
-                if (state == STATE_PLAYING){
+                if (state == PlayerState.PLAYING){
                     trackTimer.text = SimpleDateFormat("mm:ss", Locale.getDefault())
                         .format(player.getPlayerCurrentPosition())
                     mainThreadHandler.postDelayed(this, DELAY)
@@ -143,11 +144,6 @@ class PlayerActivity : AppCompatActivity() {
         const val TRACK_ID = "TRACK_ID"
 
         private const val ZERO_CONDITION = "00:00"
-        private const val STATE_DEFAULT = 0
-        private const val STATE_PREPARED = 1
-        private const val STATE_PLAYING = 2
-        private const val STATE_PAUSED = 3
-
         private const val DELAY = 500L
     }
 }
