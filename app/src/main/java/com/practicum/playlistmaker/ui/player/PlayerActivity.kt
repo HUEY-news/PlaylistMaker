@@ -2,11 +2,15 @@ package com.practicum.playlistmaker.ui.player
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.practicum.playlistmaker.Creator
 
 class PlayerActivity : AppCompatActivity() {
 
-    private val playerController = Creator.providePlayerController(this)
+    private val playerController = Creator.providePlayerController (
+        this,
+        lifecycleScope
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

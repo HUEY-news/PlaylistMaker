@@ -2,6 +2,7 @@ package com.practicum.playlistmaker
 
 import android.app.Activity
 import android.media.MediaPlayer
+import androidx.lifecycle.LifecycleCoroutineScope
 import com.practicum.playlistmaker.data.SearchHistory
 import com.practicum.playlistmaker.data.network.NetworkClient
 import com.practicum.playlistmaker.data.network.RetrofitNetworkClient
@@ -29,7 +30,10 @@ object Creator {
         TrackSearchController(activity, searchAdapter, historyAdapter, searchHistory)
 
 
-    fun providePlayerController(activity: Activity) = PlayerController(activity)
+    fun providePlayerController(
+        activity: Activity,
+        lifecycleScope: LifecycleCoroutineScope) =
+        PlayerController(activity, lifecycleScope)
 
 
     fun provideTrackInteractor(): TrackInteractor = TrackInteractorImpl(getTrackRepository())

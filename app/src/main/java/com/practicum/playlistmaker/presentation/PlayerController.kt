@@ -8,7 +8,7 @@ import android.os.Looper
 import android.util.Log
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.LifecycleCoroutineScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.Creator
@@ -17,7 +17,6 @@ import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
 import com.practicum.playlistmaker.domain.player.PlayerInteractor
 import com.practicum.playlistmaker.domain.player.PlayerState
 import com.practicum.playlistmaker.domain.track.Track
-import com.practicum.playlistmaker.ui.player.PlayerActivity
 import com.practicum.playlistmaker.utils.convertPixel
 import com.practicum.playlistmaker.utils.convertTime
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +24,10 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class PlayerController(private val activity: Activity) {
+class PlayerController(
+    private val activity: Activity,
+    private val lifecycleScope: LifecycleCoroutineScope
+    ) {
 
     private var _binding: ActivityPlayerBinding? = null
     private val binding get() = _binding!!
@@ -79,7 +81,7 @@ class PlayerController(private val activity: Activity) {
             player.playbackControl()
         }
 
-        (activity as PlayerActivity).lifecycleScope.launch(Dispatchers.IO){
+        lifecycleScope.launch(Dispatchers.IO){
             player.getPlayerState().collect { state ->
                 this@PlayerController.state = state
                 mainThreadHandler.post { checkPlayerState(state) }
