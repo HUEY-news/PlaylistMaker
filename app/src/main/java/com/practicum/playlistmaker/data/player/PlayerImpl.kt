@@ -2,8 +2,8 @@ package com.practicum.playlistmaker.data.player
 
 import android.media.MediaPlayer
 import android.util.Log
-import com.practicum.playlistmaker.domain.model.Track
 import com.practicum.playlistmaker.domain.player.PlayerState
+import com.practicum.playlistmaker.domain.track.Track
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 

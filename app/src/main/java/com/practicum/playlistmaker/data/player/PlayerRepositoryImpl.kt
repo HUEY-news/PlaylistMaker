@@ -1,8 +1,7 @@
-package com.practicum.playlistmaker.data.repository
+package com.practicum.playlistmaker.data.player
 
-import com.practicum.playlistmaker.data.player.Player
-import com.practicum.playlistmaker.domain.entity.Track
-import com.practicum.playlistmaker.domain.repository.PlayerRepository
+import com.practicum.playlistmaker.domain.player.PlayerRepository
+import com.practicum.playlistmaker.domain.track.Track
 
 class PlayerRepositoryImpl(
     private val player: Player,

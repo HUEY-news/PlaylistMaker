@@ -15,9 +15,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.Creator
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
-import com.practicum.playlistmaker.domain.model.Track
 import com.practicum.playlistmaker.domain.player.PlayerInteractor
 import com.practicum.playlistmaker.domain.player.PlayerState
+import com.practicum.playlistmaker.domain.track.Track
 import com.practicum.playlistmaker.utils.convertPixel
 import com.practicum.playlistmaker.utils.convertTime
 import kotlinx.coroutines.Dispatchers
@@ -29,8 +29,7 @@ class PlayerActivity : AppCompatActivity() {
 
     private lateinit var activityPlayerBinding : ActivityPlayerBinding
 
-    private val creator = Creator()
-    private val player: PlayerInteractor = creator.providePlayerInteractor()
+    private val player: PlayerInteractor = Creator.providePlayerInteractor()
     private var state = PlayerState.DEFAULT
 
     private lateinit var  mainThreadHandler: Handler

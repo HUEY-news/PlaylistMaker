@@ -1,7 +1,4 @@
-package com.practicum.playlistmaker.domain.interactor.impl
-
-import com.practicum.playlistmaker.domain.interactor.api.TrackInteractor
-import com.practicum.playlistmaker.domain.repository.TrackRepository
+package com.practicum.playlistmaker.domain.track
 
 class TrackInteractorImpl(
     private val repository: TrackRepository

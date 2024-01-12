@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.practicum.playlistmaker.domain.entity.Track
+import com.practicum.playlistmaker.domain.track.Track
 
 const val TRACK_LIST_KEY = "TRACK_LIST"
 const val HISTORY_LIMIT = 10

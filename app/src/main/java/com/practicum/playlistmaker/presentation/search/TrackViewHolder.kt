@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.presentation
+package com.practicum.playlistmaker.presentation.search
 
 import android.view.View
 import android.widget.ImageView
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.domain.entity.Track
+import com.practicum.playlistmaker.domain.track.Track
 import com.practicum.playlistmaker.utils.convertPixel
 import com.practicum.playlistmaker.utils.convertTime
 
