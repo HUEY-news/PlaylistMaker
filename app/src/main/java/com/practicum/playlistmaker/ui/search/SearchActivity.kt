@@ -9,6 +9,7 @@ import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.Creator
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.data.SearchHistory
+import com.practicum.playlistmaker.presentation.PlayerController
 import com.practicum.playlistmaker.ui.player.PlayerActivity
 
 class SearchActivity : AppCompatActivity() {
@@ -18,14 +19,14 @@ class SearchActivity : AppCompatActivity() {
         if (clickDebounce()) {
             searchHistory.addTrackToHistory(track)
             val intent = Intent(this, PlayerActivity::class.java)
-            intent.putExtra(PlayerActivity.TRACK_ID, track)
+            intent.putExtra(PlayerController.TRACK_ID, track)
             startActivity(intent)
         }
     }
     private val historyAdapter = TrackAdapter { track ->
         if (clickDebounce()) {
             val intent = Intent(this, PlayerActivity::class.java)
-            intent.putExtra(PlayerActivity.TRACK_ID, track)
+            intent.putExtra(PlayerController.TRACK_ID, track)
             startActivity(intent)
         }
     }
@@ -42,6 +43,7 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
+        // TODO: возможно setContentView уже не нужен...
         setContentView(R.layout.activity_search)
         trackSearchController.onCreate()
     }

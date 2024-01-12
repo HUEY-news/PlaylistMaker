@@ -15,6 +15,7 @@ import com.practicum.playlistmaker.domain.player.PlayerRepository
 import com.practicum.playlistmaker.domain.track.TrackInteractor
 import com.practicum.playlistmaker.domain.track.TrackInteractorImpl
 import com.practicum.playlistmaker.domain.track.TrackRepository
+import com.practicum.playlistmaker.presentation.PlayerController
 import com.practicum.playlistmaker.presentation.TrackSearchController
 import com.practicum.playlistmaker.ui.search.TrackAdapter
 
@@ -26,6 +27,9 @@ object Creator {
         historyAdapter: TrackAdapter,
         searchHistory: SearchHistory) =
         TrackSearchController(activity, searchAdapter, historyAdapter, searchHistory)
+
+
+    fun providePlayerController(activity: Activity) = PlayerController(activity)
 
 
     fun provideTrackInteractor(): TrackInteractor = TrackInteractorImpl(getTrackRepository())
