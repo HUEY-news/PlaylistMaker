@@ -35,7 +35,7 @@ class TrackSearchController (
 
     private val handler = Handler(Looper.getMainLooper())
     private val searchRunnable = Runnable { searchRequest(binding.searchField.text.toString()) }
-    private val trackInteractor = Creator.provideTrackInteractor()
+    private val trackInteractor = Creator.provideTrackInteractor(activity)
 
 
     fun onCreate() {
