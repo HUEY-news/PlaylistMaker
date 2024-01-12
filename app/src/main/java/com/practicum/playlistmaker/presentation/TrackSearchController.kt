@@ -1,9 +1,8 @@
-package com.practicum.playlistmaker.presentation.search
+package com.practicum.playlistmaker.presentation
 
+import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.graphics.drawable.Drawable
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -14,57 +13,25 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
-import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.Creator
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.data.SearchHistory
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.domain.track.Track
 import com.practicum.playlistmaker.domain.track.TrackInteractor
-import com.practicum.playlistmaker.presentation.player.PlayerActivity
+import com.practicum.playlistmaker.ui.search.TrackAdapter
 
-class SearchActivity : AppCompatActivity() {
-
-    lateinit var activitySearchBinding: ActivitySearchBinding
-
-    private val trackInteractor = Creator.provideTrackInteractor()
-    private val searchHistory = SearchHistory(App.sharedPreferences)
-    private val searchAdapter = TrackAdapter { track ->
-        if (clickDebounce()) {
-            searchHistory.addTrackToHistory(track)
-            val intent = Intent(this, PlayerActivity::class.java)
-            intent.putExtra(PlayerActivity.TRACK_ID, track)
-            startActivity(intent)
-        }
-    }
-    private val historyAdapter = TrackAdapter { track ->
-        if (clickDebounce()) {
-            val intent = Intent(this, PlayerActivity::class.java)
-            intent.putExtra(PlayerActivity.TRACK_ID, track)
-            startActivity(intent)
-        }
-    }
-
-    private var isClickAllowed = true
-    private val handler = Handler(Looper.getMainLooper())
-    private val searchRunnable = Runnable {
-        searchRequest(activitySearchBinding.searchField.text.toString())
-    }
-
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
-        }
-        return current
-    }
-
+class TrackSearchController (
+    private val activity: Activity,
+    private val searchAdapter: TrackAdapter,
+    private val historyAdapter: TrackAdapter,
+    private val searchHistory: SearchHistory
+) {
+    private lateinit var binding: ActivitySearchBinding
 
     private lateinit var emptyErrorText: String
     private lateinit var internetErrorText: String
@@ -75,33 +42,36 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var placeholderText: TextView
     private lateinit var placeholderButton: Button
     private lateinit var searchHistoryContainer: LinearLayout
-    private lateinit var searchHistoryTrackList: RecyclerView
+    private lateinit var histotyRecycler: RecyclerView
     private lateinit var searchHistoryButton: Button
     private lateinit var progressBar: ProgressBar
 
+    private val handler = Handler(Looper.getMainLooper())
+    private val searchRunnable = Runnable { searchRequest(binding.searchField.text.toString()) }
+    private val trackInteractor = Creator.provideTrackInteractor()
 
-    override fun onCreate(state: Bundle?) {
-        super.onCreate(state)
-        activitySearchBinding = ActivitySearchBinding.inflate(layoutInflater)
-        setContentView(activitySearchBinding.root)
 
-        emptyErrorText = resources.getString(R.string.placeholder_empty_error)
-        internetErrorText = resources.getString(R.string.placeholder_internet_error)
+    fun onCreate() {
+        binding = ActivitySearchBinding.inflate(activity.layoutInflater)
+        activity.setContentView(binding.root)
+
+        emptyErrorText = activity.resources.getString(R.string.placeholder_empty_error)
+        internetErrorText = activity.resources.getString(R.string.placeholder_internet_error)
         emptyErrorPlaceholder = R.attr.placeholderEmptyError
         internetErrorPlaceholder = R.attr.placeholderInternetError
 
-        placeholderIcon = findViewById(R.id.placeholderIcon)
-        placeholderText = findViewById(R.id.placeholderText)
-        placeholderButton = findViewById(R.id.placeholderButton)
-        searchHistoryContainer = findViewById(R.id.searchHistoryContainer)
-        searchHistoryTrackList = findViewById(R.id.searchHistoryTrackList)
-        searchHistoryButton = findViewById(R.id.searchHistoryButton)
-        progressBar = findViewById(R.id.progressBar)
+        placeholderIcon = activity.findViewById(R.id.placeholderIcon)
+        placeholderText = activity.findViewById(R.id.placeholderText)
+        placeholderButton = activity.findViewById(R.id.placeholderButton)
+        searchHistoryContainer = activity.findViewById(R.id.searchHistoryContainer)
+        histotyRecycler = activity.findViewById(R.id.searchHistoryTrackList)
+        searchHistoryButton = activity.findViewById(R.id.searchHistoryButton)
+        progressBar = activity.findViewById(R.id.progressBar)
 
-        findViewById<ImageButton>(R.id.backButton).setOnClickListener { finish() }
+        activity.findViewById<ImageButton>(R.id.backButton).setOnClickListener { activity.finish() }
 
-        activitySearchBinding.searchRecycler.adapter = searchAdapter
-        searchHistoryTrackList.adapter = historyAdapter
+        binding.searchRecycler.adapter = searchAdapter
+        histotyRecycler.adapter = historyAdapter
 
         if (searchHistory.getHistory().isNotEmpty()) {
             historyAdapter.setItems(searchHistory.getHistory())
@@ -115,29 +85,29 @@ class SearchActivity : AppCompatActivity() {
         }
 
         // реализация отслеживания состояния фокуса поля поиска:
-        activitySearchBinding.searchField.setOnFocusChangeListener { view, hasFocus ->
+        binding.searchField.setOnFocusChangeListener { view, hasFocus ->
             if (searchHistory.getHistory().isNotEmpty()) {
                 historyAdapter.setItems(searchHistory.getHistory())
                 searchHistoryContainer.isVisible =
-                    hasFocus && activitySearchBinding.searchField.text.isEmpty()
+                    hasFocus && binding.searchField.text.isEmpty()
             }
         }
 
         // реакция на нажатие кнопки "обновить":
         placeholderButton.setOnClickListener {
-            searchRequest(activitySearchBinding.searchField.text.toString())
+            searchRequest(binding.searchField.text.toString())
         }
 
         // реакция на нажатие кнопки сброса:
-        activitySearchBinding.resetButton.setOnClickListener {
-            activitySearchBinding.searchField.setText("")
+        binding.resetButton.setOnClickListener {
+            binding.searchField.setText("")
             clearTrackList()
 
             // спрятать виртуальную клавиатуру:
             val inputMethodManager =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                activity.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(
-                activitySearchBinding.searchField.windowToken,
+                binding.searchField.windowToken,
                 0
             )
         }
@@ -147,21 +117,26 @@ class SearchActivity : AppCompatActivity() {
             handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
         }
         // реакция на изменение текста в поле поиска:
-        activitySearchBinding.searchField.addTextChangedListener(
+        binding.searchField.addTextChangedListener(
             onTextChanged = { charSequence, _, _, _ ->
 
                 if (charSequence.isNullOrEmpty()) hidePlaceholder()
-                activitySearchBinding.resetButton.isVisible = !charSequence.isNullOrEmpty()
+                binding.resetButton.isVisible = !charSequence.isNullOrEmpty()
                 clearTrackList()
                 searchDebounce()
 
                 if (searchHistory.getHistory().isNotEmpty()) {
                     historyAdapter.setItems(searchHistory.getHistory())
                     searchHistoryContainer.isVisible =
-                        activitySearchBinding.searchField.hasFocus() && charSequence?.isEmpty() == true
+                        binding.searchField.hasFocus() && charSequence?.isEmpty() == true
                 }
             }
         )
+    }
+
+
+    fun onDestroy() {
+        handler.removeCallbacks(searchRunnable)
     }
 
 
@@ -177,7 +152,7 @@ class SearchActivity : AppCompatActivity() {
                         progressBar.visibility = View.GONE
                         if (foundTrackList != null) {
                             searchAdapter.setItems(foundTrackList)
-                            activitySearchBinding.searchRecycler.isVisible = true
+                            binding.searchRecycler.isVisible = true
                             if (foundTrackList.isEmpty()) showPlaceholder(emptyErrorText)
                         } else showPlaceholder(internetErrorText)
                     }
@@ -207,11 +182,11 @@ class SearchActivity : AppCompatActivity() {
     }
     private fun getAttribute(attr: Int): Drawable? {
         val attrs = intArrayOf(attr)
-        val typedArray = theme.obtainStyledAttributes(attrs)
+        val typedArray = activity.theme.obtainStyledAttributes(attrs)
         val placeholderResourceId = typedArray.getResourceId(0, 0)
         typedArray.recycle()
 
-        return ContextCompat.getDrawable(this, placeholderResourceId)
+        return ContextCompat.getDrawable(activity, placeholderResourceId)
     }
 
     private fun hidePlaceholder() {
@@ -221,7 +196,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun hideRecycler() {
-        activitySearchBinding.searchRecycler.visibility = View.GONE
+        binding.searchRecycler.visibility = View.GONE
     }
 
     private fun clearTrackList() {
@@ -229,7 +204,6 @@ class SearchActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
 }

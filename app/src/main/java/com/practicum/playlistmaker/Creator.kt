@@ -1,6 +1,8 @@
 package com.practicum.playlistmaker
 
+import android.app.Activity
 import android.media.MediaPlayer
+import com.practicum.playlistmaker.data.SearchHistory
 import com.practicum.playlistmaker.data.network.NetworkClient
 import com.practicum.playlistmaker.data.network.RetrofitNetworkClient
 import com.practicum.playlistmaker.data.player.Player
@@ -13,8 +15,18 @@ import com.practicum.playlistmaker.domain.player.PlayerRepository
 import com.practicum.playlistmaker.domain.track.TrackInteractor
 import com.practicum.playlistmaker.domain.track.TrackInteractorImpl
 import com.practicum.playlistmaker.domain.track.TrackRepository
+import com.practicum.playlistmaker.presentation.TrackSearchController
+import com.practicum.playlistmaker.ui.search.TrackAdapter
 
 object Creator {
+
+    fun provideTrackSearchController(
+        activity: Activity,
+        searchAdapter: TrackAdapter,
+        historyAdapter: TrackAdapter,
+        searchHistory: SearchHistory) =
+        TrackSearchController(activity, searchAdapter, historyAdapter, searchHistory)
+
 
     fun provideTrackInteractor(): TrackInteractor = TrackInteractorImpl(getTrackRepository())
     private fun getTrackRepository(): TrackRepository = TrackRepositoryImpl(getNetworkClient())
