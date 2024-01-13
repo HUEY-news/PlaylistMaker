@@ -3,7 +3,7 @@ package com.practicum.playlistmaker.ui.player
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.practicum.playlistmaker.Creator
+import com.practicum.playlistmaker.util.Creator
 
 class PlayerActivity : AppCompatActivity() {
 

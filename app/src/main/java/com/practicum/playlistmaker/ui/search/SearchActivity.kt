@@ -6,11 +6,11 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.practicum.playlistmaker.App
-import com.practicum.playlistmaker.Creator
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.data.SearchHistory
 import com.practicum.playlistmaker.presentation.PlayerController
 import com.practicum.playlistmaker.ui.player.PlayerActivity
+import com.practicum.playlistmaker.util.Creator
 
 class SearchActivity : AppCompatActivity() {
 
@@ -43,7 +43,7 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
-        // TODO: возможно setContentView уже не нужен...
+        // TODO: возможно setContentView уже не нужон...
         setContentView(R.layout.activity_search)
         trackSearchController.onCreate()
     }

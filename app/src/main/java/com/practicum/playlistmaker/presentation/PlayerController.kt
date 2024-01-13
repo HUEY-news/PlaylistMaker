@@ -11,14 +11,14 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleCoroutineScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.practicum.playlistmaker.Creator
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
 import com.practicum.playlistmaker.domain.player.PlayerInteractor
 import com.practicum.playlistmaker.domain.player.PlayerState
 import com.practicum.playlistmaker.domain.track.Track
-import com.practicum.playlistmaker.utils.convertPixel
-import com.practicum.playlistmaker.utils.convertTime
+import com.practicum.playlistmaker.util.Creator
+import com.practicum.playlistmaker.util.convertPixel
+import com.practicum.playlistmaker.util.convertTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat

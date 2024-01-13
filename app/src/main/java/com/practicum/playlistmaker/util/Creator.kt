@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.util
 
 import android.app.Activity
 import android.content.Context
@@ -18,7 +18,7 @@ import com.practicum.playlistmaker.domain.track.TrackInteractor
 import com.practicum.playlistmaker.domain.track.TrackInteractorImpl
 import com.practicum.playlistmaker.domain.track.TrackRepository
 import com.practicum.playlistmaker.presentation.PlayerController
-import com.practicum.playlistmaker.presentation.TrackSearchController
+import com.practicum.playlistmaker.presentation.SearchController
 import com.practicum.playlistmaker.ui.search.TrackAdapter
 
 object Creator {
@@ -28,7 +28,7 @@ object Creator {
         searchAdapter: TrackAdapter,
         historyAdapter: TrackAdapter,
         searchHistory: SearchHistory) =
-        TrackSearchController(activity, searchAdapter, historyAdapter, searchHistory)
+        SearchController(activity, searchAdapter, historyAdapter, searchHistory)
 
 
     fun providePlayerController(
@@ -37,8 +37,12 @@ object Creator {
         PlayerController(activity, lifecycleScope)
 
 
-    fun provideTrackInteractor(context: Context): TrackInteractor = TrackInteractorImpl(getTrackRepository(context))
-    private fun getTrackRepository(context: Context): TrackRepository = TrackRepositoryImpl(getNetworkClient(context))
+    fun provideTrackInteractor(context: Context): TrackInteractor = TrackInteractorImpl(
+        getTrackRepository(context)
+    )
+    private fun getTrackRepository(context: Context): TrackRepository = TrackRepositoryImpl(
+        getNetworkClient(context)
+    )
     private fun getNetworkClient(context: Context): NetworkClient = RetrofitNetworkClient(context)
 
 

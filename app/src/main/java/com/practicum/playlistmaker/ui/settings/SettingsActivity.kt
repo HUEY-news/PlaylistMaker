@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.utils.isUsingNightModeResources
+import com.practicum.playlistmaker.util.isUsingNightModeResources
 
 class SettingsActivity : AppCompatActivity()
 {
