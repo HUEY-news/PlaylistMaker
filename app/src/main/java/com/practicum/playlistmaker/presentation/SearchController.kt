@@ -28,8 +28,10 @@ class SearchController (
     private var _binding: ActivitySearchBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var errorText: String
     private lateinit var emptyErrorText: String
     private lateinit var internetErrorText: String
+    private lateinit var serverErrorText: String
     private var emptyErrorPlaceholder: Int = 0
     private var internetErrorPlaceholder: Int = 0
 
@@ -42,8 +44,10 @@ class SearchController (
         _binding = ActivitySearchBinding.inflate(activity.layoutInflater)
         activity.setContentView(binding.root)
 
+        errorText = activity.resources.getString(R.string.placeholder_error)
         emptyErrorText = activity.resources.getString(R.string.placeholder_empty_error)
         internetErrorText = activity.resources.getString(R.string.placeholder_internet_error)
+        serverErrorText = activity.resources.getString(R.string.placeholder_server_error)
         emptyErrorPlaceholder = R.attr.placeholderEmptyError
         internetErrorPlaceholder = R.attr.placeholderInternetError
 
@@ -128,12 +132,7 @@ class SearchController (
                         if (foundTrackList != null) {
                             searchAdapter.setItems(foundTrackList)
                             binding.searchRecycler.isVisible = true
-                        }
-                        if (errorMessage != null) {
-                            showPlaceholder(internetErrorText)
-                        } else if (foundTrackList?.isEmpty()!!) {
-                            showPlaceholder(emptyErrorText)
-                        }
+                        } else if (errorMessage != null) showPlaceholder(errorMessage)
                     }
                 }
             })
@@ -141,21 +140,25 @@ class SearchController (
     }
 
 
-    private fun showPlaceholder(text: String) {
+    private fun showPlaceholder(errorMessage: String) {
         clearTrackList()
         hideRecycler()
 
-        if (text == emptyErrorText) setEmptyErrorState()
-        else if (text == internetErrorText) setInternetErrorState()
+        when (errorMessage) {
+            emptyErrorText -> setEmptyErrorState(errorMessage)
+            internetErrorText -> setInternetErrorState(errorMessage)
+            serverErrorText -> setInternetErrorState(errorMessage)
+        }
     }
-    private fun setEmptyErrorState() {
+    private fun setEmptyErrorState(errorMessage: String) {
         binding.layoutPlaceholder.placeholderIcon.setImageDrawable(getAttribute(emptyErrorPlaceholder))
-        binding.layoutPlaceholder.placeholderText.text = emptyErrorText
+        binding.layoutPlaceholder.placeholderText.text = errorMessage
         binding.layoutPlaceholder.placeholderButton.isVisible = false
     }
-    private fun setInternetErrorState() {
+    private fun setInternetErrorState(errorMessage:String) {
         binding.layoutPlaceholder.placeholderIcon.setImageDrawable(getAttribute(internetErrorPlaceholder))
-        binding.layoutPlaceholder.placeholderText.text = internetErrorText
+        val resultErrorMessage = errorText + errorMessage
+        binding.layoutPlaceholder.placeholderText.text = resultErrorMessage
         binding.layoutPlaceholder.placeholderButton.isVisible = true
     }
     private fun getAttribute(attr: Int): Drawable? {

@@ -24,11 +24,9 @@ class RetrofitNetworkClient(private val context: Context): NetworkClient {
         if (dto !is SearchRequest) return Response().apply { resultCode = 400 }
         val response = iTunesService.search(dto.expression).execute()
         val body = response.body()
-
-        return  if (body != null) body.apply { resultCode = response.code() }
-        else Response().apply { resultCode = response.code() }
+        if (body != null) return body.apply { resultCode = response.code() }
+        else return Response().apply { resultCode = response.code() }
     }
-
 
     private fun isConnected(): Boolean {
         val connectivityManager =

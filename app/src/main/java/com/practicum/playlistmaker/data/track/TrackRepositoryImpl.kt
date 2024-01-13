@@ -10,16 +10,32 @@ import com.practicum.playlistmaker.util.Resource
 class TrackRepositoryImpl(
     private val networkClient: NetworkClient
 ) : TrackRepository {
+
     override fun searchTrack(expression: String): Resource<List<Track>> {
         val response = networkClient.doRequest(SearchRequest(expression))
 
         return when (response.resultCode) {
             -1 -> Resource.Error("Проверьте подключение к интернету")
 
-            200 -> { Resource.Success((response as SearchResponse).results.map {
-                Track(it.trackId, it.trackName, it.artistName, it.trackTimeMillis,
-                    it.artworkUrl100, it.collectionName, it.releaseDate,
-                    it.primaryGenreName, it.country, it.previewUrl )})}
+            200 -> {
+                val result = (response as SearchResponse).results
+                if (result.isNotEmpty()) {
+                    Resource.Success(response.results.map {
+                        Track(
+                            it.trackId,
+                            it.trackName,
+                            it.artistName,
+                            it.trackTimeMillis,
+                            it.artworkUrl100,
+                            it.collectionName,
+                            it.releaseDate,
+                            it.primaryGenreName,
+                            it.country,
+                            it.previewUrl
+                        )
+                    })
+                } else Resource.Error("Ничего не нашлось")
+            }
 
             else -> Resource.Error("Ошибка сервера")
         }
