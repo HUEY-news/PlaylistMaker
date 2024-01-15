@@ -19,31 +19,22 @@ import com.practicum.playlistmaker.domain.track.TrackRepository
 import com.practicum.playlistmaker.presentation.player.PlayerController
 import com.practicum.playlistmaker.presentation.search.SearchPresenter
 import com.practicum.playlistmaker.presentation.search.SearchView
-import com.practicum.playlistmaker.ui.search.TrackAdapter
 
 object Creator {
 
     fun provideSearchPresenter(
         searchView: SearchView,
-        context: Context,
-        searchAdapter: TrackAdapter) =
-        SearchPresenter(searchView, context, searchAdapter)
-
+        context: Context) =
+        SearchPresenter(searchView, context)
 
     fun providePlayerController(
         activity: Activity,
         lifecycleScope: LifecycleCoroutineScope) =
         PlayerController(activity, lifecycleScope)
 
-
-    fun provideTrackInteractor(context: Context): TrackInteractor = TrackInteractorImpl(
-        getTrackRepository(context)
-    )
-    private fun getTrackRepository(context: Context): TrackRepository = TrackRepositoryImpl(
-        getNetworkClient(context)
-    )
+    fun provideTrackInteractor(context: Context): TrackInteractor = TrackInteractorImpl(getTrackRepository(context))
+    private fun getTrackRepository(context: Context): TrackRepository = TrackRepositoryImpl(getNetworkClient(context))
     private fun getNetworkClient(context: Context): NetworkClient = RetrofitNetworkClient(context)
-
 
     fun providePlayerInteractor(): PlayerInteractor = PlayerInteractorImpl(playerRepository = getPlayerRepository())
     private fun getPlayerRepository(): PlayerRepository = PlayerRepositoryImpl(player = getPlayer())

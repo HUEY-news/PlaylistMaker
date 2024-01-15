@@ -5,13 +5,11 @@ import android.os.Handler
 import android.os.Looper
 import com.practicum.playlistmaker.domain.track.Track
 import com.practicum.playlistmaker.domain.track.TrackInteractor
-import com.practicum.playlistmaker.ui.search.TrackAdapter
 import com.practicum.playlistmaker.util.Creator
 
 class SearchPresenter (
     private val view: SearchView,
     private val context: Context,
-    private val searchAdapter: TrackAdapter
 ) {
     private val trackInteractor = Creator.provideTrackInteractor(context)
     private val handler = Handler(Looper.getMainLooper())
@@ -37,7 +35,7 @@ class SearchPresenter (
                     handler.post {
                         view.showProgressBar(false)
                         if (foundTrackList != null) {
-                            searchAdapter.setItems(foundTrackList)
+                            view.updateTrackList(foundTrackList)
                             view.showSearchRecycler(true)
                         } else if (errorMessage != null) view.showPlaceholder(errorMessage)
                     }
