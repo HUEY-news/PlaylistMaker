@@ -158,8 +158,9 @@ class SearchActivity : AppCompatActivity(), SearchView {
     override fun onDestroy() {
         super.onDestroy()
         textWatcher?.let { binding.searchField.removeTextChangedListener(it) }
-        searchPresenter?.onDestroy()
         searchPresenter?.detachView()
+        searchPresenter?.onDestroy()
+        if (isFinishing) (this.application as? App)?.searchPresenter = null
     }
 
     private fun showPlaceholder(errorMessage: String) {
