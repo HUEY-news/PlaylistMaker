@@ -14,7 +14,6 @@ class App : Application() {
 
     var searchPresenter: SearchPresenter? = null
 
-
     private var darkTheme = false
 
     override fun onCreate() {

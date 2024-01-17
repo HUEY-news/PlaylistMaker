@@ -8,10 +8,11 @@ import com.practicum.playlistmaker.domain.track.TrackInteractor
 import com.practicum.playlistmaker.ui.search.model.SearchState
 import com.practicum.playlistmaker.util.Creator
 
-class SearchPresenter (
-    private val view: SearchView,
-    private val context: Context,
-) {
+class SearchPresenter (context: Context) {
+    private var view: SearchView? = null
+    fun attachView(view: SearchView){ this.view = view }
+    fun detachView() { this.view = null }
+
     private val trackInteractor = Creator.provideTrackInteractor(context)
     private val handler = Handler(Looper.getMainLooper())
     private var lastSearchText: String? = null
@@ -27,18 +28,18 @@ class SearchPresenter (
 
     fun searchRequest(newSearchText: String) {
         if (newSearchText.isNotEmpty()) {
-            view.render(SearchState.Loading)
+            view?.render(SearchState.Loading)
 
             trackInteractor.searchTrack(newSearchText, object: TrackInteractor.TrackConsumer {
                 override fun consume(foundTrackList: List<Track>?, errorMessage: String?) {
                     handler.post {
-                        view.showProgressBar(false)
-                        if (foundTrackList != null) view.render(SearchState.Content(foundTrackList))
-                        else if (errorMessage != null) view.render(SearchState.Error(errorMessage))
+                        view?.showProgressBar(false)
+                        if (foundTrackList != null) view?.render(SearchState.Content(foundTrackList))
+                        else if (errorMessage != null) view?.render(SearchState.Error(errorMessage))
                     }
                 }
             })
-        } else { view.render(SearchState.Content(listOf())) }
+        } else { view?.render(SearchState.Content(listOf())) }
     }
 
     fun onDestroy() {
