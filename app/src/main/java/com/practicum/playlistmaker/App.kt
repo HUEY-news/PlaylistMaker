@@ -5,11 +5,14 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
+import com.practicum.playlistmaker.presentation.search.SearchPresenter
 
 const val PREFERENCES_FOLDER_NAME = "PREFERENCES"
 const val DARK_THEME_KEY = "DARK_THEME_ENABLED"
 
 class App : Application() {
+
+    var searchPresenter: SearchPresenter? = null
 
 
     private var darkTheme = false

@@ -31,6 +31,7 @@ class SearchActivity : AppCompatActivity(), SearchView {
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
     private var textWatcher: TextWatcher? = null
+    private var searchPresenter: SearchPresenter? = null
 
     private lateinit var errorText: String
     private lateinit var emptyErrorText: String
@@ -61,6 +62,7 @@ class SearchActivity : AppCompatActivity(), SearchView {
         _binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        searchPresenter = (this.applicationContext as? App)?.searchPresenter
         if (searchPresenter == null) searchPresenter = Creator.provideSearchPresenter (this, this)
 
         binding.searchRecycler.adapter = searchAdapter
@@ -218,7 +220,6 @@ class SearchActivity : AppCompatActivity(), SearchView {
         return current
     }
     companion object {
-        private var searchPresenter: SearchPresenter? = null
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 }
