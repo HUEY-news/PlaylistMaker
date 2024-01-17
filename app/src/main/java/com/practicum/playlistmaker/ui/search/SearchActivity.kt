@@ -184,7 +184,7 @@ class SearchActivity : AppCompatActivity(), SearchView {
         return ContextCompat.getDrawable(this, placeholderResourceId)
     }
 
-    override fun hidePlaceholder() {
+    private fun hidePlaceholder() {
         binding.layoutPlaceholder.placeholderIcon.setImageDrawable(null)
         binding.layoutPlaceholder.placeholderText.text = null
         binding.layoutPlaceholder.placeholderButton.isVisible = false
