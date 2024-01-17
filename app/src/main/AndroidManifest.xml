@@ -21,11 +21,13 @@
 
         <activity
             android:name=".ui.player.PlayerActivity"
+            android:screenOrientation="portrait"
             android:exported="false"
             android:theme="@style/Base.Theme.PlaylistMaker.PlayerActivity"/>
 
         <activity
             android:name=".ui.search.SearchActivity"
+            android:screenOrientation="portrait"
             android:exported="false"
             android:theme="@style/Base.Theme.PlaylistMaker.SearchActivity" />
 
@@ -40,6 +42,7 @@
 
         <activity
             android:name=".ui.main.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/Base.Theme.PlaylistMaker.MainActivity">
             <intent-filter>
