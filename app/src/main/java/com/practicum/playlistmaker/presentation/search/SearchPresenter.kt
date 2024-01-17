@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import com.practicum.playlistmaker.domain.track.Track
 import com.practicum.playlistmaker.domain.track.TrackInteractor
+import com.practicum.playlistmaker.ui.search.model.SearchState
 import com.practicum.playlistmaker.util.Creator
 
 class SearchPresenter (
@@ -26,22 +27,18 @@ class SearchPresenter (
 
     fun searchRequest(newSearchText: String) {
         if (newSearchText.isNotEmpty()) {
-            view.hidePlaceholder()
-            view.clearTrackList()
-            view.showProgressBar(true)
+            view.render(SearchState(listOf(), true, null))
 
             trackInteractor.searchTrack(newSearchText, object: TrackInteractor.TrackConsumer {
                 override fun consume(foundTrackList: List<Track>?, errorMessage: String?) {
                     handler.post {
                         view.showProgressBar(false)
-                        if (foundTrackList != null) {
-                            view.updateTrackList(foundTrackList)
-                            view.showSearchRecycler(true)
-                        } else if (errorMessage != null) view.showPlaceholder(errorMessage)
+                        if (foundTrackList != null) view.render(SearchState(foundTrackList, false, null))
+                        else if (errorMessage != null) view.render(SearchState(listOf(), false, errorMessage))
                     }
                 }
             })
-        } else { view.clearTrackList() }
+        } else { view.render(SearchState(listOf(), false, null)) }
     }
 
     fun onDestroy() {

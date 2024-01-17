@@ -8,7 +8,6 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -25,6 +24,7 @@ import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.domain.track.Track
 import com.practicum.playlistmaker.presentation.search.SearchView
 import com.practicum.playlistmaker.ui.player.PlayerActivity
+import com.practicum.playlistmaker.ui.search.model.SearchState
 import com.practicum.playlistmaker.util.Creator
 
 class SearchActivity : AppCompatActivity(), SearchView {
@@ -35,7 +35,6 @@ class SearchActivity : AppCompatActivity(), SearchView {
     private var textWatcher: TextWatcher? = null
     private lateinit var searchField: EditText
     private lateinit var progressBar: ProgressBar
-    private lateinit var searchRecycler: RecyclerView
     private lateinit var historyRecycler: RecyclerView
 
     private lateinit var errorText: String
@@ -70,7 +69,6 @@ class SearchActivity : AppCompatActivity(), SearchView {
         context = this
     )
 
-
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         _binding = ActivitySearchBinding.inflate(layoutInflater)
@@ -78,10 +76,9 @@ class SearchActivity : AppCompatActivity(), SearchView {
 
         searchField = findViewById(R.id.searchField)
         progressBar = findViewById(R.id.progressBar)
-        searchRecycler = findViewById(R.id.searchRecycler)
         historyRecycler = findViewById(R.id.historyRecycler)
 
-        searchRecycler.adapter = searchAdapter
+        binding.searchRecycler.adapter = searchAdapter
         historyRecycler.adapter = historyAdapter
 
         errorText = resources.getString(R.string.placeholder_error)
@@ -121,7 +118,7 @@ class SearchActivity : AppCompatActivity(), SearchView {
         // реакция на нажатие кнопки сброса:
         binding.resetButton.setOnClickListener {
             binding.searchField.setText("")
-            clearTrackList()
+            updateTrackList(listOf())
             // спрятать виртуальную клавиатуру:
             val inputMethodManager =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
@@ -138,7 +135,7 @@ class SearchActivity : AppCompatActivity(), SearchView {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.isNullOrEmpty()) hidePlaceholder()
                 binding.resetButton.isVisible = !s.isNullOrEmpty()
-                clearTrackList()
+                updateTrackList(listOf())
                 searchPresenter.searchDebounce(changedText = s?.toString() ?: "")
 
                 if (searchHistory.getHistory().isNotEmpty()) {
@@ -151,30 +148,28 @@ class SearchActivity : AppCompatActivity(), SearchView {
         textWatcher?.let { searchField.addTextChangedListener(it) }
     }
 
-
     override fun onDestroy() {
         super.onDestroy()
         textWatcher?.let { searchField.removeTextChangedListener(it) }
         searchPresenter.onDestroy()
     }
 
-
-    override fun showPlaceholder(errorMessage: String) {
-        clearTrackList()
-        hideRecycler()
+    private fun showPlaceholder(errorMessage: String) {
+        updateTrackList(listOf())
+        showRecycler(false)
 
         when (errorMessage) {
-            emptyErrorText -> setEmptyErrorState(errorMessage)
-            internetErrorText -> setInternetErrorState(errorMessage)
-            serverErrorText -> setInternetErrorState(errorMessage)
+            emptyErrorText -> showEmpty(errorMessage)
+            internetErrorText -> showError(errorMessage)
+            serverErrorText -> showError(errorMessage)
         }
     }
-    private fun setEmptyErrorState(errorMessage: String) {
+    private fun showEmpty(errorMessage: String) {
         binding.layoutPlaceholder.placeholderIcon.setImageDrawable(getAttribute(emptyErrorPlaceholder))
         binding.layoutPlaceholder.placeholderText.text = errorMessage
         binding.layoutPlaceholder.placeholderButton.isVisible = false
     }
-    private fun setInternetErrorState(errorMessage:String) {
+    private fun showError(errorMessage:String) {
         binding.layoutPlaceholder.placeholderIcon.setImageDrawable(getAttribute(internetErrorPlaceholder))
         val resultErrorMessage = errorText + errorMessage
         binding.layoutPlaceholder.placeholderText.text = resultErrorMessage
@@ -189,30 +184,40 @@ class SearchActivity : AppCompatActivity(), SearchView {
         return ContextCompat.getDrawable(this, placeholderResourceId)
     }
 
-    override fun updateTrackList(newTrackList: List<Track>) {
-        searchAdapter.setItems(newTrackList)
-    }
-    override fun clearTrackList() {
-        searchAdapter.setItems(arrayListOf())
-    }
-
-    private fun hideRecycler() {
-        binding.searchRecycler.visibility = View.GONE
-    }
-
     override fun hidePlaceholder() {
         binding.layoutPlaceholder.placeholderIcon.setImageDrawable(null)
         binding.layoutPlaceholder.placeholderText.text = null
         binding.layoutPlaceholder.placeholderButton.isVisible = false
     }
 
+    override fun updateTrackList(trackList: List<Track>) {
+        searchAdapter.setItems(trackList)
+    }
+
+    private fun showRecycler(isVisible: Boolean) {
+        binding.searchRecycler.isVisible = isVisible
+    }
     override fun showProgressBar(isVisible: Boolean) {
         progressBar.isVisible = isVisible
     }
-    override fun showSearchRecycler(isVisible: Boolean) {
-        searchRecycler.isVisible = isVisible
+
+    private fun showLoading() {
+        hidePlaceholder()
+        updateTrackList(listOf())
+        showProgressBar(true)
+    }
+    private fun showContent(trackList: List<Track>) {
+        updateTrackList(trackList)
+        showRecycler(true)
     }
 
+    override fun render(state: SearchState) {
+        when {
+            state.isLoading -> showLoading()
+            state.errorMessage != null -> showPlaceholder(state.errorMessage)
+            else -> showContent(state.trackList)
+        }
+    }
 
     private fun clickDebounce(): Boolean {
         val current = isClickAllowed
