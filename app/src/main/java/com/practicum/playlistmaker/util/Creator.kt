@@ -1,6 +1,5 @@
 package com.practicum.playlistmaker.util
 
-import android.app.Activity
 import android.content.Context
 import android.media.MediaPlayer
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -16,7 +15,8 @@ import com.practicum.playlistmaker.domain.player.PlayerRepository
 import com.practicum.playlistmaker.domain.track.TrackInteractor
 import com.practicum.playlistmaker.domain.track.TrackInteractorImpl
 import com.practicum.playlistmaker.domain.track.TrackRepository
-import com.practicum.playlistmaker.presentation.player.PlayerController
+import com.practicum.playlistmaker.presentation.player.PlayerPresenter
+import com.practicum.playlistmaker.presentation.player.PlayerView
 import com.practicum.playlistmaker.presentation.search.SearchPresenter
 import com.practicum.playlistmaker.presentation.search.SearchView
 
@@ -27,10 +27,10 @@ object Creator {
         context: Context) =
         SearchPresenter(searchView, context)
 
-    fun providePlayerController(
-        activity: Activity,
+    fun providePlayerPresenter(
+        view: PlayerView,
         lifecycleScope: LifecycleCoroutineScope) =
-        PlayerController(activity, lifecycleScope)
+        PlayerPresenter(view, lifecycleScope)
 
     fun provideTrackInteractor(context: Context): TrackInteractor = TrackInteractorImpl(getTrackRepository(context))
     private fun getTrackRepository(context: Context): TrackRepository = TrackRepositoryImpl(getNetworkClient(context))

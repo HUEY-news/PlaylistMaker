@@ -23,7 +23,6 @@ import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.data.SearchHistory
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.domain.track.Track
-import com.practicum.playlistmaker.presentation.player.PlayerController
 import com.practicum.playlistmaker.presentation.search.SearchView
 import com.practicum.playlistmaker.ui.player.PlayerActivity
 import com.practicum.playlistmaker.util.Creator
@@ -51,14 +50,14 @@ class SearchActivity : AppCompatActivity(), SearchView {
         if (clickDebounce()) {
             searchHistory.addTrackToHistory(track)
             val intent = Intent(this, PlayerActivity::class.java)
-            intent.putExtra(PlayerController.TRACK_ID, track)
+            intent.putExtra(PlayerActivity.TRACK_ID, track)
             startActivity(intent)
         }
     }
     private val historyAdapter = TrackAdapter { track ->
         if (clickDebounce()) {
             val intent = Intent(this, PlayerActivity::class.java)
-            intent.putExtra(PlayerController.TRACK_ID, track)
+            intent.putExtra(PlayerActivity.TRACK_ID, track)
             startActivity(intent)
         }
     }
