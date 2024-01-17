@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.data
+package com.practicum.playlistmaker.data.search
 
 import android.content.SharedPreferences
 import android.util.Log
