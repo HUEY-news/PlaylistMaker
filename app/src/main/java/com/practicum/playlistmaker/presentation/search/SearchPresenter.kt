@@ -27,18 +27,18 @@ class SearchPresenter (
 
     fun searchRequest(newSearchText: String) {
         if (newSearchText.isNotEmpty()) {
-            view.render(SearchState(listOf(), true, null))
+            view.render(SearchState.Loading)
 
             trackInteractor.searchTrack(newSearchText, object: TrackInteractor.TrackConsumer {
                 override fun consume(foundTrackList: List<Track>?, errorMessage: String?) {
                     handler.post {
                         view.showProgressBar(false)
-                        if (foundTrackList != null) view.render(SearchState(foundTrackList, false, null))
-                        else if (errorMessage != null) view.render(SearchState(listOf(), false, errorMessage))
+                        if (foundTrackList != null) view.render(SearchState.Content(foundTrackList))
+                        else if (errorMessage != null) view.render(SearchState.Error(errorMessage))
                     }
                 }
             })
-        } else { view.render(SearchState(listOf(), false, null)) }
+        } else { view.render(SearchState.Content(listOf())) }
     }
 
     fun onDestroy() {

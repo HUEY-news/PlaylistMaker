@@ -212,10 +212,11 @@ class SearchActivity : AppCompatActivity(), SearchView {
     }
 
     override fun render(state: SearchState) {
-        when {
-            state.isLoading -> showLoading()
-            state.errorMessage != null -> showPlaceholder(state.errorMessage)
-            else -> showContent(state.trackList)
+        when (state) {
+            is SearchState.Loading -> showLoading()
+            is SearchState.Content -> showContent(state.trackList)
+            is SearchState.Error -> showPlaceholder(state.errorMessage)
+            is SearchState.Empty -> showPlaceholder(state.message)
         }
     }
 
