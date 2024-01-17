@@ -9,19 +9,15 @@ import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.data.search.SearchHistory
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.domain.track.Track
+import com.practicum.playlistmaker.presentation.search.SearchPresenter
 import com.practicum.playlistmaker.presentation.search.SearchView
 import com.practicum.playlistmaker.ui.player.PlayerActivity
 import com.practicum.playlistmaker.ui.search.model.SearchState
@@ -32,10 +28,10 @@ class SearchActivity : AppCompatActivity(), SearchView {
     private var _binding: ActivitySearchBinding? = null
     private val binding get() = _binding!!
 
+    private var isClickAllowed = true
+    private val handler = Handler(Looper.getMainLooper())
+    private var searchPresenter: SearchPresenter? = null
     private var textWatcher: TextWatcher? = null
-    private lateinit var searchField: EditText
-    private lateinit var progressBar: ProgressBar
-    private lateinit var historyRecycler: RecyclerView
 
     private lateinit var errorText: String
     private lateinit var emptyErrorText: String
@@ -61,25 +57,16 @@ class SearchActivity : AppCompatActivity(), SearchView {
         }
     }
 
-    private var isClickAllowed = true
-    private val handler = Handler(Looper.getMainLooper())
-
-    private val searchPresenter = Creator.provideSearchPresenter (
-        searchView = this,
-        context = this
-    )
-
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
         _binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        searchField = findViewById(R.id.searchField)
-        progressBar = findViewById(R.id.progressBar)
-        historyRecycler = findViewById(R.id.historyRecycler)
+        searchPresenter = lastNonConfigurationInstance as? SearchPresenter
+        if (searchPresenter == null) searchPresenter = Creator.provideSearchPresenter (this, this)
 
         binding.searchRecycler.adapter = searchAdapter
-        historyRecycler.adapter = historyAdapter
+        binding.layoutSearchHistory.historyRecycler.adapter = historyAdapter
 
         errorText = resources.getString(R.string.placeholder_error)
         emptyErrorText = resources.getString(R.string.placeholder_empty_error)
@@ -88,7 +75,7 @@ class SearchActivity : AppCompatActivity(), SearchView {
         emptyErrorPlaceholder = R.attr.placeholderEmptyError
         internetErrorPlaceholder = R.attr.placeholderInternetError
 
-        findViewById<ImageButton>(R.id.backButton).setOnClickListener { finish() }
+        binding.backButton.setOnClickListener { finish() }
 
         if (searchHistory.getHistory().isNotEmpty()) {
             historyAdapter.setItems(searchHistory.getHistory())
@@ -111,8 +98,8 @@ class SearchActivity : AppCompatActivity(), SearchView {
         }
 
         // реакция на нажатие кнопки "обновить":
-        findViewById<Button>(R.id.placeholderButton).setOnClickListener {
-            searchPresenter.searchRequest(searchField.text.toString())
+        binding.layoutPlaceholder.placeholderButton.setOnClickListener {
+            searchPresenter?.searchRequest(binding.searchField.text.toString())
         }
 
         // реакция на нажатие кнопки сброса:
@@ -136,7 +123,7 @@ class SearchActivity : AppCompatActivity(), SearchView {
                 if (s.isNullOrEmpty()) hidePlaceholder()
                 binding.resetButton.isVisible = !s.isNullOrEmpty()
                 updateTrackList(listOf())
-                searchPresenter.searchDebounce(changedText = s?.toString() ?: "")
+                searchPresenter?.searchDebounce(changedText = s?.toString() ?: "")
 
                 if (searchHistory.getHistory().isNotEmpty()) {
                     historyAdapter.setItems(searchHistory.getHistory())
@@ -145,13 +132,17 @@ class SearchActivity : AppCompatActivity(), SearchView {
                 }
             }
         }
-        textWatcher?.let { searchField.addTextChangedListener(it) }
+        textWatcher?.let { binding.searchField.addTextChangedListener(it) }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        textWatcher?.let { searchField.removeTextChangedListener(it) }
-        searchPresenter.onDestroy()
+        textWatcher?.let { binding.searchField.removeTextChangedListener(it) }
+        searchPresenter?.onDestroy()
+    }
+
+    override fun onRetainCustomNonConfigurationInstance(): Any? {
+        return searchPresenter
     }
 
     private fun showPlaceholder(errorMessage: String) {
@@ -198,7 +189,7 @@ class SearchActivity : AppCompatActivity(), SearchView {
         binding.searchRecycler.isVisible = isVisible
     }
     override fun showProgressBar(isVisible: Boolean) {
-        progressBar.isVisible = isVisible
+        binding.progressBar.isVisible = isVisible
     }
 
     private fun showLoading() {
