@@ -64,7 +64,6 @@ class SearchActivity : AppCompatActivity(), SearchView {
 
         searchPresenter = (this.applicationContext as? App)?.searchPresenter
         if (searchPresenter == null) searchPresenter = Creator.provideSearchPresenter (this.applicationContext)
-        searchPresenter?.attachView(this)
 
         binding.searchRecycler.adapter = searchAdapter
         binding.layoutSearchHistory.historyRecycler.adapter = historyAdapter
@@ -136,6 +135,26 @@ class SearchActivity : AppCompatActivity(), SearchView {
         textWatcher?.let { binding.searchField.addTextChangedListener(it) }
     }
 
+    override fun onStart() {
+        super.onStart()
+        searchPresenter?.attachView(this)
+    }
+    override fun onResume() {
+        super.onResume()
+        searchPresenter?.attachView(this)
+    }
+    override fun onPause() {
+        super.onPause()
+        searchPresenter?.detachView()
+    }
+    override fun onStop() {
+        super.onStop()
+        searchPresenter?.detachView()
+    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        searchPresenter?.detachView()
+    }
     override fun onDestroy() {
         super.onDestroy()
         textWatcher?.let { binding.searchField.removeTextChangedListener(it) }
