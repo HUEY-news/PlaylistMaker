@@ -139,22 +139,27 @@ class SearchActivity : AppCompatActivity(), SearchView {
         super.onStart()
         searchPresenter?.attachView(this)
     }
+
     override fun onResume() {
         super.onResume()
         searchPresenter?.attachView(this)
     }
+
     override fun onPause() {
         super.onPause()
         searchPresenter?.detachView()
     }
+
     override fun onStop() {
         super.onStop()
         searchPresenter?.detachView()
     }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         searchPresenter?.detachView()
     }
+
     override fun onDestroy() {
         super.onDestroy()
         textWatcher?.let { binding.searchField.removeTextChangedListener(it) }
@@ -166,6 +171,7 @@ class SearchActivity : AppCompatActivity(), SearchView {
     private fun showPlaceholder(errorMessage: String) {
         updateTrackList(listOf())
         showRecycler(false)
+        showProgressBar(false)
 
         when (errorMessage) {
             emptyErrorText -> showEmpty(errorMessage)
@@ -199,14 +205,15 @@ class SearchActivity : AppCompatActivity(), SearchView {
         binding.layoutPlaceholder.placeholderButton.isVisible = false
     }
 
-    override fun updateTrackList(trackList: List<Track>) {
+    private fun updateTrackList(trackList: List<Track>) {
         searchAdapter.setItems(trackList)
     }
 
     private fun showRecycler(isVisible: Boolean) {
         binding.searchRecycler.isVisible = isVisible
     }
-    override fun showProgressBar(isVisible: Boolean) {
+
+    private fun showProgressBar(isVisible: Boolean) {
         binding.progressBar.isVisible = isVisible
     }
 
@@ -218,6 +225,7 @@ class SearchActivity : AppCompatActivity(), SearchView {
     private fun showContent(trackList: List<Track>) {
         updateTrackList(trackList)
         showRecycler(true)
+        showProgressBar(false)
     }
 
     override fun render(state: SearchState) {
@@ -225,7 +233,6 @@ class SearchActivity : AppCompatActivity(), SearchView {
             is SearchState.Loading -> showLoading()
             is SearchState.Content -> showContent(state.trackList)
             is SearchState.Error -> showPlaceholder(state.errorMessage)
-            is SearchState.Empty -> showPlaceholder(state.message)
         }
     }
 

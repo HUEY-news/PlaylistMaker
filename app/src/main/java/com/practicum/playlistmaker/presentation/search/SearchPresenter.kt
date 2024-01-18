@@ -50,7 +50,6 @@ class SearchPresenter (context: Context) {
             trackInteractor.searchTrack(newSearchText, object: TrackInteractor.TrackConsumer {
                 override fun consume(foundTrackList: List<Track>?, errorMessage: String?) {
                     handler.post {
-                        view?.showProgressBar(false)
                         if (foundTrackList != null) renderState(SearchState.Content(foundTrackList))
                         else if (errorMessage != null) renderState(SearchState.Error(errorMessage))
                     }
