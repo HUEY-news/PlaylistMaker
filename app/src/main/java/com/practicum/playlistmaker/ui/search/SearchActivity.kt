@@ -9,7 +9,6 @@ import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.practicum.playlistmaker.App
@@ -22,8 +21,11 @@ import com.practicum.playlistmaker.presentation.search.SearchView
 import com.practicum.playlistmaker.ui.player.PlayerActivity
 import com.practicum.playlistmaker.ui.search.model.SearchState
 import com.practicum.playlistmaker.util.Creator
+import moxy.MvpAppCompatActivity
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 
-class SearchActivity : AppCompatActivity(), SearchView {
+class SearchActivity : MvpAppCompatActivity(), SearchView {
 
     private var _binding: ActivitySearchBinding? = null
     private val binding get() = _binding!!
@@ -31,7 +33,15 @@ class SearchActivity : AppCompatActivity(), SearchView {
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
     private var textWatcher: TextWatcher? = null
-    private var searchPresenter: SearchPresenter? = null
+
+    @InjectPresenter
+    lateinit var searchPresenter: SearchPresenter
+    @ProvidePresenter
+    fun providePresenter(): SearchPresenter {
+        return Creator.provideSearchPresenter(
+            context = this.applicationContext
+        )
+    }
 
     private lateinit var errorText: String
     private lateinit var emptyErrorText: String
@@ -61,9 +71,6 @@ class SearchActivity : AppCompatActivity(), SearchView {
         super.onCreate(state)
         _binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        searchPresenter = (this.applicationContext as? App)?.searchPresenter
-        if (searchPresenter == null) searchPresenter = Creator.provideSearchPresenter (this.applicationContext)
 
         binding.searchRecycler.adapter = searchAdapter
         binding.layoutSearchHistory.historyRecycler.adapter = historyAdapter
@@ -120,10 +127,12 @@ class SearchActivity : AppCompatActivity(), SearchView {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable?) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.isNullOrEmpty()) hidePlaceholder()
+                if (s.isNullOrEmpty()) {
+                    hidePlaceholder()
+                    updateTrackList(listOf())
+                }
                 binding.resetButton.isVisible = !s.isNullOrEmpty()
-                updateTrackList(listOf())
-                searchPresenter?.searchDebounce(changedText = s?.toString() ?: "")
+                searchPresenter.searchDebounce(changedText = s?.toString() ?: "")
 
                 if (searchHistory.getHistory().isNotEmpty()) {
                     historyAdapter.setItems(searchHistory.getHistory())
@@ -133,39 +142,6 @@ class SearchActivity : AppCompatActivity(), SearchView {
             }
         }
         textWatcher?.let { binding.searchField.addTextChangedListener(it) }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        searchPresenter?.attachView(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        searchPresenter?.attachView(this)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        searchPresenter?.detachView()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        searchPresenter?.detachView()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        searchPresenter?.detachView()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        textWatcher?.let { binding.searchField.removeTextChangedListener(it) }
-        searchPresenter?.detachView()
-        searchPresenter?.onDestroy()
-        if (isFinishing) (this.application as? App)?.searchPresenter = null
     }
 
     private fun showPlaceholder(errorMessage: String) {
