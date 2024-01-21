@@ -8,40 +8,30 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.data.search.SearchHistory
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.domain.track.Track
-import com.practicum.playlistmaker.presentation.search.SearchPresenter
-import com.practicum.playlistmaker.presentation.search.SearchView
+import com.practicum.playlistmaker.presentation.search.SearchViewModel
+import com.practicum.playlistmaker.presentation.search.SearchViewModelFactory
 import com.practicum.playlistmaker.ui.player.PlayerActivity
 import com.practicum.playlistmaker.ui.search.model.SearchState
-import com.practicum.playlistmaker.util.Creator
-import moxy.MvpAppCompatActivity
-import moxy.presenter.InjectPresenter
-import moxy.presenter.ProvidePresenter
 
-class SearchActivity : MvpAppCompatActivity(), SearchView {
+class SearchActivity : AppCompatActivity() {
 
+    private lateinit var viewModel: SearchViewModel
     private var _binding: ActivitySearchBinding? = null
     private val binding get() = _binding!!
-
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
     private var textWatcher: TextWatcher? = null
-
-    @InjectPresenter
-    lateinit var searchPresenter: SearchPresenter
-    @ProvidePresenter
-    fun providePresenter(): SearchPresenter {
-        return Creator.provideSearchPresenter(
-            context = this.applicationContext
-        )
-    }
 
     private lateinit var errorText: String
     private lateinit var emptyErrorText: String
@@ -51,7 +41,7 @@ class SearchActivity : MvpAppCompatActivity(), SearchView {
     private var internetErrorPlaceholder: Int = 0
 
     private val searchHistory = SearchHistory(App.sharedPreferences)
-    private val searchAdapter = TrackAdapter { track ->
+    private val searchAdapter = SearchAdapter { track ->
         if (clickDebounce()) {
             searchHistory.addTrackToHistory(track)
             val intent = Intent(this, PlayerActivity::class.java)
@@ -59,7 +49,7 @@ class SearchActivity : MvpAppCompatActivity(), SearchView {
             startActivity(intent)
         }
     }
-    private val historyAdapter = TrackAdapter { track ->
+    private val historyAdapter = SearchAdapter { track ->
         if (clickDebounce()) {
             val intent = Intent(this, PlayerActivity::class.java)
             intent.putExtra(PlayerActivity.TRACK_ID, track)
@@ -69,8 +59,18 @@ class SearchActivity : MvpAppCompatActivity(), SearchView {
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
+        Log.i("TEST", "Activity СОЗДАНА")
         _binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel = ViewModelProvider(this, SearchViewModelFactory()).get(SearchViewModel::class.java)
+        viewModel.getSearchStateLiveData().observe(this) { searchState ->
+            when (searchState) {
+                is SearchState.Loading -> { showLoading() }
+                is SearchState.Content -> { showContent(searchState.trackList) }
+                is SearchState.Error -> { showPlaceholder(searchState.errorMessage) }
+            }
+        }
 
         binding.searchRecycler.adapter = searchAdapter
         binding.layoutSearchHistory.historyRecycler.adapter = historyAdapter
@@ -106,7 +106,7 @@ class SearchActivity : MvpAppCompatActivity(), SearchView {
 
         // реакция на нажатие кнопки "обновить":
         binding.layoutPlaceholder.placeholderButton.setOnClickListener {
-            searchPresenter?.searchRequest(binding.searchField.text.toString())
+            viewModel.searchRequest(binding.searchField.text.toString())
         }
 
         // реакция на нажатие кнопки сброса:
@@ -132,7 +132,7 @@ class SearchActivity : MvpAppCompatActivity(), SearchView {
                     updateTrackList(listOf())
                 }
                 binding.resetButton.isVisible = !s.isNullOrEmpty()
-                searchPresenter.searchDebounce(changedText = s?.toString() ?: "")
+                viewModel.searchDebounce(changedText = s?.toString() ?: "")
 
                 if (searchHistory.getHistory().isNotEmpty()) {
                     historyAdapter.setItems(searchHistory.getHistory())
@@ -144,10 +144,27 @@ class SearchActivity : MvpAppCompatActivity(), SearchView {
         textWatcher?.let { binding.searchField.addTextChangedListener(it) }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.e("TEST", "Activity УНИЧТОЖЕНА")
+    }
+
+    private fun showContent(trackList: List<Track>) {
+        showProgressBar(false)
+        updateTrackList(trackList)
+        showRecycler(true)
+    }
+
+    private fun showLoading() {
+        showProgressBar(true)
+        hidePlaceholder()
+        updateTrackList(listOf())
+    }
+
     private fun showPlaceholder(errorMessage: String) {
+        showProgressBar(false)
         updateTrackList(listOf())
         showRecycler(false)
-        showProgressBar(false)
 
         when (errorMessage) {
             emptyErrorText -> showEmpty(errorMessage)
@@ -181,36 +198,9 @@ class SearchActivity : MvpAppCompatActivity(), SearchView {
         binding.layoutPlaceholder.placeholderButton.isVisible = false
     }
 
-    private fun updateTrackList(trackList: List<Track>) {
-        searchAdapter.setItems(trackList)
-    }
-
-    private fun showRecycler(isVisible: Boolean) {
-        binding.searchRecycler.isVisible = isVisible
-    }
-
-    private fun showProgressBar(isVisible: Boolean) {
-        binding.progressBar.isVisible = isVisible
-    }
-
-    private fun showLoading() {
-        hidePlaceholder()
-        updateTrackList(listOf())
-        showProgressBar(true)
-    }
-    private fun showContent(trackList: List<Track>) {
-        updateTrackList(trackList)
-        showRecycler(true)
-        showProgressBar(false)
-    }
-
-    override fun render(state: SearchState) {
-        when (state) {
-            is SearchState.Loading -> showLoading()
-            is SearchState.Content -> showContent(state.trackList)
-            is SearchState.Error -> showPlaceholder(state.errorMessage)
-        }
-    }
+    private fun updateTrackList(trackList: List<Track>) { searchAdapter.setItems(trackList) }
+    private fun showRecycler(isVisible: Boolean) { binding.searchRecycler.isVisible = isVisible }
+    private fun showProgressBar(isVisible: Boolean) { binding.progressBar.isVisible = isVisible }
 
     private fun clickDebounce(): Boolean {
         val current = isClickAllowed

@@ -63,4 +63,7 @@ dependencies
         implementation ("com.github.moxy-community:moxy-android:$moxyVersion")
         implementation ("com.github.moxy-community:moxy-androidx:$moxyVersion")
         kapt ("com.github.moxy-community:moxy-compiler:$moxyVersion")
-    }
+        // ========== VIEW MODEL ==========
+        implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+        implementation "androidx.activity:activity-ktx:1.8.2"
+}

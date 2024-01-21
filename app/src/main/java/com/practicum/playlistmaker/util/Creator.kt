@@ -17,11 +17,8 @@ import com.practicum.playlistmaker.domain.track.TrackInteractorImpl
 import com.practicum.playlistmaker.domain.track.TrackRepository
 import com.practicum.playlistmaker.presentation.player.PlayerPresenter
 import com.practicum.playlistmaker.presentation.player.PlayerView
-import com.practicum.playlistmaker.presentation.search.SearchPresenter
 
 object Creator {
-
-    fun provideSearchPresenter(context: Context) = SearchPresenter(context)
 
     fun providePlayerPresenter(
         view: PlayerView,
