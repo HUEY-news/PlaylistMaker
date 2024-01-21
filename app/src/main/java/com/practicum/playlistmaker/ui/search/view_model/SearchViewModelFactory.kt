@@ -1,10 +1,10 @@
-package com.practicum.playlistmaker.presentation.search
+package com.practicum.playlistmaker.ui.search.view_model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.CreationExtras
-import com.practicum.playlistmaker.util.Creator
+import com.practicum.playlistmaker.creator.Creator
 
 class SearchViewModelFactory: ViewModelProvider.Factory {
 

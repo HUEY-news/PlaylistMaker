@@ -22,7 +22,7 @@
             android:theme="@style/Base.Theme.PlaylistMaker.PlayerActivity" />
 
         <activity
-            android:name=".ui.search.SearchActivity"
+            android:name=".ui.search.activity.SearchActivity"
             android:exported="false"
             android:theme="@style/Base.Theme.PlaylistMaker.SearchActivity" />
 

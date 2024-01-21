@@ -10,10 +10,12 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
 import com.practicum.playlistmaker.domain.track.Track
 import com.practicum.playlistmaker.presentation.player.PlayerView
-import com.practicum.playlistmaker.util.Creator
+import com.practicum.playlistmaker.util.convertArtwork
+import com.practicum.playlistmaker.util.convertDate
 import com.practicum.playlistmaker.util.convertPixel
 import com.practicum.playlistmaker.util.convertTime
 
@@ -46,7 +48,7 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
                 textViewArtistName.text = track.artistName
                 textViewTrackInfoDurationContent.text = convertTime(track.trackTimeMillis)
                 textViewTrackInfoYearContent.text = track.collectionName
-                textViewTrackInfoYearContent.text = track.getReleaseYear()
+                textViewTrackInfoYearContent.text = convertDate(track.releaseDate)
                 textViewTrackInfoGenreContent.text = track.primaryGenreName
                 textViewTrackInfoCountryContent.text = track.country
             }
@@ -57,7 +59,7 @@ class PlayerActivity : AppCompatActivity(), PlayerView {
 
         Glide
             .with(this)
-            .load(track?.getCoverArtwork())
+            .load(convertArtwork(track?.artworkUrl100!!))
             .placeholder(R.drawable.ic_placeholder_artwork_240)
             .transform(RoundedCorners(convertPixel(4f, this)))
             .into(binding.imageViewArtwork512)

@@ -2,9 +2,6 @@ package com.practicum.playlistmaker.domain.track
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.Date
 
 @Parcelize
 data class Track(
@@ -18,18 +15,5 @@ data class Track(
     val primaryGenreName: String,
     val country: String,
     val previewUrl: String
-): Parcelable {
-
-    fun getCoverArtwork(): String {
-        return artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
-    }
-
-    fun getReleaseYear(): String {
-        val dateString: String = releaseDate
-        val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val date: Date = dateFormat.parse(dateString)
-        val yearFormat: DateFormat = SimpleDateFormat("yyyy")
-        return yearFormat.format(date)
-    }
-}
+): Parcelable
 

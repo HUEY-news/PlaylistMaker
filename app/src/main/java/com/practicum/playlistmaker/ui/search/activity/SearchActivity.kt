@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.ui.search
+package com.practicum.playlistmaker.ui.search.activity
 
 import android.content.Context
 import android.content.Intent
@@ -19,10 +19,10 @@ import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.data.search.SearchHistory
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.domain.track.Track
-import com.practicum.playlistmaker.presentation.search.SearchViewModel
-import com.practicum.playlistmaker.presentation.search.SearchViewModelFactory
 import com.practicum.playlistmaker.ui.player.PlayerActivity
-import com.practicum.playlistmaker.ui.search.model.SearchState
+import com.practicum.playlistmaker.ui.search.view_model.SearchState
+import com.practicum.playlistmaker.ui.search.view_model.SearchViewModel
+import com.practicum.playlistmaker.ui.search.view_model.SearchViewModelFactory
 
 class SearchActivity : AppCompatActivity() {
 

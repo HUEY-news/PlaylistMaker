@@ -4,10 +4,10 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.LifecycleCoroutineScope
+import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.domain.player.PlayerInteractor
 import com.practicum.playlistmaker.domain.player.PlayerState
 import com.practicum.playlistmaker.domain.track.Track
-import com.practicum.playlistmaker.util.Creator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat

@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.util
+package com.practicum.playlistmaker.creator
 
 import android.content.Context
 import android.media.MediaPlayer
@@ -25,8 +25,12 @@ object Creator {
         lifecycleScope: LifecycleCoroutineScope) =
         PlayerPresenter(view, lifecycleScope)
 
-    fun provideTrackInteractor(context: Context): TrackInteractor = TrackInteractorImpl(getTrackRepository(context))
-    private fun getTrackRepository(context: Context): TrackRepository = TrackRepositoryImpl(getNetworkClient(context))
+    fun provideTrackInteractor(context: Context): TrackInteractor = TrackInteractorImpl(
+        getTrackRepository(context)
+    )
+    private fun getTrackRepository(context: Context): TrackRepository = TrackRepositoryImpl(
+        getNetworkClient(context)
+    )
     private fun getNetworkClient(context: Context): NetworkClient = RetrofitNetworkClient(context)
 
     fun providePlayerInteractor(): PlayerInteractor = PlayerInteractorImpl(playerRepository = getPlayerRepository())

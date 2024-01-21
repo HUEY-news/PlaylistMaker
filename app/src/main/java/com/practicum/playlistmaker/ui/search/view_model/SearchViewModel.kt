@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.presentation.search
+package com.practicum.playlistmaker.ui.search.view_model
 
 import android.os.Handler
 import android.os.Looper
@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.practicum.playlistmaker.domain.track.Track
 import com.practicum.playlistmaker.domain.track.TrackInteractor
-import com.practicum.playlistmaker.ui.search.model.SearchState
 
 class SearchViewModel(
     private val interactor: TrackInteractor
