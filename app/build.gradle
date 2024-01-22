@@ -57,12 +57,6 @@ dependencies
         implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
         // ========== GLIDE ==========
         implementation ("com.github.bumptech.glide:glide:4.16.0")
-        // ========== MOXY ==========
-        def moxyVersion = '2.2.2'
-        implementation ("com.github.moxy-community:moxy:$moxyVersion")
-        implementation ("com.github.moxy-community:moxy-android:$moxyVersion")
-        implementation ("com.github.moxy-community:moxy-androidx:$moxyVersion")
-        kapt ("com.github.moxy-community:moxy-compiler:$moxyVersion")
         // ========== VIEW MODEL ==========
         implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
         implementation "androidx.activity:activity-ktx:1.8.2"

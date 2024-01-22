@@ -59,5 +59,4 @@ object Creator {
     private fun getSettingsRepository(application: Application): SettingsRepository = SettingsRepositoryImpl(getLocalStorage(application))
     private fun getLocalStorage(application: Application): LocalStorage = LocalStorageImpl(application)
 
-
 }
