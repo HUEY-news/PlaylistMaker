@@ -14,9 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.practicum.playlistmaker.App
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.data.search.SearchHistory
+import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.domain.track.Track
 import com.practicum.playlistmaker.ui.player.PlayerActivity
@@ -40,7 +39,7 @@ class SearchActivity : AppCompatActivity() {
     private var emptyErrorPlaceholder: Int = 0
     private var internetErrorPlaceholder: Int = 0
 
-    private val searchHistory = SearchHistory(App.sharedPreferences)
+    private val searchHistory = Creator.provideSearchHistory()
     private val searchAdapter = SearchAdapter { track ->
         if (clickDebounce()) {
             searchHistory.addTrackToHistory(track)
@@ -59,7 +58,7 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
-        Log.i("TEST", "Activity СОЗДАНА")
+        Log.i("TEST", "SearchActivity СОЗДАНА")
         _binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -146,7 +145,7 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.e("TEST", "Activity УНИЧТОЖЕНА")
+        Log.e("TEST", "SearchActivity УНИЧТОЖЕНА")
     }
 
     private fun showContent(trackList: List<Track>) {

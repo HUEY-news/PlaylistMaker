@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".App"
+        android:name=".app.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -31,7 +31,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".ui.settings.SettingsActivity"
+            android:name=".ui.settings.activity.SettingsActivity"
             android:exported="false"
             android:theme="@style/Base.Theme.PlaylistMaker.SettingsActivity" />
 

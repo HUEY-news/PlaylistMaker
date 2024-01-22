@@ -13,7 +13,7 @@ class SearchViewModel(
     private val interactor: TrackInteractor
 ): ViewModel() {
 
-    init { Log.v("TEST", "ViewModel СОЗДАНА") }
+    init { Log.v("TEST", "SearchViewModel СОЗДАНА") }
 
     private var searchStateLiveData = MutableLiveData<SearchState>()
     fun getSearchStateLiveData(): LiveData<SearchState> = searchStateLiveData
@@ -51,8 +51,7 @@ class SearchViewModel(
     }
 
     override fun onCleared() {
-        super.onCleared()
-        Log.v("TEST", "ViewModel ОЧИЩЕНА")
+        Log.v("TEST", "SearchViewModel ОЧИЩЕНА")
         handler.removeCallbacks(searchRunnable)
     }
 

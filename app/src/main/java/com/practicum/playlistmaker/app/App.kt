@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.app
 
 import android.app.Application
 import android.content.Context
@@ -24,19 +24,19 @@ class App : Application() {
         )
     }
 
-    // реализация переключения темы:
-    fun switchTheme(darkThemeEnabled: Boolean) {
+    fun switchThemeState(darkThemeEnabled: Boolean) {
         darkTheme = darkThemeEnabled
         AppCompatDelegate.setDefaultNightMode(
             if (darkThemeEnabled) AppCompatDelegate.MODE_NIGHT_YES
             else AppCompatDelegate.MODE_NIGHT_NO
         )
 
-        // реализация сохранения темы:
         sharedPreferences.edit {
             putBoolean(DARK_THEME_KEY, darkTheme)
         }
     }
+
+    fun getThemeState() = sharedPreferences.getBoolean(DARK_THEME_KEY, darkTheme)
 
     companion object PreferencesProvider{
         lateinit var sharedPreferences: SharedPreferences
