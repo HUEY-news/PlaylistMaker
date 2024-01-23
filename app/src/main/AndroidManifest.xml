@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <!-- ПРИЛОЖЕНИЮ ТРЕБУЕТСЯ РАЗРЕШЕНИЕ НА ИСПОЛЬЗОВАНИЕ ИНТЕРНЕТА -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,26 +20,26 @@
         tools:targetApi="33">
 
         <activity
-            android:name=".ui.player.PlayerActivity"
+            android:name=".presentation.player.activity.PlayerActivity"
             android:exported="false"
             android:theme="@style/Base.Theme.PlaylistMaker.PlayerActivity" />
 
         <activity
-            android:name=".ui.search.activity.SearchActivity"
+            android:name=".presentation.search.activity.SearchActivity"
             android:exported="false"
             android:theme="@style/Base.Theme.PlaylistMaker.SearchActivity" />
 
         <activity
-            android:name=".ui.library.LibraryActivity"
+            android:name=".presentation.library.LibraryActivity"
             android:exported="false" />
 
         <activity
-            android:name=".ui.settings.activity.SettingsActivity"
+            android:name=".presentation.settings.activity.SettingsActivity"
             android:exported="false"
             android:theme="@style/Base.Theme.PlaylistMaker.SettingsActivity" />
 
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".presentation.main.MainActivity"
             android:exported="true"
             android:theme="@style/Base.Theme.PlaylistMaker.MainActivity">
             <intent-filter>

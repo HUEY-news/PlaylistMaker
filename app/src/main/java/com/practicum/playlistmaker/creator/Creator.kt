@@ -3,13 +3,12 @@ package com.practicum.playlistmaker.creator
 import android.app.Application
 import android.content.Context
 import android.media.MediaPlayer
-import androidx.lifecycle.LifecycleCoroutineScope
 import com.practicum.playlistmaker.app.App
 import com.practicum.playlistmaker.data.network.NetworkClient
 import com.practicum.playlistmaker.data.network.RetrofitNetworkClient
-import com.practicum.playlistmaker.data.player.Player
-import com.practicum.playlistmaker.data.player.PlayerImpl
-import com.practicum.playlistmaker.data.player.PlayerRepositoryImpl
+import com.practicum.playlistmaker.data.player.api.Player
+import com.practicum.playlistmaker.data.player.impl.PlayerImpl
+import com.practicum.playlistmaker.data.player.repository.PlayerRepositoryImpl
 import com.practicum.playlistmaker.data.search.SearchHistory
 import com.practicum.playlistmaker.data.settings.api.ExternalNavigator
 import com.practicum.playlistmaker.data.settings.api.LocalStorage
@@ -18,9 +17,9 @@ import com.practicum.playlistmaker.data.settings.impl.LocalStorageImpl
 import com.practicum.playlistmaker.data.settings.repository.SettingsRepositoryImpl
 import com.practicum.playlistmaker.data.settings.repository.SharingRepositoryImpl
 import com.practicum.playlistmaker.data.track.TrackRepositoryImpl
-import com.practicum.playlistmaker.domain.player.PlayerInteractor
-import com.practicum.playlistmaker.domain.player.PlayerInteractorImpl
-import com.practicum.playlistmaker.domain.player.PlayerRepository
+import com.practicum.playlistmaker.domain.player.api.PlayerInteractor
+import com.practicum.playlistmaker.domain.player.impl.PlayerInteractorImpl
+import com.practicum.playlistmaker.domain.player.repository.PlayerRepository
 import com.practicum.playlistmaker.domain.settings.api.SettingsInteractor
 import com.practicum.playlistmaker.domain.settings.api.SharingInteractor
 import com.practicum.playlistmaker.domain.settings.impl.SettingsInteractorImpl
@@ -30,18 +29,11 @@ import com.practicum.playlistmaker.domain.settings.repository.SharingRepository
 import com.practicum.playlistmaker.domain.track.TrackInteractor
 import com.practicum.playlistmaker.domain.track.TrackInteractorImpl
 import com.practicum.playlistmaker.domain.track.TrackRepository
-import com.practicum.playlistmaker.presentation.player.PlayerPresenter
-import com.practicum.playlistmaker.presentation.player.PlayerView
 
 object Creator {
 
     fun provideSearchHistory() = SearchHistory(getSharedPreferences())
     private fun getSharedPreferences() = App.sharedPreferences
-
-    fun providePlayerPresenter(
-        view: PlayerView,
-        lifecycleScope: LifecycleCoroutineScope) =
-        PlayerPresenter(view, lifecycleScope)
 
     fun provideTrackInteractor(context: Context): TrackInteractor = TrackInteractorImpl(getTrackRepository(context))
     private fun getTrackRepository(context: Context): TrackRepository = TrackRepositoryImpl(getNetworkClient(context))
