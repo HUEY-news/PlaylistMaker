@@ -17,7 +17,10 @@ class SettingsViewModel(
     fun getThemeStateLiveData(): LiveData<Boolean> = themeStateLiveData
 
     private fun getThemeState(): Boolean = settingsInteractor.getThemeState()
-    fun updateThemeState(isChecked: Boolean) = settingsInteractor.updateThemeState(isChecked)
+
+    fun updateThemeState(isChecked: Boolean) {
+        settingsInteractor.updateThemeState(isChecked)
+    }
 
     fun shareApp() = sharingInterractor.shareApp()
     fun openTerms() = sharingInterractor.openTerms()
