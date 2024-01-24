@@ -20,6 +20,9 @@ class SearchViewModel(
     private var searchStateLiveData = MutableLiveData<SearchState>()
     fun getSearchStateLiveData(): LiveData<SearchState> = searchStateLiveData
 
+    private var searchHistoryLiveData = MutableLiveData<List<Track>>(getHistory())
+    fun getSearchHistoryLiveData(): LiveData<List<Track>> = searchHistoryLiveData
+
     private val handler = Handler(Looper.getMainLooper())
     private var lastSearchText: String? = null
     private val searchRunnable = Runnable {
@@ -57,9 +60,15 @@ class SearchViewModel(
         handler.removeCallbacks(searchRunnable)
     }
 
-    fun addTrackToHistory(track: Track) = searchInteractor.addTrackToHistory(track)
-    fun getHistory() = searchInteractor.getHistory()
-    fun clearHistory() = searchInteractor.clearHistory()
+    private fun getHistory() = searchInteractor.getHistory()
+
+    fun addTrackToHistory(track: Track) {
+        searchInteractor.addTrackToHistory(track)
+    }
+
+    fun clearHistory() {
+        searchInteractor.clearHistory()
+    }
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L

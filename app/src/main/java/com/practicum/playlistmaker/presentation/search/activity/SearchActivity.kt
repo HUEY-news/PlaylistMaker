@@ -61,6 +61,13 @@ class SearchActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel = ViewModelProvider(this, SearchViewModelFactory()).get(SearchViewModel::class.java)
+        val searchHistory: ArrayList<Track> = arrayListOf()
+
+        viewModel.getSearchHistoryLiveData().observe(this) { trackList ->
+            searchHistory.clear()
+            searchHistory.addAll(trackList)
+        }
+
         viewModel.getSearchStateLiveData().observe(this) { searchState ->
             when (searchState) {
                 is SearchState.Loading -> { showLoading() }
@@ -81,8 +88,8 @@ class SearchActivity : AppCompatActivity() {
 
         binding.backButton.setOnClickListener { finish() }
 
-        if (viewModel.getHistory().isNotEmpty()) {
-            historyAdapter.setItems(viewModel.getHistory())
+        if (searchHistory.isNotEmpty()) {
+            historyAdapter.setItems(searchHistory)
             binding.layoutSearchHistory.searchHistoryContainer.isVisible = true
         }
 
@@ -94,8 +101,8 @@ class SearchActivity : AppCompatActivity() {
 
         // реализация отслеживания состояния фокуса поля поиска:
         binding.searchField.setOnFocusChangeListener { _, hasFocus ->
-            if (viewModel.getHistory().isNotEmpty()) {
-                historyAdapter.setItems(viewModel.getHistory())
+            if (searchHistory.isNotEmpty()) {
+                historyAdapter.setItems(searchHistory)
                 binding.layoutSearchHistory.searchHistoryContainer.isVisible =
                     hasFocus && binding.searchField.text.isEmpty()
             }
@@ -131,8 +138,8 @@ class SearchActivity : AppCompatActivity() {
                 binding.resetButton.isVisible = !s.isNullOrEmpty()
                 viewModel.searchDebounce(changedText = s?.toString() ?: "")
 
-                if (viewModel.getHistory().isNotEmpty()) {
-                    historyAdapter.setItems(viewModel.getHistory())
+                if (searchHistory.isNotEmpty()) {
+                    historyAdapter.setItems(searchHistory)
                     binding.layoutSearchHistory.searchHistoryContainer.isVisible =
                         binding.searchField.hasFocus() && s?.isEmpty() == true
                 }
