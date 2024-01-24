@@ -15,9 +15,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
-import com.practicum.playlistmaker.domain.track.Track
+import com.practicum.playlistmaker.domain.track.model.Track
 import com.practicum.playlistmaker.presentation.player.activity.PlayerActivity
 import com.practicum.playlistmaker.presentation.search.view_model.SearchState
 import com.practicum.playlistmaker.presentation.search.view_model.SearchViewModel
@@ -39,10 +38,9 @@ class SearchActivity : AppCompatActivity() {
     private var emptyErrorPlaceholder: Int = 0
     private var internetErrorPlaceholder: Int = 0
 
-    private val searchHistory = Creator.provideSearchHistory()
     private val searchAdapter = SearchAdapter { track ->
         if (clickDebounce()) {
-            searchHistory.addTrackToHistory(track)
+            viewModel.addTrackToHistory(track)
             val intent = Intent(this, PlayerActivity::class.java)
             intent.putExtra(PlayerActivity.TRACK_ID, track)
             startActivity(intent)
@@ -83,21 +81,21 @@ class SearchActivity : AppCompatActivity() {
 
         binding.backButton.setOnClickListener { finish() }
 
-        if (searchHistory.getHistory().isNotEmpty()) {
-            historyAdapter.setItems(searchHistory.getHistory())
+        if (viewModel.getHistory().isNotEmpty()) {
+            historyAdapter.setItems(viewModel.getHistory())
             binding.layoutSearchHistory.searchHistoryContainer.isVisible = true
         }
 
         // реакция на нажатие кнопки "очистить историю":
         binding.layoutSearchHistory.searchHistoryButton.setOnClickListener {
             binding.layoutSearchHistory.searchHistoryContainer.isVisible = false
-            searchHistory.clearHistory()
+            viewModel.clearHistory()
         }
 
         // реализация отслеживания состояния фокуса поля поиска:
         binding.searchField.setOnFocusChangeListener { _, hasFocus ->
-            if (searchHistory.getHistory().isNotEmpty()) {
-                historyAdapter.setItems(searchHistory.getHistory())
+            if (viewModel.getHistory().isNotEmpty()) {
+                historyAdapter.setItems(viewModel.getHistory())
                 binding.layoutSearchHistory.searchHistoryContainer.isVisible =
                     hasFocus && binding.searchField.text.isEmpty()
             }
@@ -133,8 +131,8 @@ class SearchActivity : AppCompatActivity() {
                 binding.resetButton.isVisible = !s.isNullOrEmpty()
                 viewModel.searchDebounce(changedText = s?.toString() ?: "")
 
-                if (searchHistory.getHistory().isNotEmpty()) {
-                    historyAdapter.setItems(searchHistory.getHistory())
+                if (viewModel.getHistory().isNotEmpty()) {
+                    historyAdapter.setItems(viewModel.getHistory())
                     binding.layoutSearchHistory.searchHistoryContainer.isVisible =
                         binding.searchField.hasFocus() && s?.isEmpty() == true
                 }

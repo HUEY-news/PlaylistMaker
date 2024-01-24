@@ -1,5 +1,7 @@
-package com.practicum.playlistmaker.domain.track
+package com.practicum.playlistmaker.domain.track.impl
 
+import com.practicum.playlistmaker.domain.track.api.TrackInteractor
+import com.practicum.playlistmaker.domain.track.repository.TrackRepository
 import com.practicum.playlistmaker.util.Resource
 
 class TrackInteractorImpl(

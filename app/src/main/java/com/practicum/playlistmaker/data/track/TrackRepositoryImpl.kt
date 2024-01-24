@@ -3,8 +3,8 @@ package com.practicum.playlistmaker.data.track
 import com.practicum.playlistmaker.data.dto.SearchRequest
 import com.practicum.playlistmaker.data.dto.SearchResponse
 import com.practicum.playlistmaker.data.network.NetworkClient
-import com.practicum.playlistmaker.domain.track.Track
-import com.practicum.playlistmaker.domain.track.TrackRepository
+import com.practicum.playlistmaker.domain.track.model.Track
+import com.practicum.playlistmaker.domain.track.repository.TrackRepository
 import com.practicum.playlistmaker.util.Resource
 
 class TrackRepositoryImpl(

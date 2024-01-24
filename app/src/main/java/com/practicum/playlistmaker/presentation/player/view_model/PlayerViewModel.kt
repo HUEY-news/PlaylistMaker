@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.domain.player.api.PlayerInteractor
 import com.practicum.playlistmaker.domain.player.model.PlayerState
-import com.practicum.playlistmaker.domain.track.Track
+import com.practicum.playlistmaker.domain.track.model.Track
 import com.practicum.playlistmaker.presentation.player.model.PlayerScreenState
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat

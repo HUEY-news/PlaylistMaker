@@ -1,4 +1,6 @@
-package com.practicum.playlistmaker.domain.track
+package com.practicum.playlistmaker.domain.track.api
+
+import com.practicum.playlistmaker.domain.track.model.Track
 
 interface TrackInteractor {
     fun searchTrack(expression: String, consumer: TrackConsumer)

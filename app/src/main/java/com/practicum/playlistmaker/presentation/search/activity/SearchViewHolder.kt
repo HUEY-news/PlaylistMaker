@@ -6,7 +6,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ItemTrackBinding
-import com.practicum.playlistmaker.domain.track.Track
+import com.practicum.playlistmaker.domain.track.model.Track
 import com.practicum.playlistmaker.util.convertPixel
 import com.practicum.playlistmaker.util.convertTime
 

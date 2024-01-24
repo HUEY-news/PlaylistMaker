@@ -6,11 +6,13 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.practicum.playlistmaker.domain.track.Track
-import com.practicum.playlistmaker.domain.track.TrackInteractor
+import com.practicum.playlistmaker.domain.search.api.SearchInteractor
+import com.practicum.playlistmaker.domain.track.api.TrackInteractor
+import com.practicum.playlistmaker.domain.track.model.Track
 
 class SearchViewModel(
-    private val interactor: TrackInteractor
+    private val trackInteractor: TrackInteractor,
+    private val searchInteractor: SearchInteractor
 ): ViewModel() {
 
     init { Log.v("TEST", "SearchViewModel СОЗДАНА") }
@@ -35,7 +37,7 @@ class SearchViewModel(
         if (newSearchText.isNotEmpty()) {
             searchStateLiveData.postValue(SearchState.Loading)
 
-            interactor.searchTrack(newSearchText, object: TrackInteractor.TrackConsumer {
+            trackInteractor.searchTrack(newSearchText, object: TrackInteractor.TrackConsumer {
                 override fun consume(foundTrackList: List<Track>?, errorMessage: String?) {
                     handler.post {
                         if (foundTrackList != null) {
@@ -54,6 +56,10 @@ class SearchViewModel(
         Log.v("TEST", "SearchViewModel ОЧИЩЕНА")
         handler.removeCallbacks(searchRunnable)
     }
+
+    fun addTrackToHistory(track: Track) = searchInteractor.addTrackToHistory(track)
+    fun getHistory() = searchInteractor.getHistory()
+    fun clearHistory() = searchInteractor.clearHistory()
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L

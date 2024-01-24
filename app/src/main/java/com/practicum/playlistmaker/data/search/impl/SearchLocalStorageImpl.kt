@@ -1,21 +1,22 @@
-package com.practicum.playlistmaker.data.search
+package com.practicum.playlistmaker.data.search.impl
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.practicum.playlistmaker.domain.track.Track
+import com.practicum.playlistmaker.data.search.api.SearchLocalStorage
+import com.practicum.playlistmaker.domain.track.model.Track
 
-const val TRACK_LIST_KEY = "TRACK_LIST"
-const val HISTORY_LIMIT = 10
-
-class SearchHistory(private val sharedPreferences: SharedPreferences) {
+class SearchLocalStorageImpl(
+    private val sharedPreferences: SharedPreferences
+): SearchLocalStorage {
 
     private fun createJsonFromTrackList(trackList: ArrayList<Track>): String {
         return Gson().toJson(trackList)
     }
+
     private fun saveHistory() {
         with(sharedPreferences.edit()) {
-            putString(TRACK_LIST_KEY, createJsonFromTrackList(history))
+            putString(SEARCH_HISTORY_KEY, createJsonFromTrackList(history))
             apply()
         }
     }
@@ -24,25 +25,27 @@ class SearchHistory(private val sharedPreferences: SharedPreferences) {
         val listType = object : TypeToken<ArrayList<Track>>() {}.type
         return Gson().fromJson(json, listType)
     }
+
     private fun loadHistory() {
-        val json = sharedPreferences.getString(TRACK_LIST_KEY, null)
+        val json = sharedPreferences.getString(SEARCH_HISTORY_KEY, null)
         if (json != null) history.addAll(createTrackListFromJson(json))
     }
 
-    fun addTrackToHistory(track: Track) {
+    override fun addTrackToHistory(track: Track) {
         history.clear()
         loadHistory()
         addUnique(track)
         sizeCheck()
         saveHistory()
     }
+
     private fun addUnique(track: Track){
         val iterator = history.iterator()
         while (iterator.hasNext()){
             val item = iterator.next()
             if (track.trackId == item.trackId) iterator.remove()
         }
-            history.add(0,track)
+        history.add(0,track)
     }
     private fun sizeCheck(){
         if (history.size > HISTORY_LIMIT) {
@@ -52,20 +55,22 @@ class SearchHistory(private val sharedPreferences: SharedPreferences) {
         }
     }
 
-    fun clearHistory() {
+    override fun clearHistory() {
         with(sharedPreferences.edit()){
-            remove(TRACK_LIST_KEY)
+            remove(SEARCH_HISTORY_KEY)
             apply()
         }
     }
 
-    fun getHistory(): ArrayList<Track>{
+    override fun getHistory(): ArrayList<Track> {
         history.clear()
         loadHistory()
         return history
     }
 
-    companion object{
+    companion object {
+        const val SEARCH_HISTORY_KEY = "SEARCH_HISTORY"
+        const val HISTORY_LIMIT = 10
         private val history = arrayListOf<Track>()
     }
 }

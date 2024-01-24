@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
-import com.practicum.playlistmaker.domain.track.Track
+import com.practicum.playlistmaker.domain.track.model.Track
 import com.practicum.playlistmaker.presentation.player.model.PlayerScreenState
 import com.practicum.playlistmaker.presentation.player.view_model.PlayerViewModel
 import com.practicum.playlistmaker.presentation.player.view_model.PlayerViewModelFactory

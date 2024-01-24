@@ -14,6 +14,9 @@ class SearchViewModelFactory: ViewModelProvider.Factory {
         extras: CreationExtras
     ): T {
         val application = checkNotNull(extras.get(APPLICATION_KEY))
-        return SearchViewModel(Creator.provideTrackInteractor(application)) as T
+        return SearchViewModel(
+            Creator.provideTrackInteractor(application),
+            Creator.provideSearchInteractor()
+        ) as T
     }
 }

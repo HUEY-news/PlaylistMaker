@@ -2,11 +2,11 @@ package com.practicum.playlistmaker.data.settings.impl
 
 import android.app.Application
 import com.practicum.playlistmaker.app.App
-import com.practicum.playlistmaker.data.settings.api.LocalStorage
+import com.practicum.playlistmaker.data.settings.api.SettingsLocalStorage
 
-class LocalStorageImpl(
+class SettingsLocalStorageImpl(
     private val application: Application
-) : LocalStorage {
+) : SettingsLocalStorage {
 
     override fun getThemeSettings(): Boolean {
         return (application as App).getThemeState()
