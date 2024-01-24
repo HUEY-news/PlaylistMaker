@@ -22,7 +22,10 @@ class SettingsActivity : AppCompatActivity()
         setContentView(binding.root)
         viewModel = ViewModelProvider(this, SettingsViewModelFactory()).get(SettingsViewModel::class.java)
 
-        binding.themeSwitcher.isChecked = viewModel.getThemeState()
+        viewModel.getThemeStateLiveData().observe(this) { state ->
+            binding.themeSwitcher.isChecked = state
+        }
+
         binding.themeSwitcher.setOnCheckedChangeListener { _, checked ->
             viewModel.updateThemeState(checked)
         }
