@@ -64,6 +64,7 @@ class SearchViewModel(
 
     fun addTrackToHistory(track: Track) {
         searchInteractor.addTrackToHistory(track)
+        searchHistoryLiveData.postValue(getHistory())
     }
 
     fun clearHistory() {
