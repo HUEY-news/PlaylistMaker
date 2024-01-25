@@ -13,8 +13,8 @@
     <string name="YP_android_developer_link">https://practicum.yandex.ru/android-developer</string>
     <string name="write_to_user_support">Написать в поддержку</string>
     <string name="support_email">HUEY.news@yandex.ru</string>
-    <string name="support_subject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
-    <string name="support_text">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="support_subject">Сообщение разработчикам приложения Playlist Maker</string>
+    <string name="support_text">Спасибо разработчикам за крутое приложение!</string>
     <string name="user_agreement">Пользовательское соглашение</string>
     <string name="agreement_link">https://yandex.ru/legal/practicum_offer/</string>
 
@@ -22,8 +22,10 @@
     <string name="search_screen_title">Поиск</string>
     <string name="search_field_hint">Поиск</string>
     <string name="back_button_description">Назад</string>
+    <string name="placeholder_error">Проблемы со связью\n\nЗагрузка не удалась\n</string>
     <string name="placeholder_empty_error">Ничего не нашлось</string>
-    <string name="placeholder_internet_error">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
+    <string name="placeholder_internet_error">Проверьте подключение к интернету</string>
+    <string name="placeholder_server_error">Ошибка сервера</string>
     <string name="placeholder_button">Обновить</string>
     <string name="search_history_header">Вы искали</string>
     <string name="search_history_button">Очистить историю</string>

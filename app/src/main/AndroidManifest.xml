@@ -6,9 +6,10 @@
 
     <!-- ПРИЛОЖЕНИЮ ТРЕБУЕТСЯ РАЗРЕШЕНИЕ НА ИСПОЛЬЗОВАНИЕ ИНТЕРНЕТА -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".App"
+        android:name=".app.App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -19,12 +20,12 @@
         tools:targetApi="33">
 
         <activity
-            android:name=".presentation.player.PlayerActivity"
+            android:name=".presentation.player.activity.PlayerActivity"
             android:exported="false"
-            android:theme="@style/Base.Theme.PlaylistMaker.PlayerActivity"/>
+            android:theme="@style/Base.Theme.PlaylistMaker.PlayerActivity" />
 
         <activity
-            android:name=".presentation.search.SearchActivity"
+            android:name=".presentation.search.activity.SearchActivity"
             android:exported="false"
             android:theme="@style/Base.Theme.PlaylistMaker.SearchActivity" />
 
@@ -33,7 +34,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".presentation.settings.SettingsActivity"
+            android:name=".presentation.settings.activity.SettingsActivity"
             android:exported="false"
             android:theme="@style/Base.Theme.PlaylistMaker.SettingsActivity" />
 
@@ -43,9 +44,10 @@
             android:theme="@style/Base.Theme.PlaylistMaker.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
+
 </manifest>
