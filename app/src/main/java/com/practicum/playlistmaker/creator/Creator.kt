@@ -46,16 +46,18 @@ object Creator {
     private fun getSearchLocalStorage(): SearchLocalStorage = SearchLocalStorageImpl(getSharedPreferences())
     private fun getSharedPreferences() = App.sharedPreferences
 
-    fun providePlayerInteractor(): PlayerInteractor = PlayerInteractorImpl(playerRepository = getPlayerRepository())
-    private fun getPlayerRepository(): PlayerRepository = PlayerRepositoryImpl(player = getPlayer())
+    fun providePlayerInteractor(): PlayerInteractor = PlayerInteractorImpl(getPlayerRepository())
+    private fun getPlayerRepository(): PlayerRepository = PlayerRepositoryImpl(getPlayer())
     private fun getPlayer(): Player = PlayerImpl(MediaPlayer())
+
+    fun provideSettingsInteractor(application: Application): SettingsInteractor = SettingsInteractorImpl(getSettingsRepository(application))
+    private fun getSettingsRepository(application: Application): SettingsRepository = SettingsRepositoryImpl(getSettingsLocalStorage(application))
+    private fun getSettingsLocalStorage(application: Application): SettingsLocalStorage = SettingsLocalStorageImpl(application)
 
     fun provideSharingInteractor(context: Context): SharingInteractor = SharingInteractorImpl(getSharedRepository(context))
     private fun getSharedRepository(context: Context): SharingRepository = SharingRepositoryImpl(getExternalNavigator(context))
     private fun getExternalNavigator(context: Context): ExternalNavigator = ExternalNavigatorImpl(context)
 
-    fun provideSettingsInteractor(application: Application): SettingsInteractor = SettingsInteractorImpl(getSettingsRepository(application))
-    private fun getSettingsRepository(application: Application): SettingsRepository = SettingsRepositoryImpl(getSettingsLocalStorage(application))
-    private fun getSettingsLocalStorage(application: Application): SettingsLocalStorage = SettingsLocalStorageImpl(application)
+
 
 }

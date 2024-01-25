@@ -59,5 +59,9 @@ dependencies
         implementation ("com.github.bumptech.glide:glide:4.16.0")
         // ========== VIEW MODEL ==========
         implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
-        implementation "androidx.activity:activity-ktx:1.8.2"
+        implementation ("androidx.activity:activity-ktx:1.8.2")
+        // ======= KOIN ==========
+        implementation("io.insert-koin:koin-core:3.2.2")
+        implementation("io.insert-koin:koin-android:3.3.0")
+        testImplementation("io.insert-koin:koin-test:3.1.2")
 }

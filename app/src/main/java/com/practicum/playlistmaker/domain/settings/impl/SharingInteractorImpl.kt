@@ -4,10 +4,10 @@ import com.practicum.playlistmaker.domain.settings.api.SharingInteractor
 import com.practicum.playlistmaker.domain.settings.repository.SharingRepository
 
 class SharingInteractorImpl(
-    private val sharingRepository: SharingRepository
+    private val repository: SharingRepository
 ): SharingInteractor {
 
-    override fun shareApp() { sharingRepository.shareApp() }
-    override fun openTerms() { sharingRepository.openTerms() }
-    override fun openSupport() { sharingRepository.openSupport() }
+    override fun shareApp() { repository.shareApp() }
+    override fun openTerms() { repository.openTerms() }
+    override fun openSupport() { repository.openSupport() }
 }

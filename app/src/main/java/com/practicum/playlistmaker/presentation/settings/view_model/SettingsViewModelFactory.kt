@@ -16,8 +16,9 @@ class SettingsViewModelFactory: ViewModelProvider.Factory {
     ): T {
         val application = checkNotNull(extras.get(APPLICATION_KEY))
         return SettingsViewModel(
-            Creator.provideSharingInteractor(application),
-            Creator.provideSettingsInteractor(application)
+            Creator.provideSettingsInteractor(application),
+            Creator.provideSharingInteractor(application)
+
         ) as T
     }
 }

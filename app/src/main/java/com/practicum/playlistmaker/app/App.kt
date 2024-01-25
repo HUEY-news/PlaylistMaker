@@ -5,6 +5,13 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
+import com.practicum.playlistmaker.di.appModule
+import com.practicum.playlistmaker.di.dataModule
+import com.practicum.playlistmaker.di.domainModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 
 const val PREFERENCES_FOLDER_NAME = "PREFERENCES"
 const val DARK_THEME_KEY = "DARK_THEME_ENABLED"
@@ -14,6 +21,13 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        startKoin {
+            androidLogger(Level.DEBUG)
+            androidContext(this@App)
+            modules(appModule, dataModule, domainModule)
+        }
+
         init(this)
 
         // реализация загрузки темы:
