@@ -1,48 +1,35 @@
 package com.practicum.playlistmaker.app
 
 import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.edit
+import com.practicum.playlistmaker.di.dataModule
+import com.practicum.playlistmaker.di.interactorModule
+import com.practicum.playlistmaker.di.repositoryModule
+import com.practicum.playlistmaker.di.viewModelModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 const val PREFERENCES_FOLDER_NAME = "PREFERENCES"
 const val DARK_THEME_KEY = "DARK_THEME_ENABLED"
 
 class App : Application() {
+
     private var darkTheme = false
 
     override fun onCreate() {
         super.onCreate()
-        init(this)
+
+        startKoin {
+            androidContext(this@App)
+            modules(viewModelModule, dataModule, interactorModule, repositoryModule)
+        }
 
         // реализация загрузки темы:
+        val sharedPreferences = getSharedPreferences(PREFERENCES_FOLDER_NAME, MODE_PRIVATE)
         darkTheme = sharedPreferences.getBoolean(DARK_THEME_KEY, darkTheme)
         AppCompatDelegate.setDefaultNightMode(
             if (darkTheme) AppCompatDelegate.MODE_NIGHT_YES
             else AppCompatDelegate.MODE_NIGHT_NO
         )
-    }
-
-    fun switchThemeState(darkThemeEnabled: Boolean) {
-        darkTheme = darkThemeEnabled
-        AppCompatDelegate.setDefaultNightMode(
-            if (darkThemeEnabled) AppCompatDelegate.MODE_NIGHT_YES
-            else AppCompatDelegate.MODE_NIGHT_NO
-        )
-
-        sharedPreferences.edit {
-            putBoolean(DARK_THEME_KEY, darkTheme)
-        }
-    }
-
-    fun getThemeState() = sharedPreferences.getBoolean(DARK_THEME_KEY, darkTheme)
-
-    companion object PreferencesProvider{
-        lateinit var sharedPreferences: SharedPreferences
-
-        fun init(context: Context){
-            sharedPreferences = context.getSharedPreferences(PREFERENCES_FOLDER_NAME, MODE_PRIVATE)
-        }
     }
 }

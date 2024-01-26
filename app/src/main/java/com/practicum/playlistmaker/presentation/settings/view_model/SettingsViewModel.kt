@@ -8,8 +8,8 @@ import com.practicum.playlistmaker.domain.settings.api.SettingsInteractor
 import com.practicum.playlistmaker.domain.settings.api.SharingInteractor
 
 class SettingsViewModel(
-    private val sharingInterractor: SharingInteractor,
-    private val settingsInteractor: SettingsInteractor
+    private val settingsInteractor: SettingsInteractor,
+    private val sharingInterractor: SharingInteractor
 ): ViewModel() {
     init { Log.v("TEST", "SettingsViewModel СОЗДАНА") }
 
