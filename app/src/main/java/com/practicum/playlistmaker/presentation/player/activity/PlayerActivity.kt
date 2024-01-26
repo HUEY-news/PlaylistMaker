@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
@@ -14,15 +13,15 @@ import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
 import com.practicum.playlistmaker.domain.track.model.Track
 import com.practicum.playlistmaker.presentation.player.model.PlayerScreenState
 import com.practicum.playlistmaker.presentation.player.view_model.PlayerViewModel
-import com.practicum.playlistmaker.presentation.player.view_model.PlayerViewModelFactory
 import com.practicum.playlistmaker.util.convertArtwork
 import com.practicum.playlistmaker.util.convertDate
 import com.practicum.playlistmaker.util.convertPixel
 import com.practicum.playlistmaker.util.convertTime
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayerActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: PlayerViewModel
+    private val viewModel by viewModel<PlayerViewModel>()
     private var _binding: ActivityPlayerBinding? = null
     private val binding get() = _binding!!
 
@@ -32,7 +31,6 @@ class PlayerActivity : AppCompatActivity() {
         _binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this, PlayerViewModelFactory()).get(PlayerViewModel::class.java)
         viewModel.getPlayerStateLivedata().observe(this) { state ->
             when (state) {
                 PlayerScreenState.Default -> {}

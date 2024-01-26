@@ -3,14 +3,13 @@ package com.practicum.playlistmaker.presentation.settings.activity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.practicum.playlistmaker.databinding.ActivitySettingsBinding
 import com.practicum.playlistmaker.presentation.settings.view_model.SettingsViewModel
-import com.practicum.playlistmaker.presentation.settings.view_model.SettingsViewModelFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SettingsActivity : AppCompatActivity()
 {
-    private lateinit var viewModel: SettingsViewModel
+    private val viewModel by viewModel<SettingsViewModel>()
     private var _binding: ActivitySettingsBinding? = null
     private val binding get() = _binding!!
 
@@ -20,7 +19,6 @@ class SettingsActivity : AppCompatActivity()
         Log.i("TEST", "SettingsActivity СОЗДАНА")
         _binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this, SettingsViewModelFactory()).get(SettingsViewModel::class.java)
 
         viewModel.getThemeStateLiveData().observe(this) { state ->
             binding.themeSwitcher.isChecked = state

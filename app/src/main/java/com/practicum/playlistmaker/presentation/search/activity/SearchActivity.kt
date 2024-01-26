@@ -13,18 +13,17 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivitySearchBinding
 import com.practicum.playlistmaker.domain.track.model.Track
 import com.practicum.playlistmaker.presentation.player.activity.PlayerActivity
 import com.practicum.playlistmaker.presentation.search.view_model.SearchState
 import com.practicum.playlistmaker.presentation.search.view_model.SearchViewModel
-import com.practicum.playlistmaker.presentation.search.view_model.SearchViewModelFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel by viewModel<SearchViewModel>()
     private var _binding: ActivitySearchBinding? = null
     private val binding get() = _binding!!
     private var isClickAllowed = true
@@ -60,7 +59,6 @@ class SearchActivity : AppCompatActivity() {
         _binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this, SearchViewModelFactory()).get(SearchViewModel::class.java)
         val searchHistory: ArrayList<Track> = arrayListOf()
 
         viewModel.getSearchHistoryLiveData().observe(this) { trackList ->

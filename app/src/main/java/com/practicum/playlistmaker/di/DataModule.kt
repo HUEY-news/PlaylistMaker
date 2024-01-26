@@ -1,38 +1,43 @@
 package com.practicum.playlistmaker.di
 
-import android.app.Application
-import android.content.SharedPreferences
+import android.content.Context
 import android.media.MediaPlayer
+import com.google.gson.Gson
+import com.practicum.playlistmaker.app.PREFERENCES_FOLDER_NAME
+import com.practicum.playlistmaker.data.network.NetworkClient
+import com.practicum.playlistmaker.data.network.RetrofitNetworkClient
+import com.practicum.playlistmaker.data.network.iTunesApiService
 import com.practicum.playlistmaker.data.player.api.Player
 import com.practicum.playlistmaker.data.player.impl.PlayerImpl
-import com.practicum.playlistmaker.data.player.repository.PlayerRepositoryImpl
-import com.practicum.playlistmaker.data.search.api.SearchLocalStorage
-import com.practicum.playlistmaker.data.search.impl.SearchLocalStorageImpl
-import com.practicum.playlistmaker.data.search.repository.SearchRepositoryImpl
+import com.practicum.playlistmaker.data.search.api.SearchHistoryStorage
+import com.practicum.playlistmaker.data.search.impl.SearchHistoryStorageImpl
 import com.practicum.playlistmaker.data.settings.api.ExternalNavigator
 import com.practicum.playlistmaker.data.settings.api.SettingsLocalStorage
 import com.practicum.playlistmaker.data.settings.impl.ExternalNavigatorImpl
 import com.practicum.playlistmaker.data.settings.impl.SettingsLocalStorageImpl
-import com.practicum.playlistmaker.data.settings.repository.SettingsRepositoryImpl
-import com.practicum.playlistmaker.data.settings.repository.SharingRepositoryImpl
-import com.practicum.playlistmaker.data.track.TrackRepositoryImpl
-import com.practicum.playlistmaker.domain.player.repository.PlayerRepository
-import com.practicum.playlistmaker.domain.search.repository.SearchRepository
-import com.practicum.playlistmaker.domain.settings.repository.SettingsRepository
-import com.practicum.playlistmaker.domain.settings.repository.SharingRepository
-import com.practicum.playlistmaker.domain.track.repository.TrackRepository
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 val dataModule = module {
-    single<TrackRepository> { TrackRepositoryImpl(networkClient = get()) }
-    single<SearchRepository> { SearchRepositoryImpl(storage = get()) }
-    single<PlayerRepository> { PlayerRepositoryImpl(player = get()) }
-    single<SharingRepository> { SharingRepositoryImpl(externalNavigator = get()) }
-    single<SettingsRepository> { SettingsRepositoryImpl(storage = get()) }
 
-    single<SearchLocalStorage> { (pref: SharedPreferences) -> SearchLocalStorageImpl(sharedPreferences = pref) }
-    single<SettingsLocalStorage> { (application: Application) -> SettingsLocalStorageImpl(application = application) }
+    single<NetworkClient> { RetrofitNetworkClient(context = androidContext(), service = get()) }
+    single<iTunesApiService> {
+        Retrofit.Builder()
+            .baseUrl("https://itunes.apple.com")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(iTunesApiService::class.java)
+    }
 
-    single<ExternalNavigator> { ExternalNavigatorImpl(context = get()) }
-    single<Player> { (player: MediaPlayer) -> PlayerImpl(player = player) }
+    single<SettingsLocalStorage> { SettingsLocalStorageImpl(prefs = get()) }
+    single<SearchHistoryStorage> { SearchHistoryStorageImpl(prefs = get(), gson = get()) }
+    single { androidContext().getSharedPreferences(PREFERENCES_FOLDER_NAME, Context.MODE_PRIVATE) }
+    factory { Gson() }
+
+    single<Player> { PlayerImpl(player = get()) }
+    factory { MediaPlayer() }
+
+    single<ExternalNavigator> { ExternalNavigatorImpl(context = androidContext()) }
 }
