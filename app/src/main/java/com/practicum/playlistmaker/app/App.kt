@@ -7,9 +7,7 @@ import com.practicum.playlistmaker.di.interactorModule
 import com.practicum.playlistmaker.di.repositoryModule
 import com.practicum.playlistmaker.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
-import org.koin.core.logger.Level
 
 const val PREFERENCES_FOLDER_NAME = "PREFERENCES"
 const val DARK_THEME_KEY = "DARK_THEME_ENABLED"
@@ -22,7 +20,6 @@ class App : Application() {
         super.onCreate()
 
         startKoin {
-            androidLogger(Level.DEBUG)
             androidContext(this@App)
             modules(viewModelModule, dataModule, interactorModule, repositoryModule)
         }
