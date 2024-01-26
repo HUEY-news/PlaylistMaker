@@ -25,6 +25,8 @@ class PlayerActivity : AppCompatActivity() {
     private var _binding: ActivityPlayerBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var track: Track
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i("TEST", "PlayerActivity СОЗДАНА")
@@ -47,38 +49,33 @@ class PlayerActivity : AppCompatActivity() {
                 }
             }
         }
+
         binding.buttonBack.setOnClickListener { finish() }
 
-        val track: Track? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra(TRACK_ID, Track::class.java)
-        } else { // IF VERSION.SDK_INT < TIRAMISU
-            intent.getParcelableExtra(TRACK_ID)
+        if (getTrack() != null) track = getTrack()!!
+        with(binding) {
+            textViewTrackName.text = track.trackName
+            textViewArtistName.text = track.artistName
+            textViewTrackInfoDurationContent.text = convertTime(track.trackTimeMillis)
+            textViewTrackInfoYearContent.text = track.collectionName
+            textViewTrackInfoYearContent.text = convertDate(track.releaseDate)
+            textViewTrackInfoGenreContent.text = track.primaryGenreName
+            textViewTrackInfoCountryContent.text = track.country
         }
-
-        fun render(track: Track) {
-            with(binding) {
-                textViewTrackName.text = track.trackName
-                textViewArtistName.text = track.artistName
-                textViewTrackInfoDurationContent.text = convertTime(track.trackTimeMillis)
-                textViewTrackInfoYearContent.text = track.collectionName
-                textViewTrackInfoYearContent.text = convertDate(track.releaseDate)
-                textViewTrackInfoGenreContent.text = track.primaryGenreName
-                textViewTrackInfoCountryContent.text = track.country
-            }
-        }
-
-        if (track != null) render(track)
-        else Log.e("HOUSTON_LOG_ERROR", "Вместо объекта класса Track из интента получен null")
 
         Glide
             .with(this)
-            .load(convertArtwork(track?.artworkUrl100!!))
+            .load(convertArtwork(track.artworkUrl100))
             .placeholder(R.drawable.ic_placeholder_artwork_240)
             .transform(RoundedCorners(convertPixel(4f, this)))
             .into(binding.imageViewArtwork512)
 
-        viewModel.preparePlayer(track)
         binding.buttonPlayPause.setOnClickListener { viewModel.playbackControl() }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onPrepare(track)
     }
 
     override fun onPause() {
@@ -87,18 +84,27 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        viewModel.onReset()
         super.onDestroy()
         Log.e("TEST", "PlayerActivity УНИЧТОЖЕНА")
-        viewModel.onDestroy()
+    }
 
+    private fun getTrack(): Track? {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return intent.getParcelableExtra(TRACK_ID, Track::class.java)
+        } else { // IF VERSION.SDK_INT < TIRAMISU
+            return intent.getParcelableExtra(TRACK_ID)
+        }
     }
 
     private fun setPlayImage() {
         binding.buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPlay))
     }
+
     private fun setPauseImage() {
         binding.buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPause))
     }
+
     private fun getAttribute(attr: Int): Drawable? {
         val attrs = intArrayOf(attr)
         val typedArray = theme.obtainStyledAttributes(attrs)
@@ -108,8 +114,14 @@ class PlayerActivity : AppCompatActivity() {
         return ContextCompat.getDrawable(this, drawableResourceId)
     }
 
-    private fun setTimer(time: String) { binding.textViewTrackTimer.text = time }
-    private fun resetTimer() { binding.textViewTrackTimer.text = ZERO_CONDITION }
+    private fun setTimer(time: String) {
+        binding.textViewTrackTimer.text = time
+    }
+
+    private fun resetTimer() {
+        binding.textViewTrackTimer.text = ZERO_CONDITION
+    }
+
     companion object {
         const val TRACK_ID = "TRACK_ID"
         private const val ZERO_CONDITION = "00:00"

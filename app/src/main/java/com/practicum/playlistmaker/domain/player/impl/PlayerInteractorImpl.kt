@@ -7,8 +7,10 @@ class PlayerInteractorImpl(private val repository: PlayerRepository): PlayerInte
 
     override fun getPlayerState() = repository.getPlayerState()
     override fun getPlayerCurrentPosition() = repository.getPlayerCurrentPosition()
-    override fun preparePlayer(url: String) = repository.preparePlayer(url)
-    override fun playbackControl() = repository.playbackControl()
-    override fun onPause() = repository.onPause()
-    override fun onDestroy() = repository.onDestroy()
+    override fun playbackControl() { repository.playbackControl() }
+
+    override fun onPrepare(url: String) { repository.onPrepare(url) }
+    override fun onPause() { repository.onPause() }
+    override fun onReset() { repository.onReset() }
+    override fun onDestroy() { repository.onDestroy() }
 }

@@ -34,10 +34,10 @@ val dataModule = module {
     single<SettingsLocalStorage> { SettingsLocalStorageImpl(prefs = get()) }
     single<SearchHistoryStorage> { SearchHistoryStorageImpl(prefs = get(), gson = get()) }
     single { androidContext().getSharedPreferences(PREFERENCES_FOLDER_NAME, Context.MODE_PRIVATE) }
-    factory { Gson() }
+    single { Gson() }
 
-    single<Player> { PlayerImpl(player = get()) }
-    factory { MediaPlayer() }
+    single<Player> { PlayerImpl(player = MediaPlayer()) }
+    single { MediaPlayer() }
 
     single<ExternalNavigator> { ExternalNavigatorImpl(context = androidContext()) }
 }

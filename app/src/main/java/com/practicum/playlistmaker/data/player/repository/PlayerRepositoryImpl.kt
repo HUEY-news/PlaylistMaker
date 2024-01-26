@@ -9,8 +9,10 @@ class PlayerRepositoryImpl(
 
     override fun getPlayerState() = player.getPlayerStateFlow()
     override fun getPlayerCurrentPosition() = player.getPlayerCurrentPosition()
-    override fun preparePlayer(url: String) = player.preparePlayer(url)
-    override fun playbackControl() = player.playbackControl()
-    override fun onPause() = player.onPause()
-    override fun onDestroy() = player.onDestroy()
+    override fun playbackControl() { player.playbackControl() }
+
+    override fun onPrepare(url: String) { player.onPrepare(url) }
+    override fun onPause() { player.onPause() }
+    override fun onReset() { player.onReset() }
+    override fun onDestroy() { player.onDestroy() }
 }

@@ -7,10 +7,10 @@ interface PlayerRepository {
 
     fun getPlayerState(): Flow<PlayerState>
     fun getPlayerCurrentPosition(): Int
-
-    fun preparePlayer(url: String)
     fun playbackControl()
 
+    fun onPrepare(url: String)
     fun onPause()
+    fun onReset()
     fun onDestroy()
 }

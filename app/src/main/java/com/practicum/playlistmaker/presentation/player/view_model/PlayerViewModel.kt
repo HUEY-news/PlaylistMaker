@@ -26,11 +26,13 @@ class PlayerViewModel(
     fun getPlayerStateLivedata(): LiveData<PlayerScreenState> = playerStateLiveData
 
     init {
-        Log.v("TEST", "PlayerViewModel СОЗДАНА")
+        Log.v("TEST", "PlayerViewModel - СОЗДАНА")
         viewModelScope.launch{
             interactor.getPlayerState().collect { state ->
                 when (state) {
-                    PlayerState.DEFAULT -> playerStateLiveData.postValue(PlayerScreenState.Default)
+                    PlayerState.DEFAULT -> {
+                        playerStateLiveData.postValue(PlayerScreenState.Default)
+                    }
                     PlayerState.PREPARED -> {
                         mainThreadHandler.removeCallbacks(timerUpdateRunnable)
                         playerStateLiveData.postValue(PlayerScreenState.Prepared)
@@ -48,22 +50,31 @@ class PlayerViewModel(
         }
     }
 
-    fun preparePlayer(track: Track?) {
-        if (track != null) interactor.preparePlayer(track.previewUrl)
-        else Log.e("TEST", "Вместо объекта класса Track из интента получен null")
+    fun playbackControl() { interactor.playbackControl() }
+    fun startUpdater() { mainThreadHandler.post(timerUpdateRunnable) }
+    fun stopUpdater() { mainThreadHandler.removeCallbacks(timerUpdateRunnable) }
+
+    fun onPrepare(track: Track) {
+        interactor.onPrepare(track.previewUrl)
     }
-    fun playbackControl() = interactor.playbackControl()
-    fun startUpdater() = mainThreadHandler.post(timerUpdateRunnable)
-    fun stopUpdater() = mainThreadHandler.removeCallbacks(timerUpdateRunnable)
 
     fun onPause() {
         interactor.onPause()
         stopUpdater()
     }
 
+    fun onReset() {
+        interactor.onReset()
+        stopUpdater()
+    }
+
     fun onDestroy() {
         interactor.onDestroy()
         stopUpdater()
+    }
+
+    override fun onCleared() {
+        Log.v("TEST", "PlayerViewModel - ОЧИЩЕНА")
     }
 
     private fun convertCurrentTime(time: Int): String =
@@ -79,10 +90,6 @@ class PlayerViewModel(
                 }
             }
         }
-    }
-
-    override fun onCleared() {
-        Log.v("TEST", "PlayerViewModel ОЧИЩЕНА")
     }
 
     companion object {
