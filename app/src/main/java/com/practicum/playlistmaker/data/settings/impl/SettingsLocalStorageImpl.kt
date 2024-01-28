@@ -1,18 +1,27 @@
 package com.practicum.playlistmaker.data.settings.impl
 
-import android.app.Application
-import com.practicum.playlistmaker.app.App
+import android.content.SharedPreferences
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.edit
+import com.practicum.playlistmaker.app.DARK_THEME_KEY
 import com.practicum.playlistmaker.data.settings.api.SettingsLocalStorage
 
 class SettingsLocalStorageImpl(
-    private val application: Application
+    private val prefs: SharedPreferences
 ) : SettingsLocalStorage {
 
     override fun getThemeSettings(): Boolean {
-        return (application as App).getThemeState()
+        return prefs.getBoolean(DARK_THEME_KEY, false)
     }
 
     override fun updateThemeSettings(isChecked: Boolean) {
-        (application as App).switchThemeState(isChecked)
+        AppCompatDelegate.setDefaultNightMode(
+            if (isChecked) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO
+        )
+
+        prefs.edit {
+            putBoolean(DARK_THEME_KEY, isChecked)
+        }
     }
 }

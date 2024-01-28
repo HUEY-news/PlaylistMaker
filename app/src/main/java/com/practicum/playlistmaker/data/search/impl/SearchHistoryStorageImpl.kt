@@ -3,19 +3,20 @@ package com.practicum.playlistmaker.data.search.impl
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.practicum.playlistmaker.data.search.api.SearchLocalStorage
+import com.practicum.playlistmaker.data.search.api.SearchHistoryStorage
 import com.practicum.playlistmaker.domain.track.model.Track
 
-class SearchLocalStorageImpl(
-    private val sharedPreferences: SharedPreferences
-): SearchLocalStorage {
+class SearchHistoryStorageImpl(
+    private val prefs: SharedPreferences,
+    private val gson: Gson
+): SearchHistoryStorage {
 
     private fun createJsonFromTrackList(trackList: ArrayList<Track>): String {
-        return Gson().toJson(trackList)
+        return gson.toJson(trackList)
     }
 
     private fun saveHistory() {
-        with(sharedPreferences.edit()) {
+        with(prefs.edit()) {
             putString(SEARCH_HISTORY_KEY, createJsonFromTrackList(history))
             apply()
         }
@@ -23,11 +24,11 @@ class SearchLocalStorageImpl(
 
     private fun createTrackListFromJson(json: String): ArrayList<Track> {
         val listType = object : TypeToken<ArrayList<Track>>() {}.type
-        return Gson().fromJson(json, listType)
+        return gson.fromJson(json, listType)
     }
 
     private fun loadHistory() {
-        val json = sharedPreferences.getString(SEARCH_HISTORY_KEY, null)
+        val json = prefs.getString(SEARCH_HISTORY_KEY, null)
         if (json != null) history.addAll(createTrackListFromJson(json))
     }
 
@@ -56,7 +57,7 @@ class SearchLocalStorageImpl(
     }
 
     override fun clearHistory() {
-        with(sharedPreferences.edit()){
+        with(prefs.edit()){
             remove(SEARCH_HISTORY_KEY)
             apply()
         }

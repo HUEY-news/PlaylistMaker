@@ -11,12 +11,6 @@ class PlayerImpl(
 ): Player {
 
     private val flow = MutableStateFlow(PlayerState.DEFAULT)
-    override fun preparePlayer(url: String) {
-        player.setDataSource(url)
-        player.prepareAsync()
-        player.setOnPreparedListener { flow.value = PlayerState.PREPARED }
-        player.setOnCompletionListener { flow.value = PlayerState.PREPARED }
-    }
 
     override fun playbackControl(){
         when (flow.value) {
@@ -26,17 +20,37 @@ class PlayerImpl(
             PlayerState.DEFAULT -> {}
         }
     }
+
+    private fun preparePlayer(url: String) {
+        player.setDataSource(url)
+        player.prepareAsync()
+        player.setOnPreparedListener { flow.value = PlayerState.PREPARED }
+        player.setOnCompletionListener { flow.value = PlayerState.PREPARED }
+    }
+
     private fun startPlayer() {
         player.start()
         flow.value = PlayerState.PLAYING
     }
+
     private fun pausePlayer() {
         player.pause()
         flow.value = PlayerState.PAUSED
     }
 
+    private fun resetPlayer() {
+        player.reset()
+        flow.value = PlayerState.DEFAULT
+    }
+
+    private fun destroyPlayer() {
+        player.release()
+    }
+
     override fun getPlayerStateFlow(): Flow<PlayerState> = flow
     override fun getPlayerCurrentPosition(): Int = player.currentPosition
-    override fun onPause() = pausePlayer()
-    override fun onDestroy() = player.release()
+    override fun onPrepare(url: String) { preparePlayer(url) }
+    override fun onPause() { pausePlayer() }
+    override fun onReset() { resetPlayer() }
+    override fun onDestroy() { destroyPlayer() }
 }
