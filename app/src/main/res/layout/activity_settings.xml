@@ -2,7 +2,6 @@
 
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:theme="@style/Base.Theme.PlaylistMaker.Settings"
     android:background="?attr/primaryBackgroundColor"
     style="@style/SettingsActivity"
@@ -17,14 +16,13 @@
             android:layout_gravity="center" >
             <ImageView
                 android:id="@+id/backButton"
-                style="@style/SettingsActivity.ImageView"
-                app:tint="?attr/primaryTextColor"
+                style="@style/ImageView.BackButton"
                 android:layout_gravity="center"
-                android:layout_marginRight="24dp"
+                android:layout_marginEnd="24dp"
                 android:src="@drawable/ic_arrow_back_24"
                 android:foreground="?attr/selectableItemBackground" />
             <TextView
-                style="@style/SettingsActivity.TextView"
+                style="@style/TextView"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/button_settings"
@@ -41,7 +39,7 @@
 
         <com.google.android.material.switchmaterial.SwitchMaterial
             android:id="@+id/themeSwitcher"
-            style="@style/SettingsActivity.TextView.Switch"
+            style="@style/TextView.Switch"
             android:layout_width="match_parent"
             android:text="@string/dark_theme" />
 
@@ -52,10 +50,10 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_screen_frame_height" >
         <TextView
-            style="@style/SettingsActivity.TextView"
+            style="@style/TextView"
             android:text="@string/share_app" />
         <ImageView
-            style="@style/SettingsActivity.ImageView"
+            style="@style/ImageView"
             android:layout_gravity="end|center"
             android:src="@drawable/ic_share_24"/>
     </FrameLayout>
@@ -65,10 +63,10 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_screen_frame_height" >
         <TextView
-            style="@style/SettingsActivity.TextView"
+            style="@style/TextView"
             android:text="@string/write_to_user_support" />
         <ImageView
-            style="@style/SettingsActivity.ImageView"
+            style="@style/ImageView"
             android:layout_gravity="end|center"
             android:src="@drawable/ic_support_24"/>
     </FrameLayout>
@@ -78,10 +76,10 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_screen_frame_height" >
         <TextView
-            style="@style/SettingsActivity.TextView"
+            style="@style/TextView"
             android:text="@string/user_agreement" />
         <ImageView
-            style="@style/SettingsActivity.ImageView"
+            style="@style/ImageView"
             android:layout_gravity="end|center"
             android:src="@drawable/ic_arrow_forward_24"/>
     </FrameLayout>

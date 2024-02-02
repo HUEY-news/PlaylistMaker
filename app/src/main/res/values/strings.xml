@@ -2,6 +2,7 @@
     <string name="app_name" translatable="false">Playlist Maker</string>
 
     <!-- MAIN ACTIVITY -->
+    <string name="description_back_button">Back</string>
     <string name="header_main">Playlist maker</string>
     <string name="button_library">Медиатека</string>
     <string name="button_settings">Настройки</string>
@@ -41,5 +42,7 @@
     <string name="empty_favourite_placeholder">Ваша медиатека пуста</string>
     <string name="empty_playlist_placeholder">Вы не создали\nни одного плейлиста</string>
     <string name="new_playlist_button">Новый плейлист</string>
+    <string name="favourite_tab">Избранные треки</string>
+    <string name="playlist_tab">Плейлисты</string>
 
 </resources>
