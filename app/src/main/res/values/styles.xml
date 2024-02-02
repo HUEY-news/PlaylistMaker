@@ -198,7 +198,6 @@
         <item name="android:backgroundTint">?attr/primaryButtonColor</item>
         <item name="cornerRadius">54dp</item>
         <!-- TEXT OPTIONS -->
-        <item name="android:text">@string/placeholder_button</item>
         <item name="android:textColor">?attr/secondaryButtonColor</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:letterSpacing">0</item>

@@ -1,0 +1,21 @@
+<LinearLayout
+    android:theme="@style/Base.Theme.PlaylistMaker.Library"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="?attr/primaryBackgroundColor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/placeholderIcon"
+        style="@style/Placeholder"
+        android:layout_marginTop="96dp"
+        android:src="?attr/placeholderEmptyError" />
+
+    <TextView
+        android:id="@+id/placeholderText"
+        style="@style/Placeholder.Text"
+        android:layout_marginTop="16dp"
+        android:text="@string/empty_favourite_placeholder" />
+
+</LinearLayout>

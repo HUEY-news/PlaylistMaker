@@ -3,7 +3,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:theme="@style/Base.Theme.PlaylistMaker.SettingsActivity"
+    android:theme="@style/Base.Theme.PlaylistMaker.Settings"
     android:background="?attr/primaryBackgroundColor"
     style="@style/SettingsActivity"
     android:orientation="vertical"

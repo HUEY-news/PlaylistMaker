@@ -37,4 +37,9 @@
     <string name="track_info_genre_title">Жанр</string>
     <string name="track_info_country_title">Страна</string>
 
+    <!-- LIBRARY -->
+    <string name="empty_favourite_placeholder">Ваша медиатека пуста</string>
+    <string name="empty_playlist_placeholder">Вы не создали\nни одного плейлиста</string>
+    <string name="new_playlist_button">Новый плейлист</string>
+
 </resources>
