@@ -1,15 +1,15 @@
 <LinearLayout
-    android:theme="@style/Base.Theme.PlaylistMaker.Library"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="?attr/primaryBackgroundColor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:background="?attr/primaryBackgroundColor"
+    android:orientation="vertical"
+    android:theme="@style/Base.Theme.PlaylistMaker.Library">
 
     <ImageView
         android:id="@+id/placeholderIcon"
         style="@style/Placeholder"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="104dp"
         android:src="?attr/placeholderEmptyError" />
 
     <TextView
