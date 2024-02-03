@@ -50,7 +50,7 @@
         <item name="secondaryIconColor">@color/YP_Black</item>
         <item name="primaryButtonColor">@color/YP_White</item>
         <item name="secondaryButtonColor">@color/YP_Black</item>
-        <item name="placeholderEmptyError">@drawable/placeholder_empty_error_dark_mode</item>
+        <item name="placeholderEmptyError">@drawable/empty_placeholder</item>
         <item name="placeholderInternetError">@drawable/placeholder_internet_error_dark_mode</item>
     </style>
 
@@ -75,7 +75,7 @@
         <item name="secondaryIconColor">@color/YP_Black</item>
         <item name="primaryButtonColor">@color/YP_White</item>
         <item name="secondaryButtonColor">@color/YP_Black</item>
-        <item name="placeholderEmptyError">@drawable/placeholder_empty_error_dark_mode</item>
+        <item name="placeholderEmptyError">@drawable/empty_placeholder</item>
     </style>
 
 </resources>

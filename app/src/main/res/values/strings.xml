@@ -39,8 +39,8 @@
     <string name="track_info_country_title">Страна</string>
 
     <!-- LIBRARY -->
-    <string name="empty_favourite_placeholder">Ваша медиатека пуста</string>
-    <string name="empty_playlist_placeholder">Вы не создали\nни одного плейлиста</string>
+    <string name="empty_favourite_message">Ваша медиатека пуста</string>
+    <string name="empty_playlist_message">Вы не создали\nни одного плейлиста</string>
     <string name="new_playlist_button">Новый плейлист</string>
     <string name="favourite_tab">Избранные треки</string>
     <string name="playlist_tab">Плейлисты</string>

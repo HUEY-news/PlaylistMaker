@@ -13,10 +13,18 @@ class LibraryActivity : AppCompatActivity() {
 
     private lateinit var mediator: TabLayoutMediator
 
+    private var emptyPlaceholder: Int = 0
+    private lateinit var emptyFavouriteMessage: String
+    private lateinit var emptyPlaylistMessage: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityLibraryBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        emptyPlaceholder = R.drawable.empty_placeholder
+        emptyFavouriteMessage = resources.getString(R.string.empty_favourite_message)
+        emptyPlaylistMessage = resources.getString(R.string.empty_playlist_message)
 
         binding.backButton.setOnClickListener{
             onBackPressedDispatcher.onBackPressed()
@@ -24,7 +32,10 @@ class LibraryActivity : AppCompatActivity() {
 
         binding.viewPager.adapter = LibraryPagerAdapter(
             fragmentManager = supportFragmentManager,
-            lifecycle = lifecycle
+            lifecycle = lifecycle,
+            placeholder = emptyPlaceholder,
+            emptyFavouriteMessage = emptyFavouriteMessage,
+            emptyPlaylistMessage = emptyPlaylistMessage
         )
 
         mediator = TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->

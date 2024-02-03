@@ -7,12 +7,15 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 
 class LibraryPagerAdapter(
     fragmentManager: FragmentManager,
-    lifecycle: Lifecycle
+    lifecycle: Lifecycle,
+    private val placeholder: Int,
+    private val emptyFavouriteMessage: String,
+    private val emptyPlaylistMessage: String
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
     override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment =
-        if (position == 0) LibraryFavouriteFragment()
-        else LibraryPlaylistFragment()
+        if (position == 0) LibraryFavouriteFragment.newInstance(placeholder, emptyFavouriteMessage)
+        else LibraryPlaylistFragment.newInstance(placeholder, emptyPlaylistMessage)
 }

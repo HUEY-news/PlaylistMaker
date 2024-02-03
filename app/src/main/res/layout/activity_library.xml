@@ -34,13 +34,12 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
-        style="@style/TabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/primaryBackgroundColor"
-        android:textAllCaps="false"
         app:tabTextColor="?attr/primaryTextColor"
         app:tabIndicatorColor="?attr/primaryTextColor"
+        app:tabTextAppearance="@style/CustomTextAppearance"
         />
 
     <androidx.viewpager2.widget.ViewPager2
