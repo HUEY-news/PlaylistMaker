@@ -21,9 +21,9 @@ fun convertTime(millis: Int): String{
 }
 
 // перевод даты в формат YYYY
-fun convertDate(date: String): String {
+fun convertDate(text: String): String {
     val dateFormat: DateFormat = java.text.SimpleDateFormat("yyyy-MM-dd")
-    val date: Date = dateFormat.parse(date)
+    val date: Date = dateFormat.parse(text)
     val yearFormat: DateFormat = java.text.SimpleDateFormat("yyyy")
     return yearFormat.format(date)
 }

@@ -29,12 +29,12 @@
         <item name="android:navigationBarColor">@color/YP_Black</item>
     </style>
 
-    <style name="Base.Theme.PlaylistMaker.MainActivity" parent="Base.Theme.PlaylistMaker">
+    <style name="Base.Theme.PlaylistMaker.Main" parent="Base.Theme.PlaylistMaker">
         <item name="primaryBackgroundColor">@color/YP_Black</item>
         <item name="primaryTextColor">@color/YP_White</item>
     </style>
 
-    <style name="Base.Theme.PlaylistMaker.SettingsActivity" parent="Base.Theme.PlaylistMaker">
+    <style name="Base.Theme.PlaylistMaker.Settings" parent="Base.Theme.PlaylistMaker">
         <item name="primaryTextColor">@color/YP_White</item>
         <item name="primaryIconColor">@color/YP_White</item>
         <item name="secondaryIconColor">@color/YP_Text_Gray</item>
@@ -42,7 +42,7 @@
         <item name="secondaryButtonColor">@color/YP_Blue_Light</item>
     </style>
 
-    <style name="Base.Theme.PlaylistMaker.SearchActivity" parent="Base.Theme.PlaylistMaker">
+    <style name="Base.Theme.PlaylistMaker.Search" parent="Base.Theme.PlaylistMaker">
         <item name="secondaryBackgroundColor">@color/YP_White</item>
         <item name="primaryTextColor">@color/YP_White</item>
         <item name="secondaryTextColor">@color/YP_Black</item>
@@ -50,7 +50,7 @@
         <item name="secondaryIconColor">@color/YP_Black</item>
         <item name="primaryButtonColor">@color/YP_White</item>
         <item name="secondaryButtonColor">@color/YP_Black</item>
-        <item name="placeholderEmptyError">@drawable/placeholder_empty_error_dark_mode</item>
+        <item name="placeholderEmptyError">@drawable/empty_placeholder</item>
         <item name="placeholderInternetError">@drawable/placeholder_internet_error_dark_mode</item>
     </style>
 
@@ -60,11 +60,22 @@
         <item name="primaryIconColor">@color/YP_White</item>
     </style>
 
-    <style name="Base.Theme.PlaylistMaker.PlayerActivity" parent="Base.Theme.PlaylistMaker">
+    <style name="Base.Theme.PlaylistMaker.Player" parent="Base.Theme.PlaylistMaker">
         <item name="buttonPlay">@drawable/ic_button_play_dark_100</item>
         <item name="buttonPause">@drawable/ic_button_pause_dark_100</item>
         <item name="buttonAdd">@drawable/ic_button_add_dark_51</item>
         <item name="buttonFavorite">@drawable/ic_button_favorite_dark_51</item>
+    </style>
+
+    <style name="Base.Theme.PlaylistMaker.Library">
+        <item name="secondaryBackgroundColor">@color/YP_White</item>
+        <item name="primaryTextColor">@color/YP_White</item>
+        <item name="secondaryTextColor">@color/YP_Black</item>
+        <item name="primaryIconColor">@color/YP_White</item>
+        <item name="secondaryIconColor">@color/YP_Black</item>
+        <item name="primaryButtonColor">@color/YP_White</item>
+        <item name="secondaryButtonColor">@color/YP_Black</item>
+        <item name="placeholderEmptyError">@drawable/empty_placeholder</item>
     </style>
 
 </resources>

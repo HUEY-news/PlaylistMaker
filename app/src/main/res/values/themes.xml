@@ -29,12 +29,12 @@
         <item name="android:navigationBarColor">@color/YP_Blue</item>
     </style>
 
-    <style name="Base.Theme.PlaylistMaker.MainActivity" parent="Base.Theme.PlaylistMaker">
+    <style name="Base.Theme.PlaylistMaker.Main" parent="Base.Theme.PlaylistMaker">
         <item name="primaryBackgroundColor">@color/YP_Blue</item>
         <item name="primaryTextColor">@color/YP_White</item>
     </style>
 
-    <style name="Base.Theme.PlaylistMaker.SettingsActivity" parent="Base.Theme.PlaylistMaker">
+    <style name="Base.Theme.PlaylistMaker.Settings" parent="Base.Theme.PlaylistMaker">
         <item name="primaryTextColor">@color/YP_Black</item>
         <item name="primaryIconColor">@color/YP_Text_Gray</item>
         <item name="secondaryIconColor">@color/YP_Text_Gray</item>
@@ -42,7 +42,7 @@
         <item name="secondaryButtonColor">@color/YP_Light_Gray</item>
     </style>
 
-    <style name="Base.Theme.PlaylistMaker.SearchActivity" parent="Base.Theme.PlaylistMaker">
+    <style name="Base.Theme.PlaylistMaker.Search" parent="Base.Theme.PlaylistMaker">
         <item name="secondaryBackgroundColor">@color/YP_Light_Gray</item>
         <item name="primaryTextColor">@color/YP_Black</item>
         <item name="secondaryTextColor">@color/YP_Text_Gray</item>
@@ -60,11 +60,23 @@
         <item name="primaryIconColor">@color/YP_Text_Gray</item>
     </style>
 
-    <style name="Base.Theme.PlaylistMaker.PlayerActivity" parent="Base.Theme.PlaylistMaker">
+    <style name="Base.Theme.PlaylistMaker.Player" parent="Base.Theme.PlaylistMaker">
         <item name="buttonPlay">@drawable/ic_button_play_light_100</item>
         <item name="buttonPause">@drawable/ic_button_pause_light_100</item>
         <item name="buttonAdd">@drawable/ic_button_add_light_51</item>
         <item name="buttonFavorite">@drawable/ic_button_favorite_light_51</item>
     </style>
+
+    <style name="Base.Theme.PlaylistMaker.Library" parent="Base.Theme.PlaylistMaker">
+        <item name="secondaryBackgroundColor">@color/YP_Light_Gray</item>
+        <item name="primaryTextColor">@color/YP_Black</item>
+        <item name="secondaryTextColor">@color/YP_Text_Gray</item>
+        <item name="primaryIconColor">@color/YP_Black</item>
+        <item name="secondaryIconColor">@color/YP_Text_Gray</item>
+        <item name="primaryButtonColor">@color/YP_Black</item>
+        <item name="secondaryButtonColor">@color/YP_White</item>
+        <item name="placeholderEmptyError">@drawable/placeholder_empty_error_light_mode</item>
+    </style>
+
 
 </resources>

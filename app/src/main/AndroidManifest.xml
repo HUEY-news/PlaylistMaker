@@ -22,12 +22,12 @@
         <activity
             android:name=".presentation.player.activity.PlayerActivity"
             android:exported="false"
-            android:theme="@style/Base.Theme.PlaylistMaker.PlayerActivity" />
+            android:theme="@style/Base.Theme.PlaylistMaker.Player" />
 
         <activity
             android:name=".presentation.search.activity.SearchActivity"
             android:exported="false"
-            android:theme="@style/Base.Theme.PlaylistMaker.SearchActivity" />
+            android:theme="@style/Base.Theme.PlaylistMaker.Search" />
 
         <activity
             android:name=".presentation.library.LibraryActivity"
@@ -36,12 +36,12 @@
         <activity
             android:name=".presentation.settings.activity.SettingsActivity"
             android:exported="false"
-            android:theme="@style/Base.Theme.PlaylistMaker.SettingsActivity" />
+            android:theme="@style/Base.Theme.PlaylistMaker.Settings" />
 
         <activity
             android:name=".presentation.main.MainActivity"
             android:exported="true"
-            android:theme="@style/Base.Theme.PlaylistMaker.MainActivity">
+            android:theme="@style/Base.Theme.PlaylistMaker.Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -20,6 +20,7 @@ class SettingsViewModel(
 
     fun updateThemeState(isChecked: Boolean) {
         settingsInteractor.updateThemeState(isChecked)
+        themeStateLiveData.postValue(getThemeState())
     }
 
     fun shareApp() = sharingInterractor.shareApp()

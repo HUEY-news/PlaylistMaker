@@ -8,7 +8,7 @@
     android:background="?attr/primaryBackgroundColor"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
-    android:theme="@style/Base.Theme.PlaylistMaker.SearchActivity">
+    android:theme="@style/Base.Theme.PlaylistMaker.Search">
 
     <!-- ========== HEADER CONTAINER ========== -->
     <LinearLayout
