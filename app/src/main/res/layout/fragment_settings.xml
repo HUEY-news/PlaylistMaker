@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:theme="@style/Base.Theme.PlaylistMaker.Settings"
     android:background="?attr/primaryBackgroundColor"
     style="@style/SettingsActivity"
     android:orientation="vertical"
-    android:paddingHorizontal="@dimen/regular_border_medium" >
+    tools:context=".presentation.settings.SettingsFragment"
+    android:paddingHorizontal="@dimen/regular_border_medium">
         
         <LinearLayout
             android:id="@+id/headerContainer"

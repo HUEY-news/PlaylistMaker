@@ -53,7 +53,7 @@ class PlayerActivity : AppCompatActivity() {
         binding.buttonBack.setOnClickListener { finish() }
 
         if (getTrack() != null) track = getTrack()!!
-        with(binding) {
+        binding.apply {
             textViewTrackName.text = track.trackName
             textViewArtistName.text = track.artistName
             textViewTrackInfoDurationContent.text = convertTime(track.trackTimeMillis)
@@ -64,7 +64,7 @@ class PlayerActivity : AppCompatActivity() {
         }
 
         Glide
-            .with(this)
+            .with(applicationContext)
             .load(convertArtwork(track.artworkUrl100))
             .placeholder(R.drawable.ic_placeholder_artwork_240)
             .transform(RoundedCorners(convertPixel(4f, this)))
