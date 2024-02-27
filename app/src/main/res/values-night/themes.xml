@@ -51,7 +51,7 @@
         <item name="primaryButtonColor">@color/YP_White</item>
         <item name="secondaryButtonColor">@color/YP_Black</item>
         <item name="placeholderEmptyError">@drawable/empty_placeholder</item>
-        <item name="placeholderInternetError">@drawable/placeholder_internet_error_dark_mode</item>
+        <item name="placeholderInternetError">@drawable/internet_error_placeholder</item>
     </style>
 
     <style name="Base.Theme.PlaylistMaker.Track" parent="Base.Theme.PlaylistMaker">

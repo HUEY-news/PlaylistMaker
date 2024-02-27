@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.presentation.search.view_model
+package com.practicum.playlistmaker.presentation.search
 
 import android.os.Handler
 import android.os.Looper

@@ -1,14 +1,18 @@
 package com.practicum.playlistmaker.presentation.library
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.databinding.ActivityLibraryBinding
+import com.practicum.playlistmaker.databinding.FragmentLibraryBinding
 
-class LibraryActivity : AppCompatActivity() {
+class LibraryFragment: Fragment() {
 
-    private var _binding: ActivityLibraryBinding? = null
+    private var _binding: FragmentLibraryBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var mediator: TabLayoutMediator
@@ -19,19 +23,24 @@ class LibraryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityLibraryBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        Log.i("TEST", "LIBRARY FRAGMENT CREATED")
+    }
 
-        emptyPlaceholder = R.drawable.empty_placeholder
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentLibraryBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        emptyPlaceholder = R.drawable.empty_error_placeholder
         emptyFavouriteMessage = resources.getString(R.string.empty_favourite_message)
         emptyPlaylistMessage = resources.getString(R.string.empty_playlist_message)
 
-        binding.backButton.setOnClickListener{
-            onBackPressedDispatcher.onBackPressed()
-        }
 
         binding.viewPager.adapter = LibraryPagerAdapter(
-            fragmentManager = supportFragmentManager,
+            fragmentManager = childFragmentManager,
             lifecycle = lifecycle,
             placeholder = emptyPlaceholder,
             emptyFavouriteMessage = emptyFavouriteMessage,
@@ -45,8 +54,13 @@ class LibraryActivity : AppCompatActivity() {
         mediator.attach()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mediator.detach()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        mediator.detach()
+        Log.e("TEST", "LIBRARY FRAGMENT DESTROYED")
     }
 }

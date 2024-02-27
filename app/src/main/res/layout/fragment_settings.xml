@@ -15,13 +15,7 @@
             android:layout_height="56dp"
             android:orientation="horizontal"
             android:layout_gravity="center" >
-            <ImageView
-                android:id="@+id/backButton"
-                style="@style/ImageView.BackButton"
-                android:layout_gravity="center"
-                android:layout_marginEnd="24dp"
-                android:src="@drawable/ic_arrow_back_24"
-                android:foreground="?attr/selectableItemBackground" />
+
             <TextView
                 style="@style/TextView"
                 android:layout_gravity="center"
