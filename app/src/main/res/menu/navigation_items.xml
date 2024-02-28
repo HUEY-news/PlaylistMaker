@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="HardcodedText">
+
+    <item
+        android:id="@+id/searchFragment"
+        android:icon="@drawable/ic_search_24"
+        android:title="Поиск" />
+
+    <item
+        android:id="@+id/libraryFragment"
+        android:icon="@drawable/ic_library_24"
+        android:title="Медиатека" />
+
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/ic_settings_24"
+        android:title="Настройки" />
+</menu>

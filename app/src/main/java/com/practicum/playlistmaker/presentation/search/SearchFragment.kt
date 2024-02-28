@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentSearchBinding
 import com.practicum.playlistmaker.domain.track.model.Track
-import com.practicum.playlistmaker.presentation.player.activity.PlayerActivity
+import com.practicum.playlistmaker.presentation.player.PlayerActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment: Fragment() {
@@ -39,7 +39,6 @@ class SearchFragment: Fragment() {
     private var internetErrorPlaceholder: Int = 0
 
 
-    // TODO: переписать навигацию через navigation_graph
     private val searchAdapter = SearchAdapter { track ->
         if (clickDebounce()) {
             viewModel.addTrackToHistory(track)
@@ -49,7 +48,6 @@ class SearchFragment: Fragment() {
         }
     }
 
-    // TODO: переписать навигацию через navigation_graph
     private val historyAdapter = SearchAdapter { track ->
         if (clickDebounce()) {
             val intent = Intent(requireContext(), PlayerActivity::class.java)

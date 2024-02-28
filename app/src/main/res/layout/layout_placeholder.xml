@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/placeholderIcon"
         style="@style/Placeholder"
-        tools:src="?attr/placeholderInternetError" />
+        tools:src="@drawable/internet_error_placeholder" />
 
     <TextView
         android:id="@+id/placeholderText"

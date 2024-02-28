@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.presentation.player.activity
+package com.practicum.playlistmaker.presentation.player
 
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -11,8 +11,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
 import com.practicum.playlistmaker.domain.track.model.Track
-import com.practicum.playlistmaker.presentation.player.model.PlayerScreenState
-import com.practicum.playlistmaker.presentation.player.view_model.PlayerViewModel
 import com.practicum.playlistmaker.util.convertArtwork
 import com.practicum.playlistmaker.util.convertDate
 import com.practicum.playlistmaker.util.convertPixel
