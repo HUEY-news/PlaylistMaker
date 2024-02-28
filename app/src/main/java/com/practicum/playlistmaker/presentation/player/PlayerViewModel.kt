@@ -87,13 +87,13 @@ class PlayerViewModel(
                     playerStateLiveData.postValue(
                         PlayerScreenState.Playing(
                         convertCurrentTime(interactor.getPlayerCurrentPosition())))
-                    mainThreadHandler.postDelayed(this, DELAY)
+                    mainThreadHandler.postDelayed(this, DELAY_MILLIS)
                 }
             }
         }
     }
 
     companion object {
-        private const val DELAY = 100L
+        private const val DELAY_MILLIS = 100L
     }
 }

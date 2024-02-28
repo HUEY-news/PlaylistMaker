@@ -51,7 +51,7 @@ class PlayerActivity : AppCompatActivity() {
         binding.buttonBack.setOnClickListener { finish() }
 
         if (getTrack() != null) track = getTrack()!!
-        binding.apply {
+        with (binding) {
             textViewTrackName.text = track.trackName
             textViewArtistName.text = track.artistName
             textViewTrackInfoDurationContent.text = convertTime(track.trackTimeMillis)
