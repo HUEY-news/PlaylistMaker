@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="?attr/primaryBackgroundColor"
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/regular_border_medium"
+    tools:context=".presentation.library.LibraryFragment"
     android:theme="@style/Base.Theme.PlaylistMaker.Library">
 
     <LinearLayout
@@ -15,14 +16,7 @@
         android:layout_height="56dp"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
-        <ImageView
-            android:id="@+id/backButton"
-            style="@style/ImageView.BackButton"
-            android:layout_gravity="center"
-            android:layout_marginEnd="24dp"
-            android:foreground="?attr/selectableItemBackground"
-            android:src="@drawable/ic_arrow_back_24"
-            android:contentDescription="@string/description_back_button" />
+
         <TextView
             style="@style/TextView"
             android:layout_gravity="center"

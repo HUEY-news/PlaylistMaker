@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.presentation.settings.view_model
+package com.practicum.playlistmaker.presentation.settings
 
 import android.util.Log
 import androidx.lifecycle.LiveData

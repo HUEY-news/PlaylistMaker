@@ -8,6 +8,7 @@
     android:background="?attr/primaryBackgroundColor"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
+    tools:context=".presentation.search.SearchFragment"
     android:theme="@style/Base.Theme.PlaylistMaker.Search">
 
     <!-- ========== HEADER CONTAINER ========== -->
@@ -17,13 +18,6 @@
         android:layout_height="wrap_content"
         android:background="?attr/primaryBackgroundColor"
         android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/backButton"
-            style="@style/SearchActivity.ImageButton"
-            android:contentDescription="@string/back_button_description"
-            android:paddingVertical="16dp"
-            android:src="@drawable/ic_arrow_back_24" />
 
         <TextView style="@style/SearchActivity.Header" />
     </LinearLayout>

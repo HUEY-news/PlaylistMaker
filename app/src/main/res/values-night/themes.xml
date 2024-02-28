@@ -11,9 +11,6 @@
     <attr name="secondaryIconColor"/>
     <attr name="primaryButtonColor"/>
     <attr name="secondaryButtonColor"/>
-    <!-- PLACEHOLDERS -->
-    <attr name="placeholderEmptyError"/>
-    <attr name="placeholderInternetError"/>
     <!-- BUTTONS -->
     <attr name="buttonPlay"/>
     <attr name="buttonPause"/>
@@ -50,8 +47,6 @@
         <item name="secondaryIconColor">@color/YP_Black</item>
         <item name="primaryButtonColor">@color/YP_White</item>
         <item name="secondaryButtonColor">@color/YP_Black</item>
-        <item name="placeholderEmptyError">@drawable/empty_placeholder</item>
-        <item name="placeholderInternetError">@drawable/placeholder_internet_error_dark_mode</item>
     </style>
 
     <style name="Base.Theme.PlaylistMaker.Track" parent="Base.Theme.PlaylistMaker">
@@ -75,7 +70,6 @@
         <item name="secondaryIconColor">@color/YP_Black</item>
         <item name="primaryButtonColor">@color/YP_White</item>
         <item name="secondaryButtonColor">@color/YP_Black</item>
-        <item name="placeholderEmptyError">@drawable/empty_placeholder</item>
     </style>
 
 </resources>

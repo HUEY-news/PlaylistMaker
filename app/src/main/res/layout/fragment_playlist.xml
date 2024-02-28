@@ -17,7 +17,7 @@
         android:id="@+id/placeholderIcon"
         style="@style/Placeholder"
         android:layout_marginTop="32dp"
-        tools:src="?attr/placeholderEmptyError" />
+        tools:src="@drawable/empty_error_placeholder" />
 
     <TextView
         android:id="@+id/placeholderText"

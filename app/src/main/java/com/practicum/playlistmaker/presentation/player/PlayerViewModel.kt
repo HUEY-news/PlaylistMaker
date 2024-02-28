@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.presentation.player.view_model
+package com.practicum.playlistmaker.presentation.player
 
 import android.os.Handler
 import android.os.Looper
@@ -10,7 +10,6 @@ import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.domain.player.api.PlayerInteractor
 import com.practicum.playlistmaker.domain.player.model.PlayerState
 import com.practicum.playlistmaker.domain.track.model.Track
-import com.practicum.playlistmaker.presentation.player.model.PlayerScreenState
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -42,7 +41,8 @@ class PlayerViewModel(
                         playerStateLiveData.postValue(PlayerScreenState.Paused)
                     }
                     PlayerState.PLAYING -> {
-                        playerStateLiveData.postValue(PlayerScreenState.Playing(
+                        playerStateLiveData.postValue(
+                            PlayerScreenState.Playing(
                         convertCurrentTime(interactor.getPlayerCurrentPosition())))
                     }
                 }
@@ -84,15 +84,16 @@ class PlayerViewModel(
         return object : Runnable {
             override fun run() {
                 if (playerStateLiveData.value is PlayerScreenState.Playing) {
-                    playerStateLiveData.postValue(PlayerScreenState.Playing(
+                    playerStateLiveData.postValue(
+                        PlayerScreenState.Playing(
                         convertCurrentTime(interactor.getPlayerCurrentPosition())))
-                    mainThreadHandler.postDelayed(this, DELAY)
+                    mainThreadHandler.postDelayed(this, DELAY_MILLIS)
                 }
             }
         }
     }
 
     companion object {
-        private const val DELAY = 100L
+        private const val DELAY_MILLIS = 100L
     }
 }

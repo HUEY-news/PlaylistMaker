@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.presentation.player.model
+package com.practicum.playlistmaker.presentation.player
 
 sealed interface PlayerScreenState {
     object Default: PlayerScreenState

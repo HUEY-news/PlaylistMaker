@@ -33,9 +33,12 @@ class LibraryPlaylistFragment : Fragment() {
     companion object {
         private const val PLACEHOLDER = "placeholder"
         private const val MESSAGE = "message"
+
         fun newInstance(placeholder: Int, message: String) =
             LibraryPlaylistFragment().apply {
-            arguments = bundleOf(PLACEHOLDER to placeholder, MESSAGE to message)
+            arguments = bundleOf(
+                PLACEHOLDER to placeholder,
+                MESSAGE to message)
         }
     }
 }

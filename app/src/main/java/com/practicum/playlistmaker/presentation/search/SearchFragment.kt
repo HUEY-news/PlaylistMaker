@@ -1,34 +1,35 @@
-package com.practicum.playlistmaker.presentation.search.activity
+package com.practicum.playlistmaker.presentation.search
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.databinding.ActivitySearchBinding
+import com.practicum.playlistmaker.databinding.FragmentSearchBinding
 import com.practicum.playlistmaker.domain.track.model.Track
-import com.practicum.playlistmaker.presentation.player.activity.PlayerActivity
-import com.practicum.playlistmaker.presentation.search.view_model.SearchState
-import com.practicum.playlistmaker.presentation.search.view_model.SearchViewModel
+import com.practicum.playlistmaker.presentation.player.PlayerActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SearchActivity : AppCompatActivity() {
+class SearchFragment: Fragment() {
+
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
 
     private val viewModel by viewModel<SearchViewModel>()
-    private var _binding: ActivitySearchBinding? = null
-    private val binding get() = _binding!!
+
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
-    private var textWatcher: TextWatcher? = null
+    private var watcher: TextWatcher? = null
 
     private lateinit var errorText: String
     private lateinit var emptyErrorText: String
@@ -37,36 +38,45 @@ class SearchActivity : AppCompatActivity() {
     private var emptyErrorPlaceholder: Int = 0
     private var internetErrorPlaceholder: Int = 0
 
+
     private val searchAdapter = SearchAdapter { track ->
         if (clickDebounce()) {
             viewModel.addTrackToHistory(track)
-            val intent = Intent(this, PlayerActivity::class.java)
-            intent.putExtra(PlayerActivity.TRACK_ID, track)
-            startActivity(intent)
-        }
-    }
-    private val historyAdapter = SearchAdapter { track ->
-        if (clickDebounce()) {
-            val intent = Intent(this, PlayerActivity::class.java)
+            val intent = Intent(requireContext(), PlayerActivity::class.java)
             intent.putExtra(PlayerActivity.TRACK_ID, track)
             startActivity(intent)
         }
     }
 
-    override fun onCreate(state: Bundle?) {
-        super.onCreate(state)
-        Log.i("TEST", "SearchActivity СОЗДАНА")
-        _binding = ActivitySearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    private val historyAdapter = SearchAdapter { track ->
+        if (clickDebounce()) {
+            val intent = Intent(requireContext(), PlayerActivity::class.java)
+            intent.putExtra(PlayerActivity.TRACK_ID, track)
+            startActivity(intent)
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.i("TEST", "SEARCH FRAGMENT CREATED")
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val searchHistory: ArrayList<Track> = arrayListOf()
 
-        viewModel.getSearchHistoryLiveData().observe(this) { trackList ->
+        viewModel.getSearchHistoryLiveData().observe(viewLifecycleOwner) { trackList ->
             searchHistory.clear()
             searchHistory.addAll(trackList)
         }
 
-        viewModel.getSearchStateLiveData().observe(this) { searchState ->
+        viewModel.getSearchStateLiveData().observe(viewLifecycleOwner) { searchState ->
             when (searchState) {
                 is SearchState.Loading -> { showLoading() }
                 is SearchState.Content -> { showContent(searchState.trackList) }
@@ -81,10 +91,8 @@ class SearchActivity : AppCompatActivity() {
         emptyErrorText = resources.getString(R.string.placeholder_empty_error)
         internetErrorText = resources.getString(R.string.placeholder_internet_error)
         serverErrorText = resources.getString(R.string.placeholder_server_error)
-        emptyErrorPlaceholder = R.attr.placeholderEmptyError
-        internetErrorPlaceholder = R.attr.placeholderInternetError
-
-        binding.backButton.setOnClickListener { finish() }
+        emptyErrorPlaceholder = R.drawable.empty_error_placeholder
+        internetErrorPlaceholder = R.drawable.internet_error_placeholder
 
         if (searchHistory.isNotEmpty()) {
             historyAdapter.setItems(searchHistory)
@@ -116,8 +124,9 @@ class SearchActivity : AppCompatActivity() {
             binding.searchField.setText("")
             updateTrackList(listOf())
             // спрятать виртуальную клавиатуру:
-            val inputMethodManager =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            val inputMethodManager = requireContext()
+                .getSystemService(
+                    Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             inputMethodManager?.hideSoftInputFromWindow(
                 binding.searchField.windowToken,
                 0
@@ -125,7 +134,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         // реакция на изменение текста в поле поиска:
-        textWatcher = object: TextWatcher {
+        watcher = object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable?) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -143,12 +152,12 @@ class SearchActivity : AppCompatActivity() {
                 }
             }
         }
-        textWatcher?.let { binding.searchField.addTextChangedListener(it) }
+        watcher?.let { binding.searchField.addTextChangedListener(it) }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.e("TEST", "SearchActivity УНИЧТОЖЕНА")
+        Log.e("TEST", "SEARCH FRAGMENT DESTROYED")
     }
 
     private fun showContent(trackList: List<Track>) {
@@ -175,23 +184,15 @@ class SearchActivity : AppCompatActivity() {
         }
     }
     private fun showEmpty(errorMessage: String) {
-        binding.layoutPlaceholder.placeholderIcon.setImageDrawable(getAttribute(emptyErrorPlaceholder))
+        binding.layoutPlaceholder.placeholderIcon.setImageResource(emptyErrorPlaceholder)
         binding.layoutPlaceholder.placeholderText.text = errorMessage
         binding.layoutPlaceholder.placeholderButton.isVisible = false
     }
     private fun showError(errorMessage:String) {
-        binding.layoutPlaceholder.placeholderIcon.setImageDrawable(getAttribute(internetErrorPlaceholder))
+        binding.layoutPlaceholder.placeholderIcon.setImageResource(internetErrorPlaceholder)
         val resultErrorMessage = errorText + errorMessage
         binding.layoutPlaceholder.placeholderText.text = resultErrorMessage
         binding.layoutPlaceholder.placeholderButton.isVisible = true
-    }
-    private fun getAttribute(attr: Int): Drawable? {
-        val attrs = intArrayOf(attr)
-        val typedArray = theme.obtainStyledAttributes(attrs)
-        val placeholderResourceId = typedArray.getResourceId(0, 0)
-        typedArray.recycle()
-
-        return ContextCompat.getDrawable(this, placeholderResourceId)
     }
 
     private fun hidePlaceholder() {
@@ -208,11 +209,12 @@ class SearchActivity : AppCompatActivity() {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
-            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY_MILLIS)
         }
         return current
     }
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val CLICK_DEBOUNCE_DELAY_MILLIS = 1000L
     }
+
 }
