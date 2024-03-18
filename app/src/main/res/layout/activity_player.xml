@@ -71,15 +71,15 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toStartOf="@id/border_right_24"
         app:layout_constraintStart_toEndOf="@id/border_left_24"
-        app:layout_constraintBottom_toTopOf="@id/button_play_pause"
+        app:layout_constraintBottom_toTopOf="@id/button_play"
         android:layout_marginBottom="24dp"
         tools:text="The Beatles" />
 
 
     <!-- ACTION BUTTONS -->
     <ImageButton
-        android:id="@+id/button_play_pause"
-        style="@style/Player.Button.PlayPause"
+        android:id="@+id/button_play"
+        style="@style/Player.Button.Play"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/text_view_track_timer"
@@ -87,20 +87,20 @@
     <ImageButton
         android:id="@+id/button_add"
         style="@style/Player.Button.Add"
-        app:layout_constraintBottom_toBottomOf="@id/button_play_pause"
+        app:layout_constraintBottom_toBottomOf="@id/button_play"
         app:layout_constraintStart_toEndOf="@id/border_left_24"
-        app:layout_constraintTop_toTopOf="@id/button_play_pause" />
+        app:layout_constraintTop_toTopOf="@id/button_play" />
     <ImageButton
         android:id="@+id/button_favorite"
         style="@style/Player.Button.Favorite"
-        app:layout_constraintBottom_toBottomOf="@id/button_play_pause"
+        app:layout_constraintBottom_toBottomOf="@id/button_play"
         app:layout_constraintEnd_toStartOf="@id/border_right_24"
-        app:layout_constraintTop_toTopOf="@id/button_play_pause" />
+        app:layout_constraintTop_toTopOf="@id/button_play" />
     <TextView
         android:id="@+id/text_view_track_timer"
         style="@style/Player.Name.TrackTime"
-        app:layout_constraintEnd_toEndOf="@id/button_play_pause"
-        app:layout_constraintStart_toStartOf="@id/button_play_pause"
+        app:layout_constraintEnd_toEndOf="@id/button_play"
+        app:layout_constraintStart_toStartOf="@id/button_play"
         app:layout_constraintBottom_toTopOf="@id/text_view_track_info_duration_title"
         android:layout_marginBottom="24dp"
         android:text="00:00" />

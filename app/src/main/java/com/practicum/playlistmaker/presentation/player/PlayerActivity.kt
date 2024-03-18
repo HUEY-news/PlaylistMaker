@@ -68,7 +68,7 @@ class PlayerActivity : AppCompatActivity() {
             .transform(RoundedCorners(convertPixel(4f, this)))
             .into(binding.imageViewArtwork512)
 
-        binding.buttonPlayPause.setOnClickListener { viewModel.playbackControl() }
+        binding.buttonPlay.setOnClickListener { viewModel.playbackControl() }
     }
 
     override fun onResume() {
@@ -96,11 +96,11 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     private fun setPlayImage() {
-        binding.buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPlay))
+        binding.buttonPlay.setImageDrawable(getAttribute(R.attr.buttonPlay))
     }
 
     private fun setPauseImage() {
-        binding.buttonPlayPause.setImageDrawable(getAttribute(R.attr.buttonPause))
+        binding.buttonPlay.setImageDrawable(getAttribute(R.attr.buttonPause))
     }
 
     private fun getAttribute(attr: Int): Drawable? {
