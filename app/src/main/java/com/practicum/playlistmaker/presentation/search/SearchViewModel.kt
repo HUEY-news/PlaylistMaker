@@ -39,6 +39,12 @@ class SearchViewModel(
         }
     }
 
+    fun sendRequest(text: String) {
+        lastQuery = text
+        val currentQuery = lastQuery ?: ""
+        searchTrack(currentQuery)
+    }
+
     fun searchTrack(newSearchText: String) {
         if (newSearchText.isNotEmpty()) {
             searchStateLiveData.postValue(SearchState.Loading)

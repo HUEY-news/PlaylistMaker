@@ -5,10 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -132,27 +132,29 @@ class SearchFragment : Fragment() {
         watcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable?) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.isNullOrEmpty()) {
+            override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+                if (text.isNullOrEmpty()) {
                     hidePlaceholder()
                     updateTrackList(listOf())
                 }
-                binding.resetButton.isVisible = !s.isNullOrEmpty()
-                viewModel.onSearchDebounce(text = s?.toString() ?: "")
+                binding.resetButton.isVisible = !text.isNullOrEmpty()
+                viewModel.onSearchDebounce(text = text?.toString() ?: "")
 
                 if (searchHistory.isNotEmpty()) {
                     historyAdapter?.setItems(searchHistory)
                     binding.layoutSearchHistory.searchHistoryContainer.isVisible =
-                        binding.searchField.hasFocus() && s?.isEmpty() == true
+                        binding.searchField.hasFocus() && text?.isEmpty() == true
                 }
             }
         }
-        watcher?.let { binding.searchField.addTextChangedListener(it) }
-    }
+        watcher?.let { watcher -> binding.searchField.addTextChangedListener(watcher) }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.e("TEST", "SEARCH FRAGMENT DESTROYED")
+        binding.searchField.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                viewModel.sendRequest(text = binding.searchField.text.toString())
+            }
+            false
+        }
     }
 
     private fun showContent(trackList: List<Track>) {
