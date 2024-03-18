@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.databinding.ItemTrackBinding
-import com.practicum.playlistmaker.domain.track.model.Track
+import com.practicum.playlistmaker.domain.search.Track
 
 class SearchAdapter(
     private val onItemClick: (track: Track) -> Unit

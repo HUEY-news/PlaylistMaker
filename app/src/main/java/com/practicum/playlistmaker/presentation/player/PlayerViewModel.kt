@@ -7,9 +7,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.practicum.playlistmaker.domain.player.api.PlayerInteractor
-import com.practicum.playlistmaker.domain.player.model.PlayerState
-import com.practicum.playlistmaker.domain.track.model.Track
+import com.practicum.playlistmaker.domain.player.PlayerInteractor
+import com.practicum.playlistmaker.domain.player.PlayerState
+import com.practicum.playlistmaker.domain.search.Track
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale

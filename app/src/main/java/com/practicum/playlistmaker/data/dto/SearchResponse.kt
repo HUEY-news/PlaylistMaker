@@ -1,6 +1,6 @@
 package com.practicum.playlistmaker.data.dto
 
-import com.practicum.playlistmaker.data.track.TrackDto
+import com.practicum.playlistmaker.data.search.TrackDto
 
 data class SearchResponse(
     val resultCount: Int,

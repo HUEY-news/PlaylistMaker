@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentSearchBinding
-import com.practicum.playlistmaker.domain.track.model.Track
+import com.practicum.playlistmaker.domain.search.Track
 import com.practicum.playlistmaker.presentation.player.PlayerActivity
 import com.practicum.playlistmaker.util.debounce
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -73,8 +73,8 @@ class SearchFragment : Fragment() {
         viewModel.getSearchStateLiveData().observe(viewLifecycleOwner) { searchState ->
             when (searchState) {
                 is SearchState.Loading -> showLoading()
-                is SearchState.Content -> showContent(searchState.trackList)
-                is SearchState.Error -> showPlaceholder(searchState.errorMessage)
+                is SearchState.Content -> showContent(searchState.data)
+                is SearchState.Error -> showPlaceholder(searchState.message)
             }
         }
 

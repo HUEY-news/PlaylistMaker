@@ -11,7 +11,7 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
     viewModel { PlayerViewModel(interactor = get()) }
-    viewModel { SearchViewModel(trackInteractor = get(), searchInteractor = get()) }
+    viewModel { SearchViewModel(trackInteractor = get(), searchHistoryInteractor = get()) }
     viewModel { SettingsViewModel(settingsInteractor = get(), sharingInterractor = get()) }
 
     viewModel { LibraryFavouriteViewModel() }
