@@ -84,7 +84,6 @@ class PlayerActivity : AppCompatActivity() {
     override fun onDestroy() {
         viewModel.onReset()
         super.onDestroy()
-        Log.e("TEST", "PlayerActivity УНИЧТОЖЕНА")
     }
 
     private fun getTrack(): Track? {

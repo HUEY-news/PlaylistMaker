@@ -49,6 +49,7 @@ class SearchHistoryStorageImpl(
         }
         history.add(0,track)
     }
+
     private fun sizeCheck(){
         if (history.size > HISTORY_LIMIT) {
             history.forEachIndexed { index: Int, item: Track ->
