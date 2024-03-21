@@ -1,6 +1,6 @@
 package com.practicum.playlistmaker.domain.player
 
-enum class PlayerState {
+enum class PlayerStateEnum {
     DEFAULT,
     PREPARED,
     PLAYING,

@@ -1,11 +1,8 @@
 package com.practicum.playlistmaker.presentation.player
 
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
@@ -19,36 +16,40 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayerActivity : AppCompatActivity() {
 
-    private val viewModel by viewModel<PlayerViewModel>()
     private var _binding: ActivityPlayerBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel by viewModel<PlayerViewModel>()
+
     private lateinit var track: Track
+
+    private var playButtonImage: Int = 0
+    private var pauseButtonImage: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i("TEST", "PlayerActivity СОЗДАНА")
         _binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        playButtonImage = R.drawable.button_play_image
+        pauseButtonImage = R.drawable.button_pause_image
+
         viewModel.getPlayerStateLivedata().observe(this) { state ->
             when (state) {
-                PlayerScreenState.Default -> {}
-                PlayerScreenState.Paused -> setPlayImage()
-                PlayerScreenState.Prepared -> {
-                    setPlayImage()
+                PlayerStateSealedInterface.Default -> {}
+                PlayerStateSealedInterface.Paused -> showPlayButton()
+                PlayerStateSealedInterface.Prepared -> {
+                    showPlayButton()
                     resetTimer()
                     viewModel.stopUpdater()
                 }
-                is PlayerScreenState.Playing -> {
-                    setPauseImage()
+                is PlayerStateSealedInterface.Playing -> {
+                    showPauseButton()
                     viewModel.startUpdater()
                     setTimer(state.time)
                 }
             }
         }
-
-        binding.buttonBack.setOnClickListener { finish() }
 
         if (getTrack() != null) track = getTrack()!!
         with (binding) {
@@ -68,6 +69,7 @@ class PlayerActivity : AppCompatActivity() {
             .transform(RoundedCorners(convertPixel(4f, this)))
             .into(binding.imageViewArtwork512)
 
+        binding.buttonBack.setOnClickListener { finish() }
         binding.buttonPlay.setOnClickListener { viewModel.playbackControl() }
     }
 
@@ -94,30 +96,11 @@ class PlayerActivity : AppCompatActivity() {
         }
     }
 
-    private fun setPlayImage() {
-        binding.buttonPlay.setImageDrawable(getAttribute(R.attr.buttonPlay))
-    }
+    private fun showPlayButton() { binding.buttonPlay.setImageResource(playButtonImage) }
+    private fun showPauseButton() { binding.buttonPlay.setImageResource(pauseButtonImage)}
 
-    private fun setPauseImage() {
-        binding.buttonPlay.setImageDrawable(getAttribute(R.attr.buttonPause))
-    }
-
-    private fun getAttribute(attr: Int): Drawable? {
-        val attrs = intArrayOf(attr)
-        val typedArray = theme.obtainStyledAttributes(attrs)
-        val drawableResourceId = typedArray.getResourceId(0, 0)
-        typedArray.recycle()
-
-        return ContextCompat.getDrawable(this, drawableResourceId)
-    }
-
-    private fun setTimer(time: String) {
-        binding.textViewTrackTimer.text = time
-    }
-
-    private fun resetTimer() {
-        binding.textViewTrackTimer.text = ZERO_CONDITION
-    }
+    private fun setTimer(time: String) { binding.textViewTrackTimer.text = time }
+    private fun resetTimer() { binding.textViewTrackTimer.text = ZERO_CONDITION }
 
     companion object {
         const val TRACK_ID = "TRACK_ID"

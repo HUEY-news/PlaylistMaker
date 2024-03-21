@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface PlayerRepository {
 
-    fun getPlayerState(): Flow<PlayerState>
+    fun getPlayerState(): Flow<PlayerStateEnum>
     fun getPlayerCurrentPosition(): Int
     fun playbackControl()
 

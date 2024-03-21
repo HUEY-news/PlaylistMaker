@@ -197,9 +197,9 @@ class SearchFragment : Fragment() {
     private fun onClickDebounce(track: Track) {
         if (clickDebounce()) {
             val intent = Intent(requireContext(), PlayerActivity::class.java)
-            viewModel.addTrackToHistory(track)
             intent.putExtra(PlayerActivity.TRACK_ID, track)
             startActivity(intent)
+            viewModel.addTrackToHistory(track)
         }
     }
 

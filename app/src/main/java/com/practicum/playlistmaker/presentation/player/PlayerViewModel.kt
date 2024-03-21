@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.domain.player.PlayerInteractor
-import com.practicum.playlistmaker.domain.player.PlayerState
+import com.practicum.playlistmaker.domain.player.PlayerStateEnum
 import com.practicum.playlistmaker.domain.search.Track
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -21,28 +21,28 @@ class PlayerViewModel(
     private val mainThreadHandler = Handler(Looper.getMainLooper())
     private val timerUpdateRunnable = updateTimer()
 
-    private var playerStateLiveData = MutableLiveData<PlayerScreenState>(PlayerScreenState.Default)
-    fun getPlayerStateLivedata(): LiveData<PlayerScreenState> = playerStateLiveData
+    private var playerStateLiveData = MutableLiveData<PlayerStateSealedInterface>(PlayerStateSealedInterface.Default)
+    fun getPlayerStateLivedata(): LiveData<PlayerStateSealedInterface> = playerStateLiveData
 
     init {
         Log.v("TEST", "PlayerViewModel - СОЗДАНА")
         viewModelScope.launch{
             interactor.getPlayerState().collect { state ->
                 when (state) {
-                    PlayerState.DEFAULT -> {
-                        playerStateLiveData.postValue(PlayerScreenState.Default)
+                    PlayerStateEnum.DEFAULT -> {
+                        playerStateLiveData.postValue(PlayerStateSealedInterface.Default)
                     }
-                    PlayerState.PREPARED -> {
+                    PlayerStateEnum.PREPARED -> {
                         mainThreadHandler.removeCallbacks(timerUpdateRunnable)
-                        playerStateLiveData.postValue(PlayerScreenState.Prepared)
+                        playerStateLiveData.postValue(PlayerStateSealedInterface.Prepared)
                     }
-                    PlayerState.PAUSED -> {
+                    PlayerStateEnum.PAUSED -> {
                         mainThreadHandler.removeCallbacks(timerUpdateRunnable)
-                        playerStateLiveData.postValue(PlayerScreenState.Paused)
+                        playerStateLiveData.postValue(PlayerStateSealedInterface.Paused)
                     }
-                    PlayerState.PLAYING -> {
+                    PlayerStateEnum.PLAYING -> {
                         playerStateLiveData.postValue(
-                            PlayerScreenState.Playing(
+                            PlayerStateSealedInterface.Playing(
                         convertCurrentTime(interactor.getPlayerCurrentPosition())))
                     }
                 }
@@ -83,9 +83,9 @@ class PlayerViewModel(
     private fun updateTimer() : Runnable {
         return object : Runnable {
             override fun run() {
-                if (playerStateLiveData.value is PlayerScreenState.Playing) {
+                if (playerStateLiveData.value is PlayerStateSealedInterface.Playing) {
                     playerStateLiveData.postValue(
-                        PlayerScreenState.Playing(
+                        PlayerStateSealedInterface.Playing(
                         convertCurrentTime(interactor.getPlayerCurrentPosition())))
                     mainThreadHandler.postDelayed(this, DELAY_MILLIS)
                 }

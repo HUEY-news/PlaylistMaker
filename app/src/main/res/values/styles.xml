@@ -267,7 +267,7 @@
     </style>
         <style name="Player.Button.Play">
             <!-- ICON OPTIONS -->
-            <item name="android:src">?attr/buttonPlay</item>
+            <item name="android:src">@drawable/button_play_image</item>
             <item name="android:background">@null</item>
             <item name="android:tint">?attr/secondaryBackgroundColor</item>
         </style>

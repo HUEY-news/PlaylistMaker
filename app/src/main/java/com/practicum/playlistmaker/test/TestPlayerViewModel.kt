@@ -16,8 +16,8 @@ class TestPlayerViewModel: ViewModel() {
     private var mediaPlayer: MediaPlayer = MediaPlayer()
     private var timerJob: Job? = null
 
-    private val playerState = MutableLiveData<TestPlayerState>(TestPlayerState.Default())
-    fun observePlayerState(): LiveData<TestPlayerState> = playerState
+    private val playerState = MutableLiveData<PlayerState>(PlayerState.Default())
+    fun observePlayerState(): LiveData<PlayerState> = playerState
 
     init { initMediaPlayer() }
 
@@ -32,8 +32,8 @@ class TestPlayerViewModel: ViewModel() {
 
     fun onPlayButtonClicked() {
         when (playerState.value) {
-            is TestPlayerState.Playing -> pausePlayer()
-            is TestPlayerState.Prepared, is TestPlayerState.Paused -> startPlayer()
+            is PlayerState.Playing -> pausePlayer()
+            is PlayerState.Prepared, is PlayerState.Paused -> startPlayer()
             else -> {}
         }
     }
@@ -41,33 +41,33 @@ class TestPlayerViewModel: ViewModel() {
     private fun initMediaPlayer() {
         mediaPlayer.setDataSource(url)
         mediaPlayer.prepareAsync()
-        mediaPlayer.setOnPreparedListener { playerState.postValue(TestPlayerState.Prepared()) }
-        mediaPlayer.setOnCompletionListener { playerState.postValue(TestPlayerState.Prepared()) }
+        mediaPlayer.setOnPreparedListener { playerState.postValue(PlayerState.Prepared()) }
+        mediaPlayer.setOnCompletionListener { playerState.postValue(PlayerState.Prepared()) }
     }
 
     private fun startPlayer() {
         mediaPlayer.start()
-        playerState.postValue(TestPlayerState.Playing(getCurrentPlayerPosition()))
+        playerState.postValue(PlayerState.Playing(getCurrentPlayerPosition()))
         startTimer()
     }
 
     private fun pausePlayer() {
         mediaPlayer.pause()
         timerJob?.cancel()
-        playerState.postValue(TestPlayerState.Paused(getCurrentPlayerPosition()))
+        playerState.postValue(PlayerState.Paused(getCurrentPlayerPosition()))
     }
 
     private fun releasePlayer() {
         mediaPlayer.stop()
         mediaPlayer.release()
-        playerState.postValue(TestPlayerState.Default())
+        playerState.postValue(PlayerState.Default())
     }
 
     private fun startTimer() {
         timerJob = viewModelScope.launch {
             while (mediaPlayer.isPlaying) {
                 delay(300L)
-                playerState.postValue(TestPlayerState.Playing(getCurrentPlayerPosition()))
+                playerState.postValue(PlayerState.Playing(getCurrentPlayerPosition()))
             }
         }
     }
