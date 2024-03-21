@@ -1,16 +1,17 @@
 package com.practicum.playlistmaker.data.player
 
-import com.practicum.playlistmaker.domain.player.PlayerStateEnum
+import com.practicum.playlistmaker.domain.player.PlayerState
 import kotlinx.coroutines.flow.Flow
 
 interface Player {
 
-    fun getPlayerStateFlow(): Flow<PlayerStateEnum>
-    fun getPlayerCurrentPosition(): Int
-    fun playbackControl()
+    fun initPlayer(url: String)
+    fun startPlayer()
+    fun pausePlayer()
+    fun releasePlayer()
 
-    fun onPrepare(url: String)
-    fun onPause()
-    fun onReset()
-    fun onDestroy()
+    fun getPlayerStateFlow(): Flow<PlayerState>
+    fun getCurrentPlayerPosition(): String
+
+    fun isPlaying(): Boolean
 }

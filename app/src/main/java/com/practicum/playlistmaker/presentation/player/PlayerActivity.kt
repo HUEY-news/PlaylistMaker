@@ -7,6 +7,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.ActivityPlayerBinding
+import com.practicum.playlistmaker.domain.player.PlayerState
 import com.practicum.playlistmaker.domain.search.Track
 import com.practicum.playlistmaker.util.convertArtwork
 import com.practicum.playlistmaker.util.convertDate
@@ -34,20 +35,12 @@ class PlayerActivity : AppCompatActivity() {
         playButtonImage = R.drawable.button_play_image
         pauseButtonImage = R.drawable.button_pause_image
 
-        viewModel.getPlayerStateLivedata().observe(this) { state ->
-            when (state) {
-                PlayerStateSealedInterface.Default -> {}
-                PlayerStateSealedInterface.Paused -> showPlayButton()
-                PlayerStateSealedInterface.Prepared -> {
-                    showPlayButton()
-                    resetTimer()
-                    viewModel.stopUpdater()
-                }
-                is PlayerStateSealedInterface.Playing -> {
-                    showPauseButton()
-                    viewModel.startUpdater()
-                    setTimer(state.time)
-                }
+        viewModel.observePlayerState().observe(this) { playerState ->
+            binding.buttonPlay.isEnabled = playerState.isPlayButtonEnabled
+            binding.textViewTrackTimer.text = playerState.progress
+            when (playerState) {
+                is PlayerState.Default, is PlayerState.Prepared, is PlayerState.Paused -> showPlayButton()
+                is PlayerState.Playing -> showPauseButton()
             }
         }
 
@@ -70,12 +63,12 @@ class PlayerActivity : AppCompatActivity() {
             .into(binding.imageViewArtwork512)
 
         binding.buttonBack.setOnClickListener { finish() }
-        binding.buttonPlay.setOnClickListener { viewModel.playbackControl() }
+        binding.buttonPlay.setOnClickListener { viewModel.onPlayButtonClicked() }
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.onPrepare(track)
+        viewModel.initPlayer(track)
     }
 
     override fun onPause() {
@@ -84,26 +77,20 @@ class PlayerActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        viewModel.onReset()
         super.onDestroy()
+        viewModel.releasePlayer()
     }
 
     private fun getTrack(): Track? {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             return intent.getParcelableExtra(TRACK_ID, Track::class.java)
-        } else { // IF VERSION.SDK_INT < TIRAMISU
-            return intent.getParcelableExtra(TRACK_ID)
-        }
+        } else return intent.getParcelableExtra(TRACK_ID)
     }
 
     private fun showPlayButton() { binding.buttonPlay.setImageResource(playButtonImage) }
     private fun showPauseButton() { binding.buttonPlay.setImageResource(pauseButtonImage)}
 
-    private fun setTimer(time: String) { binding.textViewTrackTimer.text = time }
-    private fun resetTimer() { binding.textViewTrackTimer.text = ZERO_CONDITION }
-
     companion object {
         const val TRACK_ID = "TRACK_ID"
-        private const val ZERO_CONDITION = "00:00"
     }
 }

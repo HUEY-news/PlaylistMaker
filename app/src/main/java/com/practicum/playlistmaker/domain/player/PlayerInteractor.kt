@@ -4,12 +4,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface PlayerInteractor {
 
-    fun getPlayerState(): Flow<PlayerStateEnum>
-    fun getPlayerCurrentPosition(): Int
-    fun playbackControl()
+    fun initPlayer(url: String)
+    fun startPlayer()
+    fun pausePlayer()
+    fun releasePlayer()
 
-    fun onPrepare(url: String)
-    fun onPause()
-    fun onReset()
-    fun onDestroy()
+    fun getPlayerStateFlow(): Flow<PlayerState>
+    fun getCurrentPlayerPosition(): String
+
+    fun isPlaying(): Boolean
 }

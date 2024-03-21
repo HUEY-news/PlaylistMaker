@@ -1,55 +1,50 @@
 package com.practicum.playlistmaker.data.player
 
 import android.media.MediaPlayer
-import com.practicum.playlistmaker.domain.player.PlayerStateEnum
+import com.practicum.playlistmaker.domain.player.PlayerState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import java.text.SimpleDateFormat
+import java.util.Locale
 
-class PlayerImpl(
-    private val player: MediaPlayer
-): Player {
+class PlayerImpl(private val mediaPlayer: MediaPlayer): Player {
 
-    private val flow = MutableStateFlow(PlayerStateEnum.DEFAULT)
+    private val flow = MutableStateFlow<PlayerState>(PlayerState.Default())
+    override fun getPlayerStateFlow(): Flow<PlayerState> = flow
 
-    override fun playbackControl(){
-        when (flow.value) {
-            PlayerStateEnum.PLAYING -> pausePlayer()
-            PlayerStateEnum.PAUSED -> startPlayer()
-            PlayerStateEnum.PREPARED -> startPlayer()
-            PlayerStateEnum.DEFAULT -> {}
+    override fun initPlayer(url: String) {
+        mediaPlayer.setDataSource(url)
+        mediaPlayer.prepareAsync()
+
+        mediaPlayer.setOnPreparedListener {
+            flow.value = PlayerState.Prepared()
+            mediaPlayer.seekTo(0)
         }
+
+        mediaPlayer.setOnCompletionListener {
+            flow.value = PlayerState.Prepared()
+            mediaPlayer.seekTo(0)}
     }
 
-    private fun preparePlayer(url: String) {
-        player.setDataSource(url)
-        player.prepareAsync()
-        player.setOnPreparedListener { flow.value = PlayerStateEnum.PREPARED }
-        player.setOnCompletionListener { flow.value = PlayerStateEnum.PREPARED }
+    override fun startPlayer() {
+        mediaPlayer.start()
+        flow.value = PlayerState.Playing(getCurrentPlayerPosition())
     }
 
-    private fun startPlayer() {
-        player.start()
-        flow.value = PlayerStateEnum.PLAYING
+    override fun pausePlayer() {
+        mediaPlayer.pause()
+        flow.value = PlayerState.Paused(getCurrentPlayerPosition())
     }
 
-    private fun pausePlayer() {
-        player.pause()
-        flow.value = PlayerStateEnum.PAUSED
+    override fun releasePlayer() {
+        mediaPlayer.reset()
+        flow.value = PlayerState.Default()
     }
 
-    private fun resetPlayer() {
-        player.reset()
-        flow.value = PlayerStateEnum.DEFAULT
+    override fun getCurrentPlayerPosition(): String {
+        return SimpleDateFormat("mm:ss", Locale.getDefault())
+            .format(mediaPlayer.currentPosition) ?: "00:00"
     }
 
-    private fun destroyPlayer() {
-        player.release()
-    }
-
-    override fun getPlayerStateFlow(): Flow<PlayerStateEnum> = flow
-    override fun getPlayerCurrentPosition(): Int = player.currentPosition
-    override fun onPrepare(url: String) { preparePlayer(url) }
-    override fun onPause() { pausePlayer() }
-    override fun onReset() { resetPlayer() }
-    override fun onDestroy() { destroyPlayer() }
+    override fun isPlaying(): Boolean = mediaPlayer.isPlaying
 }

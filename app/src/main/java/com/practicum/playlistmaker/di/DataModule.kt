@@ -36,7 +36,7 @@ val dataModule = module {
     single { androidContext().getSharedPreferences(PREFERENCES_FOLDER_NAME, Context.MODE_PRIVATE) }
     single { Gson() }
 
-    single<Player> { PlayerImpl(player = MediaPlayer()) }
+    single<Player> { PlayerImpl(mediaPlayer = MediaPlayer()) }
     single { MediaPlayer() }
 
     single<ExternalNavigator> { ExternalNavigatorImpl(context = androidContext()) }

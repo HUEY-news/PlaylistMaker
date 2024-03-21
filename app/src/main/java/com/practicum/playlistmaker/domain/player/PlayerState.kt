@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.test
+package com.practicum.playlistmaker.domain.player
 
 sealed class PlayerState(
     val isPlayButtonEnabled: Boolean,
