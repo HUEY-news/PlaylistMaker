@@ -47,16 +47,7 @@ class SearchViewModel(
         searchHistoryLiveData.postValue(getHistory())
     }
 
-    private fun getHistory(): List<Track> {
-        var trackList = emptyList<Track>()
-        viewModelScope.launch {
-            searchHistoryInteractor
-                .getHistory()
-                .collect { trackList = it }
-        }
-        return trackList
-    }
-
+    private fun getHistory(): List<Track> = searchHistoryInteractor.getHistory()
     fun clearHistory() { searchHistoryInteractor.clearHistory() }
 
     fun searchDebounce(text: String) {
