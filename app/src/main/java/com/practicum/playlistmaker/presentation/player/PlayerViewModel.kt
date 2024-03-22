@@ -7,13 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.domain.player.PlayerInteractor
 import com.practicum.playlistmaker.domain.player.PlayerState
 import com.practicum.playlistmaker.domain.search.Track
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PlayerViewModel(private val interactor: PlayerInteractor): ViewModel() {
-
-    private var timerJob: Job? = null
 
     private val playerState = MutableLiveData<PlayerState>(PlayerState.Default())
     fun observePlayerState(): LiveData<PlayerState> = playerState
@@ -56,31 +52,16 @@ class PlayerViewModel(private val interactor: PlayerInteractor): ViewModel() {
     private fun startPlayer() {
         interactor.startPlayer()
         renderState(PlayerState.Playing(getCurrentPlayerPosition()))
-        startTimer()
     }
 
     private fun pausePlayer() {
         interactor.pausePlayer()
-        timerJob?.cancel()
         renderState(PlayerState.Paused(getCurrentPlayerPosition()))
     }
 
     fun releasePlayer() {
         interactor.releasePlayer()
         renderState(PlayerState.Default())
-    }
-
-    private fun startTimer() {
-        timerJob = viewModelScope.launch {
-            while (interactor.isPlaying()) {
-                delay(100L)
-                renderState(PlayerState.Playing(getCurrentPlayerPosition()))
-                if (interactor.isPlaying() == false) {
-                    timerJob?.cancel()
-                    renderState(PlayerState.Paused(getCurrentPlayerPosition()))
-                }
-            }
-        }
     }
 
     private fun getCurrentPlayerPosition(): String = interactor.getCurrentPlayerPosition()
