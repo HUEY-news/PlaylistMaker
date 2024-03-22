@@ -74,7 +74,7 @@ class PlayerViewModel(private val interactor: PlayerInteractor): ViewModel() {
         timerJob?.cancel()
         timerJob = viewModelScope.launch {
             while (interactor.isPlaying()) {
-                delay(100L)
+                delay(300L)
                 renderState(PlayerState.Playing(getCurrentPlayerPosition()))
                 if (interactor.isPlaying() == false) {
                     timerJob?.cancel()
