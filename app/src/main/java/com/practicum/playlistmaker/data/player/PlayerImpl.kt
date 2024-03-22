@@ -41,10 +41,8 @@ class PlayerImpl(private val mediaPlayer: MediaPlayer): Player {
         flow.value = PlayerState.Default()
     }
 
-    override fun getCurrentPlayerPosition(): String {
-        return SimpleDateFormat("mm:ss", Locale.getDefault())
-            .format(mediaPlayer.currentPosition) ?: "00:00"
-    }
+    private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
+    override fun getCurrentPlayerPosition(): String = dateFormat.format(mediaPlayer.currentPosition) ?: "00:00"
 
     override fun isPlaying(): Boolean = mediaPlayer.isPlaying
 }
