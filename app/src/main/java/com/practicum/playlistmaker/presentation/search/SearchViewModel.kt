@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.domain.search.SearchHistoryInteractor
 import com.practicum.playlistmaker.domain.search.Track
 import com.practicum.playlistmaker.domain.search.TrackInteractor
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SearchViewModel(
@@ -15,6 +17,7 @@ class SearchViewModel(
 ): ViewModel() {
 
     private var lastQuery: String? = null
+    private var searchJob: Job? = null
 
     private var searchStateLiveData = MutableLiveData<SearchState>()
     fun getSearchStateLiveData(): LiveData<SearchState> = searchStateLiveData
@@ -52,6 +55,11 @@ class SearchViewModel(
         if (lastQuery != text) {
             lastQuery = text
             val currentQuery = lastQuery ?: ""
+            searchJob?.cancel()
+            searchJob = viewModelScope.launch {
+                delay(SEARCH_DEBOUNCE_DELAY)
+                searchTrack(currentQuery)
+            }
         }
     }
 
