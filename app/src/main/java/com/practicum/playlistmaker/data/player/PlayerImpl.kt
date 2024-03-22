@@ -4,6 +4,8 @@ import android.media.MediaPlayer
 import com.practicum.playlistmaker.domain.player.PlayerState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class PlayerImpl(private val mediaPlayer: MediaPlayer): Player {
 
@@ -37,6 +39,11 @@ class PlayerImpl(private val mediaPlayer: MediaPlayer): Player {
     override fun releasePlayer() {
         mediaPlayer.reset()
         flow.value = PlayerState.Default()
+    }
+
+    override fun getCurrentPlayerPosition(): String {
+        return SimpleDateFormat("mm:ss", Locale.getDefault())
+            .format(mediaPlayer.currentPosition) ?: "00:00"
     }
 
     override fun isPlaying(): Boolean = mediaPlayer.isPlaying
