@@ -31,6 +31,14 @@ class SearchViewModel(
     fun searchTrack(query: String) {
         if (query.isNotEmpty()) {
             renderState(SearchState.Loading)
+            viewModelScope.launch {
+                trackInteractor
+                    .searchTrack(query)
+                    .collect { pair ->
+                        if (pair.first != null) renderState(SearchState.Content(pair.first!!))
+                        if (pair.second != null) renderState(SearchState.Error(pair.second!!))
+                    }
+            }
         } else renderState(SearchState.Content(listOf()))
     }
 
