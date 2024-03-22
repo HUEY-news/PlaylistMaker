@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name" translatable="false">Playlist Maker</string>
 
-    <!-- MAIN ACTIVITY -->
+    <!-- GENERAL -->
     <string name="description_back_button">Back</string>
     <string name="header_main">Playlist maker</string>
     <string name="button_library">Медиатека</string>
     <string name="button_settings">Настройки</string>
     <string name="button_search">Поиск</string>
 
-    <!-- SETTINGS ACTIVITY -->
+    <!-- SETTINGS -->
     <string name="dark_theme">Тёмная тема</string>
     <string name="share_app">Поделиться приложением</string>
     <string name="YP_android_developer_link">https://practicum.yandex.ru/android-developer</string>
@@ -19,14 +19,10 @@
     <string name="user_agreement">Пользовательское соглашение</string>
     <string name="agreement_link">https://yandex.ru/legal/practicum_offer/</string>
 
-    <!-- SEARCH ACTIVITY -->
+    <!-- SEARCH -->
     <string name="search_screen_title">Поиск</string>
     <string name="search_field_hint">Поиск</string>
     <string name="back_button_description">Назад</string>
-    <string name="placeholder_error">Проблемы со связью\n\nЗагрузка не удалась\n</string>
-    <string name="placeholder_empty_error">Ничего не нашлось</string>
-    <string name="placeholder_internet_error">Проверьте подключение к интернету</string>
-    <string name="placeholder_server_error">Ошибка сервера</string>
     <string name="placeholder_button">Обновить</string>
     <string name="search_history_header">Вы искали</string>
     <string name="search_history_button">Очистить историю</string>
@@ -44,5 +40,11 @@
     <string name="new_playlist_button">Новый плейлист</string>
     <string name="favourite_tab">Избранные треки</string>
     <string name="playlist_tab">Плейлисты</string>
+
+    <!-- ERROR TEXT -->
+    <string name="error_placeholder_text">Проблемы со связью\n\nЗагрузка не удалась\n</string>
+    <string name="error_empty_text">Ничего не нашлось</string>
+    <string name="error_internet_text">Проверьте подключение к интернету</string>
+    <string name="error_server_text">Ошибка сервера</string>
 
 </resources>
