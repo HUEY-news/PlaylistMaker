@@ -71,6 +71,7 @@ class PlayerViewModel(private val interactor: PlayerInteractor): ViewModel() {
     }
 
     private fun startTimer() {
+        timerJob?.cancel()
         timerJob = viewModelScope.launch {
             while (interactor.isPlaying()) {
                 delay(100L)
