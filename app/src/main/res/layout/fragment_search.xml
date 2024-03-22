@@ -8,19 +8,15 @@
     android:background="?attr/primaryBackgroundColor"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
-    tools:context=".presentation.search.SearchFragment"
-    android:theme="@style/Base.Theme.PlaylistMaker.Search">
+    android:theme="@style/Base.Theme.PlaylistMaker.Search"
+    tools:context=".presentation.search.SearchFragment">
 
-    <!-- ========== HEADER CONTAINER ========== -->
-    <LinearLayout
-        android:id="@+id/headerContainer"
+    <TextView
+        style="@style/SearchActivity.Header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/primaryBackgroundColor"
-        android:orientation="horizontal">
-
-        <TextView style="@style/SearchActivity.Header" />
-    </LinearLayout>
+        android:paddingVertical="14dp" />
 
     <!-- ========== INPUT CONTAINER ========== -->
     <FrameLayout
@@ -53,27 +49,27 @@
 
         <!-- ========== TRACKLIST RECYCLER VIEW ========== -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/searchRecycler"
+            android:id="@+id/searchResultRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <!-- ========== SEARCH HISTORY CONTAINER ========== -->
         <include
-            android:id="@+id/layout_search_history"
-            layout="@layout/layout_search_history"/>
+            android:id="@+id/searchHistoryLayout"
+            layout="@layout/layout_search_history" />
 
         <!-- ========== PLACEHOLDER CONTAINER ========== -->
         <include
-            android:id="@+id/layout_placeholder"
-            layout="@layout/layout_placeholder"/>
+            android:id="@+id/placeholderLayout"
+            layout="@layout/layout_placeholder" />
 
         <ProgressBar
             android:id="@+id/progressBar"
-            android:indeterminateTint="@color/YP_Blue"
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:layout_gravity="center"
+            android:indeterminateTint="@color/YP_Blue"
             android:visibility="gone" />
 
     </FrameLayout>

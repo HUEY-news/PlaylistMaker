@@ -57,12 +57,6 @@
     </style>
 
     <style name="SearchActivity.Header">
-        <!-- GENERAL OPTIONS -->
-        <item name="android:background">?attr/primaryBackgroundColor</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingVertical">14dp</item>
-        <!-- TEXT OPTIONS -->
         <item name="android:text">@string/search_screen_title</item>
         <item name="android:textColor">?attr/primaryTextColor</item>
         <item name="fontFamily">@font/ys_display_medium</item>
@@ -271,9 +265,9 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
-        <style name="Player.Button.PlayPause">
+        <style name="Player.Button.Play">
             <!-- ICON OPTIONS -->
-            <item name="android:src">?attr/buttonPlay</item>
+            <item name="android:src">@drawable/button_play_image</item>
             <item name="android:background">@null</item>
             <item name="android:tint">?attr/secondaryBackgroundColor</item>
         </style>
