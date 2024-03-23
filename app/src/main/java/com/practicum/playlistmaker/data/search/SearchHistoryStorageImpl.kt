@@ -4,8 +4,6 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.practicum.playlistmaker.domain.search.Track
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class SearchHistoryStorageImpl(
     private val prefs: SharedPreferences,
@@ -65,10 +63,10 @@ class SearchHistoryStorageImpl(
         }
     }
 
-    override fun getHistory(): Flow<ArrayList<Track>>  = flow {
+    override fun getHistory(): ArrayList<Track> {
         history.clear()
         loadHistory()
-        emit(history)
+        return (history)
     }
 
     companion object {

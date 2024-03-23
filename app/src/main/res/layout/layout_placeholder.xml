@@ -19,7 +19,7 @@
         android:id="@+id/placeholderText"
         style="@style/Placeholder.Text"
         android:layout_marginTop="16dp"
-        tools:text="@string/placeholder_internet_error" />
+        tools:text="@string/error_internet_text" />
 
     <Button
         android:id="@+id/placeholderButton"

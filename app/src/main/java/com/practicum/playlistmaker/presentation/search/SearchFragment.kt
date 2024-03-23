@@ -11,10 +11,13 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentSearchBinding
 import com.practicum.playlistmaker.domain.search.Track
 import com.practicum.playlistmaker.presentation.player.PlayerActivity
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
@@ -30,12 +33,12 @@ class SearchFragment : Fragment() {
 
     private var watcher: TextWatcher? = null
 
-    private lateinit var errorText: String
-    private lateinit var emptyErrorText: String
-    private lateinit var internetErrorText: String
-    private lateinit var serverErrorText: String
-    private var emptyErrorPlaceholder: Int = 0
-    private var internetErrorPlaceholder: Int = 0
+    private lateinit var errorPlaceholderText: String
+    private lateinit var errorEmptyText: String
+    private lateinit var errorInternetText: String
+    private lateinit var errorServerText: String
+    private var placeholderEmptyError: Int = 0
+    private var placeholderInternetError: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
@@ -45,12 +48,12 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        errorText = resources.getString(R.string.placeholder_error)
-        emptyErrorText = resources.getString(R.string.placeholder_empty_error)
-        internetErrorText = resources.getString(R.string.placeholder_internet_error)
-        serverErrorText = resources.getString(R.string.placeholder_server_error)
-        emptyErrorPlaceholder = R.drawable.empty_error_placeholder
-        internetErrorPlaceholder = R.drawable.internet_error_placeholder
+        errorPlaceholderText = resources.getString(R.string.error_placeholder_text)
+        errorEmptyText = resources.getString(R.string.error_empty_text)
+        errorInternetText = resources.getString(R.string.error_internet_text)
+        errorServerText = resources.getString(R.string.error_server_text)
+        placeholderEmptyError = R.drawable.empty_error_placeholder
+        placeholderInternetError = R.drawable.internet_error_placeholder
 
         searchResultAdapter = SearchAdapter { track -> onClickDebounce(track) }
         binding.searchResultRecycler.adapter = searchResultAdapter
@@ -146,21 +149,21 @@ class SearchFragment : Fragment() {
         showSearchHistory(false)
 
         when (errorMessage) {
-            emptyErrorText -> showEmptyPlaceholder(errorMessage)
-            internetErrorText -> showErrorPlaceHolder(errorMessage)
-            serverErrorText -> showErrorPlaceHolder(errorMessage)
+            errorEmptyText -> showEmptyPlaceholder(errorMessage)
+            errorInternetText -> showErrorPlaceHolder(errorMessage)
+            errorServerText -> showErrorPlaceHolder(errorMessage)
         }
     }
 
     private fun showEmptyPlaceholder(errorMessage: String) {
-        binding.placeholderLayout.placeholderIcon.setImageResource(emptyErrorPlaceholder)
+        binding.placeholderLayout.placeholderIcon.setImageResource(placeholderEmptyError)
         binding.placeholderLayout.placeholderText.text = errorMessage
         binding.placeholderLayout.placeholderButton.isVisible = false
     }
 
     private fun showErrorPlaceHolder(errorMessage: String) {
-        binding.placeholderLayout.placeholderIcon.setImageResource(internetErrorPlaceholder)
-        val resultErrorMessage = errorText + errorMessage
+        binding.placeholderLayout.placeholderIcon.setImageResource(placeholderInternetError)
+        val resultErrorMessage = errorPlaceholderText + errorMessage
         binding.placeholderLayout.placeholderText.text = resultErrorMessage
         binding.placeholderLayout.placeholderButton.isVisible = true
     }
@@ -183,7 +186,10 @@ class SearchFragment : Fragment() {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
-
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY)
+                isClickAllowed = true
+            }
         }
         return current
     }

@@ -20,6 +20,7 @@ import com.practicum.playlistmaker.domain.settings.SettingsRepository
 import com.practicum.playlistmaker.domain.settings.SharingInteractor
 import com.practicum.playlistmaker.domain.settings.SharingInteractorImpl
 import com.practicum.playlistmaker.domain.settings.SharingRepository
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val interactorModule = module {
@@ -33,7 +34,7 @@ val interactorModule = module {
 
 val repositoryModule = module {
 
-    single<TrackRepository> { TrackRepositoryImpl(client = get()) }
+    single<TrackRepository> { TrackRepositoryImpl(context = androidContext(), client = get()) }
     single<SearchHistoryRepository> { SearchHistoryRepositoryImpl(storage = get()) }
     single<PlayerRepository> { PlayerRepositoryImpl(player = get()) }
     single<SharingRepository> { SharingRepositoryImpl(externalNavigator = get()) }
