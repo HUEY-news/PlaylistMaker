@@ -2,8 +2,10 @@ package com.practicum.playlistmaker.di
 
 import android.content.Context
 import android.media.MediaPlayer
+import androidx.room.Room
 import com.google.gson.Gson
 import com.practicum.playlistmaker.app.PREFERENCES_FOLDER_NAME
+import com.practicum.playlistmaker.data.db.AppDatabase
 import com.practicum.playlistmaker.data.network.NetworkClient
 import com.practicum.playlistmaker.data.network.RetrofitNetworkClient
 import com.practicum.playlistmaker.data.network.iTunesApiService
@@ -34,6 +36,7 @@ val dataModule = module {
     single<SettingsLocalStorage> { SettingsLocalStorageImpl(prefs = get()) }
     single<SearchHistoryStorage> { SearchHistoryStorageImpl(prefs = get(), gson = get()) }
     single { androidContext().getSharedPreferences(PREFERENCES_FOLDER_NAME, Context.MODE_PRIVATE) }
+    single { Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db").build() }
     single { Gson() }
 
     single<Player> { PlayerImpl(mediaPlayer = MediaPlayer()) }
