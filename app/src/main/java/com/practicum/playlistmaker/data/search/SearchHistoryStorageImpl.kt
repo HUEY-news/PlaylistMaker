@@ -3,11 +3,15 @@ package com.practicum.playlistmaker.data.search
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.practicum.playlistmaker.data.db.AppDatabase
 import com.practicum.playlistmaker.domain.search.Track
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class SearchHistoryStorageImpl(
     private val prefs: SharedPreferences,
-    private val gson: Gson
+    private val gson: Gson,
+    private val appDatabase: AppDatabase
 ): SearchHistoryStorage {
 
     private fun createJsonFromTrackList(trackList: ArrayList<Track>): String {
@@ -63,10 +67,12 @@ class SearchHistoryStorageImpl(
         }
     }
 
-    override fun getHistory(): ArrayList<Track> {
+    override fun getHistory(): Flow<List<Track>> = flow {
         history.clear()
         loadHistory()
-        return (history)
+        val idList = appDatabase.trackDao().getFavoriteIdList()
+        for (track in history) if (idList.contains(track.trackId)) track.isFavorite = true
+        emit(history)
     }
 
     companion object {

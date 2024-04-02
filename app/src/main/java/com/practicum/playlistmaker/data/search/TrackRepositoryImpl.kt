@@ -2,6 +2,7 @@ package com.practicum.playlistmaker.data.search
 
 import android.content.Context
 import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.data.db.AppDatabase
 import com.practicum.playlistmaker.data.dto.SearchRequest
 import com.practicum.playlistmaker.data.dto.SearchResponse
 import com.practicum.playlistmaker.data.network.NetworkClient
@@ -13,7 +14,8 @@ import kotlinx.coroutines.flow.flow
 
 class TrackRepositoryImpl(
     private val context: Context,
-    private val client: NetworkClient
+    private val client: NetworkClient,
+    private val appDatabase: AppDatabase
 ) : TrackRepository {
 
     private val errorEmptyText: String = context.resources.getString(R.string.error_empty_text)
@@ -27,7 +29,8 @@ class TrackRepositoryImpl(
             -1 -> emit(Resource.Error(errorInternetText))
 
             200 -> {
-                val data = (response as SearchResponse).results.map {
+                val trackDtoList = (response as SearchResponse).results
+                val trackList = trackDtoList.map {
                     Track(
                         trackId = it.trackId,
                         trackName = it.trackName,
@@ -41,7 +44,11 @@ class TrackRepositoryImpl(
                         previewUrl = it.previewUrl
                     )
                 }
-                if (data.isNotEmpty()) emit(Resource.Success(data))
+
+                val idList = appDatabase.trackDao().getFavoriteIdList()
+                for (track in trackList) if (idList.contains(track.trackId)) track.isFavorite = true
+
+                if (trackList.isNotEmpty()) emit(Resource.Success(trackList))
                 else emit(Resource.Error(errorEmptyText))
             }
             else -> emit(Resource.Error(errorServerText))

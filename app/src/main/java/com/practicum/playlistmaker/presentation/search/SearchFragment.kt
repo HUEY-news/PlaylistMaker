@@ -125,6 +125,11 @@ class SearchFragment : Fragment() {
         watcher?.let { watcher -> binding.searchField.addTextChangedListener(watcher) }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getHistory()
+    }
+
     private fun showContent(trackList: List<Track>) {
         showProgressBar(false)
         updateSearchResult(trackList)
