@@ -2,6 +2,7 @@ package com.practicum.playlistmaker.di
 
 import android.content.Context
 import android.media.MediaPlayer
+import androidx.room.Room
 import com.google.gson.Gson
 import com.practicum.playlistmaker.app.PREFERENCES_FOLDER_NAME
 import com.practicum.playlistmaker.data.network.NetworkClient
@@ -15,6 +16,7 @@ import com.practicum.playlistmaker.data.settings.ExternalNavigator
 import com.practicum.playlistmaker.data.settings.ExternalNavigatorImpl
 import com.practicum.playlistmaker.data.settings.SettingsLocalStorage
 import com.practicum.playlistmaker.data.settings.SettingsLocalStorageImpl
+import com.practicum.playlistmaker.db.AppDatabase
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -40,4 +42,5 @@ val dataModule = module {
     single { MediaPlayer() }
 
     single<ExternalNavigator> { ExternalNavigatorImpl(context = androidContext()) }
+    single { Room.databaseBuilder(androidContext(), AppDatabase::class.java, "database.db") }
 }
