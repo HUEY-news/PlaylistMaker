@@ -7,6 +7,8 @@ import com.practicum.playlistmaker.data.search.SearchHistoryRepositoryImpl
 import com.practicum.playlistmaker.data.search.TrackRepositoryImpl
 import com.practicum.playlistmaker.data.settings.SettingsRepositoryImpl
 import com.practicum.playlistmaker.data.settings.SharingRepositoryImpl
+import com.practicum.playlistmaker.domain.favorite.FavoriteInteractor
+import com.practicum.playlistmaker.domain.favorite.FavoriteInteractorImpl
 import com.practicum.playlistmaker.domain.favorite.FavoriteRepository
 import com.practicum.playlistmaker.domain.player.PlayerInteractor
 import com.practicum.playlistmaker.domain.player.PlayerInteractorImpl
@@ -33,6 +35,7 @@ val interactorModule = module {
     factory<PlayerInteractor> { PlayerInteractorImpl(repository = get()) }
     factory<SharingInteractor> { SharingInteractorImpl(repository = get()) }
     factory<SettingsInteractor> { SettingsInteractorImpl(repository = get()) }
+    factory<FavoriteInteractor> { FavoriteInteractorImpl(repository = get()) }
 }
 
 val repositoryModule = module {

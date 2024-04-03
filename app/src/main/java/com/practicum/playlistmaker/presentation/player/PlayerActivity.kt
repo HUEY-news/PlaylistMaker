@@ -22,8 +22,6 @@ class PlayerActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<PlayerViewModel>()
 
-    private lateinit var track: Track
-
     private var playButtonImage: Int = 0
     private var pauseButtonImage: Int = 0
 
@@ -44,9 +42,9 @@ class PlayerActivity : AppCompatActivity() {
             }
         }
 
-        if (getTrack() != null) track = getTrack()!!
+        val track = getTrack()
         with (binding) {
-            textViewTrackName.text = track.trackName
+            textViewTrackName.text = track?.trackName!!
             textViewArtistName.text = track.artistName
             textViewTrackInfoDurationContent.text = convertTime(track.trackTimeMillis)
             textViewTrackInfoYearContent.text = track.collectionName
@@ -57,17 +55,15 @@ class PlayerActivity : AppCompatActivity() {
 
         Glide
             .with(applicationContext)
-            .load(convertArtwork(track.artworkUrl100))
+            .load(convertArtwork(track?.artworkUrl100!!))
             .placeholder(R.drawable.ic_placeholder_artwork_240)
             .transform(RoundedCorners(convertPixel(4f, this)))
             .into(binding.imageViewArtwork512)
 
         binding.buttonBack.setOnClickListener { finish() }
         binding.buttonPlay.setOnClickListener { viewModel.onPlayButtonClicked() }
-    }
+        binding.buttonFavorite.setOnClickListener { viewModel.onFavoriteClicked(track) }
 
-    override fun onResume() {
-        super.onResume()
         viewModel.initPlayer(track)
     }
 
