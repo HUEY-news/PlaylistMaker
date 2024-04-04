@@ -19,10 +19,17 @@ class PlayerViewModel(
 ) : ViewModel() {
 
     private var timerJob: Job? = null
+    private lateinit var favouriteTrackList: List<Track>
+
+    private val currentTrack = MutableLiveData<Track>()
+    fun observeCurrentTrack(): LiveData<Track> = currentTrack
 
     private val playerState = MutableLiveData<PlayerState>(PlayerState.Default())
     fun observePlayerState(): LiveData<PlayerState> = playerState
     private fun renderState(state: PlayerState) { playerState.postValue(state) }
+
+    private val isFavorite = MutableLiveData<Boolean>()
+    fun observeFavorite(): LiveData<Boolean> = isFavorite
 
     init {
         viewModelScope.launch {
@@ -31,11 +38,7 @@ class PlayerViewModel(
                     is PlayerState.Default -> renderState(PlayerState.Default())
                     is PlayerState.Prepared -> renderState(PlayerState.Prepared())
                     is PlayerState.Paused -> renderState(PlayerState.Paused(getCurrentPlayerPosition()))
-                    is PlayerState.Playing -> renderState(
-                        PlayerState.Playing(
-                            getCurrentPlayerPosition()
-                        )
-                    )
+                    is PlayerState.Playing -> renderState(PlayerState.Playing(getCurrentPlayerPosition()))
                 }
             }
         }
@@ -58,26 +61,29 @@ class PlayerViewModel(
         }
     }
 
-    private val isFavorite = MutableLiveData<Boolean>()
-    fun observeFavorite(): LiveData<Boolean> = isFavorite
-
-    fun onFavoriteClicked(track: Track) {
+    fun onFavoriteClicked() {
         viewModelScope.launch {
-            if (track.isFavorite) {
-                favoriteInteractor.removeTrackFromFavoriteList(track)
-                track.isFavorite = false
-                Log.e("TEST", "isFavorite = ${track.isFavorite}")
-            }
-            else {
-                favoriteInteractor.addTrackToFavoriteList(track)
-                track.isFavorite = true
-                Log.i("TEST", "isFavorite = ${track.isFavorite}")
+            currentTrack.value?.let { track ->
+                if (track.isFavorite) {
+                    favoriteInteractor.removeTrackFromFavoriteList(track)
+                    track.isFavorite = false
+                    isFavorite.postValue(false)
+                    Log.e("TEST", "isFavorite = ${track.isFavorite}")
+                } else {
+                    favoriteInteractor.addTrackToFavoriteList(track)
+                    track.isFavorite = true
+                    isFavorite.postValue(true)
+                    Log.i("TEST", "isFavorite = ${track.isFavorite}")
+                }
             }
         }
     }
 
-    fun initPlayer(track: Track) {
-        playerInteractor.initPlayer(track.previewUrl)
+    fun initPlayer(track: Track?) {
+        track?.let { notNullTrack ->
+            currentTrack.postValue(notNullTrack)
+            playerInteractor.initPlayer(notNullTrack.previewUrl)
+        }
     }
 
     private fun startPlayer() {

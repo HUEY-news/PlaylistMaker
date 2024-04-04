@@ -33,6 +33,14 @@ class PlayerActivity : AppCompatActivity() {
         playButtonImage = R.drawable.button_play_image
         pauseButtonImage = R.drawable.button_pause_image
 
+        if (!viewModel.observeCurrentTrack().isInitialized) {
+            viewModel.initPlayer(getTrack())
+        }
+
+        viewModel.observeCurrentTrack().observe(this) { track ->
+            updateUI(track)
+        }
+
         viewModel.observePlayerState().observe(this) { playerState ->
             binding.buttonPlay.isEnabled = playerState.isPlayButtonEnabled
             binding.textViewTrackTimer.text = playerState.progress
@@ -42,29 +50,13 @@ class PlayerActivity : AppCompatActivity() {
             }
         }
 
-        val track = getTrack()
-        with (binding) {
-            textViewTrackName.text = track?.trackName!!
-            textViewArtistName.text = track.artistName
-            textViewTrackInfoDurationContent.text = convertTime(track.trackTimeMillis)
-            textViewTrackInfoYearContent.text = track.collectionName
-            textViewTrackInfoYearContent.text = convertDate(track.releaseDate)
-            textViewTrackInfoGenreContent.text = track.primaryGenreName
-            textViewTrackInfoCountryContent.text = track.country
+        viewModel.observeFavorite().observe(this) { isFavorite ->
+            updateFavoriteButton(isFavorite)
         }
-
-        Glide
-            .with(applicationContext)
-            .load(convertArtwork(track?.artworkUrl100!!))
-            .placeholder(R.drawable.ic_placeholder_artwork_240)
-            .transform(RoundedCorners(convertPixel(4f, this)))
-            .into(binding.imageViewArtwork512)
 
         binding.buttonBack.setOnClickListener { finish() }
         binding.buttonPlay.setOnClickListener { viewModel.onPlayButtonClicked() }
-        binding.buttonFavorite.setOnClickListener { viewModel.onFavoriteClicked(track) }
-
-        viewModel.initPlayer(track)
+        binding.buttonFavorite.setOnClickListener { viewModel.onFavoriteClicked() }
     }
 
     override fun onPause() {
@@ -85,6 +77,31 @@ class PlayerActivity : AppCompatActivity() {
 
     private fun showPlayButton() { binding.buttonPlay.setImageResource(playButtonImage) }
     private fun showPauseButton() { binding.buttonPlay.setImageResource(pauseButtonImage)}
+
+    private fun updateFavoriteButton(isFavorite: Boolean) {
+        if (isFavorite) binding.buttonFavorite.setImageResource(R.drawable.button_favorite_enabled_image)
+        else binding.buttonFavorite.setImageResource(R.drawable.button_favorite_disabled_image)
+    }
+
+    private fun updateUI(track: Track) {
+        with (binding) {
+            textViewTrackName.text = track.trackName
+            textViewArtistName.text = track.artistName
+            textViewTrackInfoDurationContent.text = convertTime(track.trackTimeMillis)
+            textViewTrackInfoYearContent.text = track.collectionName
+            textViewTrackInfoYearContent.text = convertDate(track.releaseDate)
+            textViewTrackInfoGenreContent.text = track.primaryGenreName
+            textViewTrackInfoCountryContent.text = track.country
+            updateFavoriteButton(track.isFavorite)
+        }
+
+        Glide
+            .with(applicationContext)
+            .load(convertArtwork(track.artworkUrl100))
+            .placeholder(R.drawable.ic_placeholder_artwork_240)
+            .transform(RoundedCorners(convertPixel(4f, this)))
+            .into(binding.imageViewArtwork512)
+    }
 
     companion object {
         const val TRACK_ID = "TRACK_ID"
