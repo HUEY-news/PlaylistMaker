@@ -17,7 +17,6 @@ class LibraryFragment: Fragment() {
     private lateinit var mediator: TabLayoutMediator
 
     private var emptyPlaceholder: Int = 0
-    private lateinit var emptyFavouriteMessage: String
     private lateinit var emptyPlaylistMessage: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -29,15 +28,12 @@ class LibraryFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         emptyPlaceholder = R.drawable.empty_error_placeholder
-        emptyFavouriteMessage = resources.getString(R.string.empty_favourite_message)
         emptyPlaylistMessage = resources.getString(R.string.empty_playlist_message)
-
 
         binding.viewPager.adapter = LibraryPagerAdapter(
             fragmentManager = childFragmentManager,
             lifecycle = lifecycle,
             placeholder = emptyPlaceholder,
-            emptyFavouriteMessage = emptyFavouriteMessage,
             emptyPlaylistMessage = emptyPlaylistMessage
         )
 

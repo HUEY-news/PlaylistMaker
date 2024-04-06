@@ -19,7 +19,6 @@ class PlayerViewModel(
 ) : ViewModel() {
 
     private var timerJob: Job? = null
-    private lateinit var favouriteTrackList: List<Track>
 
     private val currentTrack = MutableLiveData<Track>()
     fun observeCurrentTrack(): LiveData<Track> = currentTrack

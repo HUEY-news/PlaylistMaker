@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.presentation.search
+package com.practicum.playlistmaker.presentation.track
 
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
@@ -10,7 +10,7 @@ import com.practicum.playlistmaker.domain.search.Track
 import com.practicum.playlistmaker.util.convertPixel
 import com.practicum.playlistmaker.util.convertTime
 
-class SearchViewHolder(
+class TrackViewHolder(
     private val binding: ItemTrackBinding,
     onItemClick: (position: Int) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {

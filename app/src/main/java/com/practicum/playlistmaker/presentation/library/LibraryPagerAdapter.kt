@@ -9,7 +9,6 @@ class LibraryPagerAdapter(
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle,
     private val placeholder: Int,
-    private val emptyFavouriteMessage: String,
     private val emptyPlaylistMessage: String
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
@@ -17,7 +16,7 @@ class LibraryPagerAdapter(
 
     override fun createFragment(position: Int): Fragment =
         when (position) {
-            0 -> LibraryFavouriteFragment.newInstance(placeholder, emptyFavouriteMessage)
+            0 -> LibraryFavouriteFragment()
             else -> LibraryPlaylistFragment.newInstance(placeholder, emptyPlaylistMessage)
         }
 }

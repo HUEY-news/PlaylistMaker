@@ -13,15 +13,15 @@ class LibraryFavouriteViewModel(
 
     private val currentState = MutableLiveData<FavoriteState>()
     fun observeCurrentState(): LiveData<FavoriteState> = currentState
-    private fun renderState(state: FavoriteState) {currentState.postValue(state)}
+    private fun renderState(state: FavoriteState) { currentState.postValue(state) }
 
     init {
         viewModelScope.launch {
             favoriteInteractor
                 .getFavoriteTrackList()
                 .collect { trackList ->
-                    if (trackList.isNotEmpty()) renderState(FavoriteState.Content(trackList))
-                    else renderState(FavoriteState.Empty)
+                    if (trackList.isEmpty()) renderState(FavoriteState.Empty)
+                    else renderState(FavoriteState.Content(trackList))
                 }
         }
     }
