@@ -71,7 +71,7 @@ class SearchHistoryStorageImpl(
         history.clear()
         loadHistory()
         val idList = appDatabase.trackDao().getFavoriteIdList()
-        for (track in history) if (idList.contains(track.trackId)) track.isFavorite = true
+        for (track in history) track.isFavorite = idList.contains(track.trackId)
         emit(history)
     }
 

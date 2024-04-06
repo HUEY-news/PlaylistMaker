@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flow
 class FavoriteRepositoryImpl(
     private val appDatabase: AppDatabase,
     private val trackDbConvertor: TrackDbConvertor
-): FavoriteRepository {
+) : FavoriteRepository {
 
     override suspend fun addTrackToFavoriteList(track: Track) {
         val trackEntity = trackDbConvertor.map(track)
@@ -25,7 +25,9 @@ class FavoriteRepositoryImpl(
 
     override fun getFavoriteTrackList(): Flow<List<Track>> = flow {
         val trackEntityList = appDatabase.trackDao().getFavoriteTrackList()
-        val trackList = convertFromTrackEntity(trackEntityList.sortedBy { it.addingTime })
+        val trackList = convertFromTrackEntity(trackEntityList.sortedByDescending { it.addingTime })
+        val idList = appDatabase.trackDao().getFavoriteIdList()
+        for (track in trackList) track.isFavorite = idList.contains(track.trackId)
         emit(trackList)
     }
 

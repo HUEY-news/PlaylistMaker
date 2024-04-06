@@ -15,7 +15,11 @@ class LibraryFavouriteViewModel(
     fun observeCurrentState(): LiveData<FavoriteState> = currentState
     private fun renderState(state: FavoriteState) { currentState.postValue(state) }
 
-    init {
+    init { updateCurrentState() }
+
+    fun onResume() { updateCurrentState() }
+
+    private fun updateCurrentState() {
         viewModelScope.launch {
             favoriteInteractor
                 .getFavoriteTrackList()

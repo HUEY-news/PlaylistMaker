@@ -2,13 +2,13 @@ package com.practicum.playlistmaker.presentation.library
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.practicum.playlistmaker.databinding.FragmentFavouriteBinding
 import com.practicum.playlistmaker.domain.search.Track
 import com.practicum.playlistmaker.presentation.player.PlayerActivity
@@ -33,7 +33,10 @@ class LibraryFavouriteFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         favoriteListAdapter = TrackAdapter { track -> onClickDebounce(track) }
+        binding.favoriteTrackList.adapter = favoriteListAdapter
+        binding.favoriteTrackList.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel.observeCurrentState().observe(viewLifecycleOwner) { state ->
             when (state) {
@@ -43,19 +46,21 @@ class LibraryFavouriteFragment: Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
+    }
+
     private fun showContent(trackList: List<Track>) {
+        showEmptyPlaceholder(false)
         updateFavoriteList(trackList)
         showFavoriteList(true)
-        showEmptyPlaceholder(false)
-        Log.d("TEST", "showContent: $trackList")
     }
 
     private fun showEmpty() {
+        showEmptyPlaceholder(true)
         updateFavoriteList(listOf())
         showFavoriteList(false)
-        showEmptyPlaceholder(true)
-        Log.d("TEST", "showEmpty")
-
     }
 
     private fun updateFavoriteList(trackList: List<Track>) { favoriteListAdapter?.setItems(trackList) }

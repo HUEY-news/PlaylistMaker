@@ -92,8 +92,9 @@ class PlayerActivity : AppCompatActivity() {
             textViewTrackInfoYearContent.text = convertDate(track.releaseDate)
             textViewTrackInfoGenreContent.text = track.primaryGenreName
             textViewTrackInfoCountryContent.text = track.country
-            updateFavoriteButton(track.isFavorite)
         }
+
+        updateFavoriteButton(track.isFavorite)
 
         Glide
             .with(applicationContext)
