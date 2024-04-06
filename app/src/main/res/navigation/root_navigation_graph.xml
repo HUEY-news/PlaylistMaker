@@ -39,4 +39,14 @@
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
 
+    <fragment
+        android:id="@+id/libraryFavoriteFragment"
+        android:name="com.practicum.playlistmaker.presentation.library.LibraryFavoriteFragment"
+        android:label="fragment_favourite"
+        tools:layout="@layout/fragment_favourite" >
+        <action
+            android:id="@+id/action_libraryFavoriteFragment_to_playerActivity"
+            app:destination="@id/playerActivity" />
+    </fragment>
+
 </navigation>

@@ -17,12 +17,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LibraryFavouriteFragment: Fragment() {
+class LibraryFavoriteFragment: Fragment() {
 
     private var _binding: FragmentFavouriteBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModel<LibraryFavouriteViewModel>()
+    private val viewModel by viewModel<LibraryFavoriteViewModel>()
 
     private var favoriteListAdapter: TrackAdapter? = null
 

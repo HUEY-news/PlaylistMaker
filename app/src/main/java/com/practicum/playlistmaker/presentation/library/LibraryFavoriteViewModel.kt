@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.domain.favorite.FavoriteInteractor
 import kotlinx.coroutines.launch
 
-class LibraryFavouriteViewModel(
+class LibraryFavoriteViewModel(
     private val favoriteInteractor: FavoriteInteractor
 ): ViewModel() {
 

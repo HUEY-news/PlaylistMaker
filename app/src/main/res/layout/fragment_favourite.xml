@@ -1,16 +1,19 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/primaryBackgroundColor"
     android:orientation="vertical"
-    android:theme="@style/Base.Theme.PlaylistMaker.Library">
+    android:theme="@style/Base.Theme.PlaylistMaker.Library"
+    tools:context=".presentation.library.LibraryFavoriteFragment">
 
 
     <LinearLayout
         android:id="@+id/placeholderContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/placeholderIcon"
@@ -27,7 +30,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/favoriteTrackList"
-        android:layout_marginTop="16dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp" />
 </FrameLayout>
