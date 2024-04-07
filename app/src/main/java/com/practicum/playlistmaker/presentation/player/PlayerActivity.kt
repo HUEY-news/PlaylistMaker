@@ -88,7 +88,7 @@ class PlayerActivity : AppCompatActivity() {
             textViewTrackName.text = track.trackName
             textViewArtistName.text = track.artistName
             textViewTrackInfoDurationContent.text = convertTime(track.trackTimeMillis)
-            textViewTrackInfoYearContent.text = track.collectionName
+            textViewTrackInfoAlbumContent.text = track.collectionName
             textViewTrackInfoYearContent.text = convertDate(track.releaseDate)
             textViewTrackInfoGenreContent.text = track.primaryGenreName
             textViewTrackInfoCountryContent.text = track.country
