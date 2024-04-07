@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.practicum.playlistmaker.domain.favorite.FavoriteInteractor
 import com.practicum.playlistmaker.domain.player.PlayerInteractor
 import com.practicum.playlistmaker.domain.player.PlayerState
 import com.practicum.playlistmaker.domain.search.Track
@@ -11,17 +12,26 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class PlayerViewModel(private val interactor: PlayerInteractor): ViewModel() {
+class PlayerViewModel(
+    private val playerInteractor: PlayerInteractor,
+    private val favoriteInteractor: FavoriteInteractor
+) : ViewModel() {
 
     private var timerJob: Job? = null
+
+    private val currentTrack = MutableLiveData<Track>()
+    fun observeCurrentTrack(): LiveData<Track> = currentTrack
 
     private val playerState = MutableLiveData<PlayerState>(PlayerState.Default())
     fun observePlayerState(): LiveData<PlayerState> = playerState
     private fun renderState(state: PlayerState) { playerState.postValue(state) }
 
+    private val isFavorite = MutableLiveData<Boolean>()
+    fun observeFavorite(): LiveData<Boolean> = isFavorite
+
     init {
-        viewModelScope.launch{
-            interactor.getPlayerStateFlow().collect { state ->
+        viewModelScope.launch {
+            playerInteractor.getPlayerStateFlow().collect { state ->
                 when (state) {
                     is PlayerState.Default -> renderState(PlayerState.Default())
                     is PlayerState.Prepared -> renderState(PlayerState.Prepared())
@@ -49,34 +59,53 @@ class PlayerViewModel(private val interactor: PlayerInteractor): ViewModel() {
         }
     }
 
-    fun initPlayer(track: Track) {
-        interactor.initPlayer(track.previewUrl)
+    fun onFavoriteClicked() {
+        viewModelScope.launch {
+            currentTrack.value?.let { track ->
+                if (track.isFavorite) {
+                    favoriteInteractor.removeTrackFromFavoriteList(track)
+                    track.isFavorite = false
+                    isFavorite.postValue(false)
+                } else {
+                    favoriteInteractor.addTrackToFavoriteList(track)
+                    track.isFavorite = true
+                    isFavorite.postValue(true)
+                }
+            }
+        }
+    }
+
+    fun initPlayer(track: Track?) {
+        track?.let { notNullTrack ->
+            currentTrack.postValue(notNullTrack)
+            playerInteractor.initPlayer(notNullTrack.previewUrl)
+        }
     }
 
     private fun startPlayer() {
-        interactor.startPlayer()
+        playerInteractor.startPlayer()
         renderState(PlayerState.Playing(getCurrentPlayerPosition()))
         startTimer()
     }
 
     private fun pausePlayer() {
-        interactor.pausePlayer()
+        playerInteractor.pausePlayer()
         timerJob?.cancel()
         renderState(PlayerState.Paused(getCurrentPlayerPosition()))
     }
 
     fun releasePlayer() {
-        interactor.releasePlayer()
+        playerInteractor.releasePlayer()
         renderState(PlayerState.Default())
     }
 
     private fun startTimer() {
         timerJob?.cancel()
         timerJob = viewModelScope.launch {
-            while (interactor.isPlaying()) {
+            while (playerInteractor.isPlaying()) {
                 delay(300L)
                 renderState(PlayerState.Playing(getCurrentPlayerPosition()))
-                if (interactor.isPlaying() == false) {
+                if (playerInteractor.isPlaying() == false) {
                     timerJob?.cancel()
                     renderState(PlayerState.Paused(getCurrentPlayerPosition()))
                 }
@@ -84,5 +113,5 @@ class PlayerViewModel(private val interactor: PlayerInteractor): ViewModel() {
         }
     }
 
-    private fun getCurrentPlayerPosition(): String = interactor.getCurrentPlayerPosition()
+    private fun getCurrentPlayerPosition(): String = playerInteractor.getCurrentPlayerPosition()
 }

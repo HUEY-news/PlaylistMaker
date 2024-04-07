@@ -16,6 +16,7 @@ import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentSearchBinding
 import com.practicum.playlistmaker.domain.search.Track
 import com.practicum.playlistmaker.presentation.player.PlayerActivity
+import com.practicum.playlistmaker.presentation.track.TrackAdapter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -28,8 +29,8 @@ class SearchFragment : Fragment() {
     private val viewModel by viewModel<SearchViewModel>()
 
     private val searchHistoryTrackList: ArrayList<Track> = arrayListOf()
-    private var searchResultAdapter: SearchAdapter? = null
-    private var searchHistoryAdapter: SearchAdapter? = null
+    private var searchResultAdapter: TrackAdapter? = null
+    private var searchHistoryAdapter: TrackAdapter? = null
 
     private var watcher: TextWatcher? = null
 
@@ -55,10 +56,10 @@ class SearchFragment : Fragment() {
         placeholderEmptyError = R.drawable.empty_error_placeholder
         placeholderInternetError = R.drawable.internet_error_placeholder
 
-        searchResultAdapter = SearchAdapter { track -> onClickDebounce(track) }
+        searchResultAdapter = TrackAdapter { track -> onClickDebounce(track) }
         binding.searchResultRecycler.adapter = searchResultAdapter
 
-        searchHistoryAdapter = SearchAdapter { track -> onClickDebounce(track) }
+        searchHistoryAdapter = TrackAdapter { track -> onClickDebounce(track) }
         binding.searchHistoryLayout.searchHistoryRecycler.adapter = searchHistoryAdapter
 
         viewModel.getSearchHistoryLiveData().observe(viewLifecycleOwner) { trackList ->
@@ -123,6 +124,11 @@ class SearchFragment : Fragment() {
             }
         }
         watcher?.let { watcher -> binding.searchField.addTextChangedListener(watcher) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getHistory()
     }
 
     private fun showContent(trackList: List<Track>) {

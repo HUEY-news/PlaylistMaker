@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.presentation.search
+package com.practicum.playlistmaker.presentation.track
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.databinding.ItemTrackBinding
 import com.practicum.playlistmaker.domain.search.Track
 
-class SearchAdapter(
+class TrackAdapter(
     private val onItemClick: (track: Track) -> Unit
-) : RecyclerView.Adapter<SearchViewHolder>() {
+) : RecyclerView.Adapter<TrackViewHolder>() {
     private var trackList: List<Track> = emptyList()
 
     fun setItems(items: List<Track>) {
@@ -16,9 +16,9 @@ class SearchAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val layoutInspector = LayoutInflater.from(parent.context)
-        return SearchViewHolder(ItemTrackBinding.inflate(layoutInspector, parent, false))
+        return TrackViewHolder(ItemTrackBinding.inflate(layoutInspector, parent, false))
         { position: Int ->
             if (position != RecyclerView.NO_POSITION) {
                 trackList.getOrNull(position)?.let { track ->
@@ -32,7 +32,7 @@ class SearchAdapter(
         return trackList.size
     }
 
-    override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
         trackList.getOrNull(position)?.let { track ->
             holder.bind(track)
         }

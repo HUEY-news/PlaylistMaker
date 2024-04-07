@@ -1,22 +1,36 @@
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/primaryBackgroundColor"
     android:orientation="vertical"
-    android:theme="@style/Base.Theme.PlaylistMaker.Library">
+    android:theme="@style/Base.Theme.PlaylistMaker.Library"
+    tools:context=".presentation.library.LibraryFavoriteFragment">
 
-    <ImageView
-        android:id="@+id/placeholderIcon"
-        style="@style/Placeholder"
-        android:layout_marginTop="104dp"
-        tools:src="@drawable/empty_error_placeholder" />
 
-    <TextView
-        android:id="@+id/placeholderText"
-        style="@style/Placeholder.Text"
-        android:layout_marginTop="16dp"
-        tools:text="@string/empty_favourite_message" />
+    <LinearLayout
+        android:id="@+id/placeholderContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/placeholderIcon"
+            style="@style/Placeholder"
+            android:layout_marginTop="104dp"
+            android:src="@drawable/empty_error_placeholder" />
+
+        <TextView
+            android:id="@+id/placeholderText"
+            style="@style/Placeholder.Text"
+            android:layout_marginTop="16dp"
+            android:text="@string/empty_favourite_message" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favoriteTrackList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp" />
+</FrameLayout>

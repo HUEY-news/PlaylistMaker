@@ -14,14 +14,14 @@ import kotlinx.coroutines.launch
 class SearchViewModel(
     private val trackInteractor: TrackInteractor,
     private val searchHistoryInteractor: SearchHistoryInteractor
-): ViewModel() {
+) : ViewModel() {
 
     private var lastQuery: String? = null
     private var searchJob: Job? = null
 
     private var searchStateLiveData = MutableLiveData<SearchState>()
     fun getSearchStateLiveData(): LiveData<SearchState> = searchStateLiveData
-    private var searchHistoryLiveData = MutableLiveData<List<Track>>(getHistory())
+    private var searchHistoryLiveData = MutableLiveData<List<Track>>()
     fun getSearchHistoryLiveData(): LiveData<List<Track>> = searchHistoryLiveData
 
     private fun renderState(state: SearchState) {
@@ -44,11 +44,22 @@ class SearchViewModel(
 
     fun addTrackToHistory(track: Track) {
         searchHistoryInteractor.addTrackToHistory(track)
-        searchHistoryLiveData.postValue(getHistory())
+        getHistory()
     }
 
-    private fun getHistory(): List<Track> = searchHistoryInteractor.getHistory()
-    fun clearHistory() { searchHistoryInteractor.clearHistory() }
+    fun getHistory() {
+        viewModelScope.launch {
+            searchHistoryInteractor
+                .getHistory()
+                .collect { trackList ->
+                    searchHistoryLiveData.postValue(trackList)
+                }
+        }
+    }
+
+    fun clearHistory() {
+        searchHistoryInteractor.clearHistory()
+    }
 
     fun searchDebounce(text: String) {
         if (lastQuery != text) {

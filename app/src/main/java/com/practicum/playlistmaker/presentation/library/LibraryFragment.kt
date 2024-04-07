@@ -1,7 +1,6 @@
 package com.practicum.playlistmaker.presentation.library
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,13 +17,7 @@ class LibraryFragment: Fragment() {
     private lateinit var mediator: TabLayoutMediator
 
     private var emptyPlaceholder: Int = 0
-    private lateinit var emptyFavouriteMessage: String
     private lateinit var emptyPlaylistMessage: String
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.i("TEST", "LIBRARY FRAGMENT CREATED")
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentLibraryBinding.inflate(inflater, container, false)
@@ -35,15 +28,12 @@ class LibraryFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         emptyPlaceholder = R.drawable.empty_error_placeholder
-        emptyFavouriteMessage = resources.getString(R.string.empty_favourite_message)
         emptyPlaylistMessage = resources.getString(R.string.empty_playlist_message)
-
 
         binding.viewPager.adapter = LibraryPagerAdapter(
             fragmentManager = childFragmentManager,
             lifecycle = lifecycle,
             placeholder = emptyPlaceholder,
-            emptyFavouriteMessage = emptyFavouriteMessage,
             emptyPlaylistMessage = emptyPlaylistMessage
         )
 
@@ -57,10 +47,5 @@ class LibraryFragment: Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         mediator.detach()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.e("TEST", "LIBRARY FRAGMENT DESTROYED")
     }
 }
