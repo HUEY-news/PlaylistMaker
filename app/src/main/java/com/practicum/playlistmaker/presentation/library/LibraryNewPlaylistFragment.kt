@@ -1,6 +1,8 @@
 package com.practicum.playlistmaker.presentation.library
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +22,15 @@ class LibraryNewPlaylistFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.inputFieldPlaylistName.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                val title = s.toString()
+                binding.buttonCreate.isEnabled = title.isNotEmpty()
+            }
+        })
 
         binding.buttonBack.setOnClickListener { findNavController().navigateUp() }
     }
