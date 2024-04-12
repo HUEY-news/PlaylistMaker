@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlaylistBinding
 
 class LibraryPlaylistFragment : Fragment() {
@@ -14,11 +16,7 @@ class LibraryPlaylistFragment : Fragment() {
     private val binding get() = _binding!!
     private var placeholder: Int = 0
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentPlaylistBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -28,6 +26,10 @@ class LibraryPlaylistFragment : Fragment() {
         placeholder = requireArguments().getInt(PLACEHOLDER)
         binding.placeholderIcon.setImageResource(placeholder)
         binding.placeholderText.text = requireArguments().getString(MESSAGE)
+
+        binding.placeholderButton.setOnClickListener {
+            requireParentFragment().findNavController().navigate(R.id.action_create_new_playlist)
+        }
     }
 
     companion object {

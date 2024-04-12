@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:background="?attr/primaryBackgroundColor"
     android:orientation="vertical"
-    android:theme="@style/Base.Theme.PlaylistMaker.Library">
+    android:theme="@style/Base.Theme.PlaylistMaker.Library"
+    tools:context=".presentation.library.LibraryPlaylistFragment">
 
     <Button
         android:id="@+id/placeholderButton"

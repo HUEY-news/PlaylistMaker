@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_navigation_graph"
@@ -13,7 +15,6 @@
         <action
             android:id="@+id/action_searchFragment_to_playerActivity"
             app:destination="@id/playerActivity"
-
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/hold"
             app:popEnterAnim="@anim/hold"
@@ -31,7 +32,11 @@
         android:id="@+id/libraryFragment"
         android:name="com.practicum.playlistmaker.presentation.library.LibraryFragment"
         android:label="fragment_library"
-        tools:layout="@layout/fragment_library" />
+        tools:layout="@layout/fragment_library" >
+        <action
+            android:id="@+id/action_create_new_playlist"
+            app:destination="@id/libraryNewPlaylistFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/settingsFragment"
@@ -48,5 +53,16 @@
             android:id="@+id/action_libraryFavoriteFragment_to_playerActivity"
             app:destination="@id/playerActivity" />
     </fragment>
+    <fragment
+        android:id="@+id/libraryNewPlaylistFragment"
+        android:name="com.practicum.playlistmaker.presentation.library.LibraryNewPlaylistFragment"
+        android:label="fragment_new_playlist"
+        tools:layout="@layout/fragment_new_playlist" />
+
+    <fragment
+        android:id="@+id/libraryPlaylistFragment"
+        android:name="com.practicum.playlistmaker.presentation.library.LibraryPlaylistFragment"
+        android:label="fragment_playlist"
+        tools:layout="@layout/fragment_playlist" />
 
 </navigation>
