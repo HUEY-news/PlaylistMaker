@@ -1,5 +1,6 @@
 package com.practicum.playlistmaker.presentation.library
 
+import android.app.AlertDialog
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -7,15 +8,20 @@ import android.os.Bundle
 import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentNewPlaylistBinding
 import java.io.File
 import java.io.FileOutputStream
@@ -25,7 +31,11 @@ class LibraryNewPlaylistFragment : Fragment() {
     private var _binding: FragmentNewPlaylistBinding? = null
     private val binding get() = _binding!!
 
-    private var albumCoverUri: Uri? = null
+    private lateinit var confirmDialog: MaterialAlertDialogBuilder
+
+    private var coverImageUri: Uri? = null
+    private var coverImageName: String = ""
+    private var coverImageDescription: String = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentNewPlaylistBinding.inflate(inflater, container, false)
@@ -39,18 +49,24 @@ class LibraryNewPlaylistFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                val title = s.toString()
-                binding.buttonCreate.isEnabled = title.isNotEmpty()
+                coverImageName = s.toString()
+                binding.buttonCreate.isEnabled = coverImageName.isNotEmpty()
+            }
+        })
+
+        binding.editFieldPlaylistDescription.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                coverImageDescription = s.toString()
             }
         })
 
         val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-                if (uri != null) {
-                    albumCoverUri = uri
+                uri?.let {
+                    coverImageUri = uri
                     binding.playlistImageAdd.setImageURI(uri)
                     binding.playlistImageAdd.scaleType = ImageView.ScaleType.CENTER_CROP
-                } else {
-                    Toast.makeText(requireContext(), "ERROR: no media selected", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -58,21 +74,46 @@ class LibraryNewPlaylistFragment : Fragment() {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
-        binding.buttonBack.setOnClickListener { findNavController().navigateUp() }
+        confirmDialog = MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Завершить создание плейлиста?")
+            .setMessage("Все несохраненные данные будут потеряны")
+            .setNeutralButton("Отмена") { _, _ -> }
+            .setNegativeButton("Завершить") { _, _-> findNavController().navigateUp() }
+
+        binding.buttonBack.setOnClickListener { checkDialog() }
+        requireActivity().onBackPressedDispatcher.addCallback(object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() { checkDialog() }
+        })
+
         binding.buttonCreate.setOnClickListener {
-            albumCoverUri?.let { saveImageToPrivateStorage(it) }
+            coverImageUri?.let { saveImageToPrivateStorage(it) }
+            coverImageName = binding.editFieldPlaylistName.text.toString()
+            coverImageDescription = binding.editFieldPlaylistDescription.text.toString()
+            Toast.makeText(requireContext(), "Плейлист [ $coverImageName ] создан", Toast.LENGTH_SHORT).show()
+            findNavController().navigateUp()
         }
     }
 
     private fun saveImageToPrivateStorage(uri: Uri) {
-        val filePath = File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "albums")
+        val filePath = File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "PlaylistMaker")
         if (!filePath.exists()) filePath.mkdirs()
-        val file = File(filePath, binding.editFieldPlaylistName.text.toString())
+        val file = File(filePath, coverImageName)
         val inputStream = requireActivity().contentResolver.openInputStream(uri)
         val outputStream = FileOutputStream(file)
 
         BitmapFactory
             .decodeStream(inputStream)
             .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
+
+        Log.d("TEST", "directory exists: ${filePath.exists()}")
+        Log.d("TEST", "file exists: ${file.exists()}")
+    }
+
+    private fun checkDialog() {
+        if (coverImageUri != null || coverImageName.isNotEmpty() || coverImageDescription.isNotEmpty()) {
+            val dialog = confirmDialog.show()
+            dialog.getButton(AlertDialog.BUTTON_NEUTRAL)?.setTextColor(ContextCompat.getColor(requireContext(), R.color.YP_Blue))
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)?.setTextColor(ContextCompat.getColor(requireContext(), R.color.YP_Blue))
+        } else findNavController().navigateUp()
     }
 }
