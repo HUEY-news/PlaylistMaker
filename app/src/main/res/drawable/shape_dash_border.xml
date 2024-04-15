@@ -14,7 +14,9 @@
         android:dashWidth="32dp"
         android:dashGap="32dp" />
 
+    <solid android:color="?attr/primaryBackgroundColor" />
+
     <corners
-        android:radius="4dp" />
+        android:radius="8dp" />
 
 </shape>

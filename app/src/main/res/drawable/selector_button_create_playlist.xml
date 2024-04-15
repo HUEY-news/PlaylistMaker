@@ -8,7 +8,7 @@
                 android:width="328dp"
                 android:height="56dp" />
             <solid android:color="#3772E7" />
-            <corners android:radius="4dp" />
+            <corners android:radius="8dp" />
         </shape>
     </item>
 
@@ -18,7 +18,7 @@
                 android:width="328dp"
                 android:height="56dp" />
             <solid android:color="#AEAFB4" />
-            <corners android:radius="4dp" />
+            <corners android:radius="8dp" />
         </shape>
     </item>
 
