@@ -27,7 +27,7 @@ class LibraryPlaylistFragment : Fragment() {
         binding.placeholderIcon.setImageResource(placeholder)
         binding.placeholderText.text = requireArguments().getString(MESSAGE)
 
-        binding.placeholderButton.setOnClickListener {
+        binding.buttonNewPlaylist.setOnClickListener {
             requireParentFragment().findNavController().navigate(R.id.action_create_new_playlist)
         }
     }
