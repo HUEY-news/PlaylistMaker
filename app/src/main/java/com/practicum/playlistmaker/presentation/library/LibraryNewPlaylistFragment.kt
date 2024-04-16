@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -104,9 +103,6 @@ class LibraryNewPlaylistFragment : Fragment() {
         BitmapFactory
             .decodeStream(inputStream)
             .compress(Bitmap.CompressFormat.JPEG, 30, outputStream)
-
-        Log.d("TEST", "directory exists: ${filePath.exists()}")
-        Log.d("TEST", "file exists: ${file.exists()}")
     }
 
     private fun checkDialog() {

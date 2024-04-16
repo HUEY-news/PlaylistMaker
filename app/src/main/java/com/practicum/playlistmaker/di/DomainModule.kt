@@ -1,15 +1,19 @@
 package com.practicum.playlistmaker.di
 
-import com.practicum.playlistmaker.convertor.TrackDbConvertor
-import com.practicum.playlistmaker.data.favorite.FavoriteRepositoryImpl
+import com.practicum.playlistmaker.convertor.DbConvertor
+import com.practicum.playlistmaker.data.library.FavoriteRepositoryImpl
+import com.practicum.playlistmaker.data.library.PlaylistRepositoryImpl
 import com.practicum.playlistmaker.data.player.PlayerRepositoryImpl
 import com.practicum.playlistmaker.data.search.SearchHistoryRepositoryImpl
 import com.practicum.playlistmaker.data.search.TrackRepositoryImpl
 import com.practicum.playlistmaker.data.settings.SettingsRepositoryImpl
 import com.practicum.playlistmaker.data.settings.SharingRepositoryImpl
-import com.practicum.playlistmaker.domain.favorite.FavoriteInteractor
-import com.practicum.playlistmaker.domain.favorite.FavoriteInteractorImpl
-import com.practicum.playlistmaker.domain.favorite.FavoriteRepository
+import com.practicum.playlistmaker.domain.library.FavoriteInteractor
+import com.practicum.playlistmaker.domain.library.FavoriteInteractorImpl
+import com.practicum.playlistmaker.domain.library.FavoriteRepository
+import com.practicum.playlistmaker.domain.library.PlaylistInteractor
+import com.practicum.playlistmaker.domain.library.PlaylistInteractorImpl
+import com.practicum.playlistmaker.domain.library.PlaylistRepository
 import com.practicum.playlistmaker.domain.player.PlayerInteractor
 import com.practicum.playlistmaker.domain.player.PlayerInteractorImpl
 import com.practicum.playlistmaker.domain.player.PlayerRepository
@@ -36,6 +40,7 @@ val interactorModule = module {
     factory<SharingInteractor> { SharingInteractorImpl(repository = get()) }
     factory<SettingsInteractor> { SettingsInteractorImpl(repository = get()) }
     factory<FavoriteInteractor> { FavoriteInteractorImpl(repository = get()) }
+    factory<PlaylistInteractor> { PlaylistInteractorImpl(repository = get()) }
 }
 
 val repositoryModule = module {
@@ -45,6 +50,8 @@ val repositoryModule = module {
     single<PlayerRepository> { PlayerRepositoryImpl(player = get()) }
     single<SharingRepository> { SharingRepositoryImpl(externalNavigator = get()) }
     single<SettingsRepository> { SettingsRepositoryImpl(storage = get()) }
-    factory { TrackDbConvertor() }
-    single<FavoriteRepository> { FavoriteRepositoryImpl(appDatabase = get(), trackDbConvertor = get()) }
+
+    factory { DbConvertor() }
+    single<FavoriteRepository> { FavoriteRepositoryImpl(appDatabase = get(), dbConvertor = get()) }
+    single<PlaylistRepository> { PlaylistRepositoryImpl(appDatabase = get(), dbConvertor = get()) }
 }

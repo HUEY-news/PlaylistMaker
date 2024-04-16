@@ -1,9 +1,11 @@
 package com.practicum.playlistmaker.convertor
 
+import com.practicum.playlistmaker.data.db.PlaylistEntity
 import com.practicum.playlistmaker.data.db.TrackEntity
+import com.practicum.playlistmaker.domain.library.Playlist
 import com.practicum.playlistmaker.domain.search.Track
 
-class TrackDbConvertor {
+class DbConvertor {
 
     fun map(track: Track): TrackEntity {
         return TrackEntity(
@@ -33,6 +35,28 @@ class TrackDbConvertor {
             primaryGenreName = trackEntity.primaryGenreName,
             country = trackEntity.country,
             previewUrl = trackEntity.previewUrl
+        )
+    }
+
+    fun map(playlist: Playlist): PlaylistEntity {
+        return PlaylistEntity(
+            playlistId = playlist.playlistId,
+            playlistName = playlist.playlistName,
+            playlistDescription = playlist.playlistDescription,
+            playlistCoverUri = playlist.playlistCoverUri,
+            tracksIdentifiers = playlist.tracksIdentifiers,
+            numberOfTracks = playlist.numberOfTracks
+        )
+    }
+
+    fun map(playlistEntity: PlaylistEntity): Playlist {
+        return Playlist(
+            playlistId = playlistEntity.playlistId,
+            playlistName = playlistEntity.playlistName,
+            playlistDescription = playlistEntity.playlistDescription,
+            playlistCoverUri = playlistEntity.playlistCoverUri,
+            tracksIdentifiers = playlistEntity.tracksIdentifiers,
+            numberOfTracks = playlistEntity.numberOfTracks
         )
     }
 }
