@@ -23,9 +23,9 @@ class LibraryFavoriteViewModel(
         viewModelScope.launch {
             favoriteInteractor
                 .getFavoriteTrackList()
-                .collect { trackList ->
-                    if (trackList.isEmpty()) renderState(FavoriteState.Empty)
-                    else renderState(FavoriteState.Content(trackList))
+                .collect { data ->
+                    if (data.isEmpty()) renderState(FavoriteState.Empty)
+                    else renderState(FavoriteState.Content(data))
                 }
         }
     }

@@ -15,6 +15,6 @@ val viewModelModule = module {
     viewModel { SettingsViewModel(settingsInteractor = get(), sharingInterractor = get()) }
 
     viewModel { LibraryFavoriteViewModel(favoriteInteractor = get()) }
-    viewModel { LibraryPlaylistViewModel() }
+    viewModel { LibraryPlaylistViewModel(playlistInteractor = get()) }
     viewModel { LibraryNewPlaylistViewModel(playlistInteractor = get()) }
 }

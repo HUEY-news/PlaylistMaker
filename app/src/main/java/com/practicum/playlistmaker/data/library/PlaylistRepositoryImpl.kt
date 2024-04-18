@@ -1,5 +1,7 @@
 package com.practicum.playlistmaker.data.library
 
+import android.net.Uri
+import com.google.gson.Gson
 import com.practicum.playlistmaker.convertor.DbConvertor
 import com.practicum.playlistmaker.data.db.AppDatabase
 import com.practicum.playlistmaker.data.db.PlaylistEntity
@@ -13,8 +15,14 @@ class PlaylistRepositoryImpl(
     private val dbConvertor: DbConvertor
 ): PlaylistRepository {
 
-    override suspend fun addPlaylistToLibrary(playlist: Playlist) {
-        val playlistEntity = dbConvertor.map(playlist)
+    override suspend fun createNewPlaylist(name: String, description: String, cover: Uri?) {
+        val playlistEntity = PlaylistEntity(
+            playlistName = name,
+            playlistDescription = description,
+            playlistCoverUri = cover?.toString(),
+            tracksIdentifiers = Gson().toJson(emptyList<Int>()),
+            numberOfTracks = 0
+        )
         appDatabase.playlistDao().addItem(playlistEntity)
     }
 

@@ -1,13 +1,14 @@
 package com.practicum.playlistmaker.domain.library
 
+import android.net.Uri
 import kotlinx.coroutines.flow.Flow
 
 class PlaylistInteractorImpl(
     private val repository: PlaylistRepository
 ):PlaylistInteractor {
 
-    override suspend fun addPlaylistToLibrary(playlist: Playlist) {
-        repository.addPlaylistToLibrary(playlist)
+    override suspend fun createNewPlaylist(name: String, description: String, cover: Uri?) {
+        repository.createNewPlaylist(name, description, cover)
     }
 
     override suspend fun removePlaylistFromLibrary(playlist: Playlist) {

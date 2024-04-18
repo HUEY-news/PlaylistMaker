@@ -22,6 +22,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentNewPlaylistBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.FileOutputStream
 
@@ -29,6 +30,8 @@ class LibraryNewPlaylistFragment : Fragment() {
 
     private var _binding: FragmentNewPlaylistBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel by viewModel<LibraryNewPlaylistViewModel>()
 
     private lateinit var confirmDialog: MaterialAlertDialogBuilder
 
@@ -86,8 +89,7 @@ class LibraryNewPlaylistFragment : Fragment() {
 
         binding.buttonCreate.setOnClickListener {
             coverImageUri?.let { saveImageToPrivateStorage(it) }
-            coverImageName = binding.editFieldPlaylistName.text.toString()
-            coverImageDescription = binding.editFieldPlaylistDescription.text.toString()
+            viewModel.createNewPlaylist(name = coverImageName, description = coverImageDescription, cover = coverImageUri)
             Toast.makeText(requireContext(), "Плейлист [ $coverImageName ] создан", Toast.LENGTH_SHORT).show()
             findNavController().navigateUp()
         }

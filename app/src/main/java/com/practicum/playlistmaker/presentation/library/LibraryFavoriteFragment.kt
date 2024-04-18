@@ -40,7 +40,7 @@ class LibraryFavoriteFragment: Fragment() {
 
         viewModel.observeCurrentState().observe(viewLifecycleOwner) { state ->
             when (state) {
-                is FavoriteState.Content -> showContent(state.trackList)
+                is FavoriteState.Content -> showContent(state.data)
                 is FavoriteState.Empty -> showEmpty()
             }
         }
@@ -53,18 +53,18 @@ class LibraryFavoriteFragment: Fragment() {
 
     private fun showContent(trackList: List<Track>) {
         showEmptyPlaceholder(false)
-        updateFavoriteList(trackList)
-        showFavoriteList(true)
+        updateLibrary(trackList)
+        showTrackListRecycler(true)
     }
 
     private fun showEmpty() {
         showEmptyPlaceholder(true)
-        updateFavoriteList(listOf())
-        showFavoriteList(false)
+        updateLibrary(listOf())
+        showTrackListRecycler(false)
     }
 
-    private fun updateFavoriteList(trackList: List<Track>) { favoriteListAdapter?.setItems(trackList) }
-    private fun showFavoriteList(isVisible: Boolean) { binding.favoriteTrackList.isVisible = isVisible }
+    private fun updateLibrary(trackList: List<Track>) { favoriteListAdapter?.setItems(trackList) }
+    private fun showTrackListRecycler(isVisible: Boolean) { binding.favoriteTrackList.isVisible = isVisible }
     private fun showEmptyPlaceholder(isVisible: Boolean) { binding.placeholderContainer.isVisible = isVisible }
 
     private var isClickAllowed = true
