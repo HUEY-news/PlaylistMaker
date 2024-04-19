@@ -40,8 +40,8 @@ class LibraryFavoriteFragment: Fragment() {
 
         viewModel.observeCurrentState().observe(viewLifecycleOwner) { state ->
             when (state) {
-                is FavoriteState.Content -> showContent(state.data)
-                is FavoriteState.Empty -> showEmpty()
+                is FavoritePageState.Content -> showContent(state.data)
+                is FavoritePageState.Empty -> showEmpty()
             }
         }
     }

@@ -11,9 +11,9 @@ class LibraryFavoriteViewModel(
     private val favoriteInteractor: FavoriteInteractor
 ): ViewModel() {
 
-    private val currentState = MutableLiveData<FavoriteState>()
-    fun observeCurrentState(): LiveData<FavoriteState> = currentState
-    private fun renderState(state: FavoriteState) { currentState.postValue(state) }
+    private val currentState = MutableLiveData<FavoritePageState>()
+    fun observeCurrentState(): LiveData<FavoritePageState> = currentState
+    private fun renderState(state: FavoritePageState) { currentState.postValue(state) }
 
     init { updateCurrentState() }
 
@@ -24,8 +24,8 @@ class LibraryFavoriteViewModel(
             favoriteInteractor
                 .getFavoriteTrackList()
                 .collect { data ->
-                    if (data.isEmpty()) renderState(FavoriteState.Empty)
-                    else renderState(FavoriteState.Content(data))
+                    if (data.isEmpty()) renderState(FavoritePageState.Empty)
+                    else renderState(FavoritePageState.Content(data))
                 }
         }
     }

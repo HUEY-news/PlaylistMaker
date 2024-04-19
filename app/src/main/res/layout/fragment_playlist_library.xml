@@ -45,5 +45,5 @@
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
         tools:itemCount="3"
-        tools:listitem="@layout/item_playlist" />
+        tools:listitem="@layout/item_playlist_library" />
 </LinearLayout>

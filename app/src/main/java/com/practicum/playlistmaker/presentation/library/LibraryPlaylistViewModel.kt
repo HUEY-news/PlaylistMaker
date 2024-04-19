@@ -1,6 +1,5 @@
 package com.practicum.playlistmaker.presentation.library
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,9 +11,9 @@ class LibraryPlaylistViewModel(
     private val playlistInteractor: PlaylistInteractor
 ): ViewModel() {
 
-    private val currentState = MutableLiveData<PlaylistState>()
-    fun observeCurrentState(): LiveData<PlaylistState> = currentState
-    private fun renderState(state: PlaylistState) { currentState.postValue(state) }
+    private val currentState = MutableLiveData<PlaylistPageState>()
+    fun observeCurrentState(): LiveData<PlaylistPageState> = currentState
+    private fun renderState(state: PlaylistPageState) { currentState.postValue(state) }
 
     init { updateCurrentState() }
 
@@ -25,14 +24,8 @@ class LibraryPlaylistViewModel(
             playlistInteractor
                 .getAllPlaylistsFromLibrary()
                 .collect { data ->
-                    if (data.isEmpty()) {
-                        renderState(PlaylistState.Empty)
-                        Log.e("TEST", "data is empty")
-                    }
-                    else {
-                        renderState(PlaylistState.Content(data))
-                        Log.i("TEST", "data = $data")
-                    }
+                    if (data.isEmpty()) renderState(PlaylistPageState.Empty)
+                    else renderState(PlaylistPageState.Content(data))
                 }
         }
     }

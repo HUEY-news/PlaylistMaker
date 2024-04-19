@@ -63,6 +63,6 @@
         android:id="@+id/libraryPlaylistFragment"
         android:name="com.practicum.playlistmaker.presentation.library.LibraryPlaylistFragment"
         android:label="fragment_playlist"
-        tools:layout="@layout/fragment_playlist" />
+        tools:layout="@layout/fragment_playlist_library" />
 
 </navigation>
