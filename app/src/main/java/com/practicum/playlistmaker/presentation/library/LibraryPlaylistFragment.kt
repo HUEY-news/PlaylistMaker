@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlaylistBinding
 import com.practicum.playlistmaker.domain.library.Playlist
-import com.practicum.playlistmaker.presentation.playlist.PlaylistAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LibraryPlaylistFragment : Fragment() {

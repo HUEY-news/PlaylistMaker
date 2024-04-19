@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.presentation.playlist
+package com.practicum.playlistmaker.presentation.library
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
