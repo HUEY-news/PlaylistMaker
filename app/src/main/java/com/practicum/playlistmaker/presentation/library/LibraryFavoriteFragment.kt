@@ -1,6 +1,5 @@
 package com.practicum.playlistmaker.presentation.library
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +7,12 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentFavouriteBinding
 import com.practicum.playlistmaker.domain.search.Track
-import com.practicum.playlistmaker.presentation.player.PlayerActivity
+import com.practicum.playlistmaker.presentation.player.PlayerFragment
 import com.practicum.playlistmaker.presentation.track.TrackAdapter
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -51,6 +52,11 @@ class LibraryFavoriteFragment: Fragment() {
         viewModel.onResume()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun showContent(trackList: List<Track>) {
         showEmptyPlaceholder(false)
         updateLibrary(trackList)
@@ -83,9 +89,8 @@ class LibraryFavoriteFragment: Fragment() {
 
     private fun onClickDebounce(track: Track) {
         if (clickDebounce()) {
-            val intent = Intent(requireContext(), PlayerActivity::class.java)
-            intent.putExtra(PlayerActivity.TRACK_ID, track)
-            startActivity(intent)
+            val arguments = PlayerFragment.createBundle(track)
+            requireParentFragment().findNavController().navigate(R.id.action_libraryFragment_to_playerFragment, arguments)
         }
     }
 

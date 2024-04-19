@@ -40,13 +40,18 @@ class LibraryPlaylistFragment : Fragment() {
         }
 
         binding.buttonNewPlaylist.setOnClickListener {
-            requireParentFragment().findNavController().navigate(R.id.action_create_new_playlist)
+            requireParentFragment().findNavController().navigate(R.id.action_libraryFragment_to_libraryNewPlaylistFragment)
         }
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.onResume()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun showContent(playlistList: List<Playlist>) {

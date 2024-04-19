@@ -20,7 +20,7 @@
         tools:targetApi="33">
 
         <activity
-            android:name=".presentation.player.PlayerActivity"
+            android:name=".presentation.player.PlayerFragment"
             android:exported="false"
             android:theme="@style/Base.Theme.PlaylistMaker.Player" />
 

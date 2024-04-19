@@ -45,5 +45,6 @@ class LibraryFragment: Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         mediator.detach()
+        _binding = null
     }
 }
