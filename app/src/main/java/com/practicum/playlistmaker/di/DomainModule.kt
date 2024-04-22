@@ -53,5 +53,5 @@ val repositoryModule = module {
 
     factory { DbConvertor() }
     single<FavoriteRepository> { FavoriteRepositoryImpl(appDatabase = get(), dbConvertor = get()) }
-    single<PlaylistRepository> { PlaylistRepositoryImpl(appDatabase = get(), dbConvertor = get()) }
+    single<PlaylistRepository> { PlaylistRepositoryImpl(appDatabase = get(), dbConvertor = get(), gson = get()) }
 }

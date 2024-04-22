@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -22,8 +22,6 @@ import com.practicum.playlistmaker.util.convertArtwork
 import com.practicum.playlistmaker.util.convertDate
 import com.practicum.playlistmaker.util.convertPixel
 import com.practicum.playlistmaker.util.convertTime
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayerFragment : Fragment() {
@@ -58,25 +56,14 @@ class PlayerFragment : Fragment() {
         playButtonImage = R.drawable.button_play_image
         pauseButtonImage = R.drawable.button_pause_image
 
-        playlistAdapter = PlayerPlaylistAdapter { playlist -> onClickDebounce(playlist)}
+        playlistAdapter = PlayerPlaylistAdapter { playlist ->
+            viewModel.addTrackToPlaylist(
+                track = track,
+                playlist = playlist
+            )
+        }
+
         binding.bottomSheetRecycler.adapter = playlistAdapter
-
-        if (!viewModel.observeCurrentTrack().isInitialized) { viewModel.initPlayer(track) }
-        viewModel.observeCurrentTrack().observe(viewLifecycleOwner) { track -> updateUI(track) }
-        viewModel.observeFavorite().observe(viewLifecycleOwner) { isFavorite -> updateFavoriteButton(isFavorite) }
-
-        viewModel.observePlayerState().observe(viewLifecycleOwner) { playerState ->
-            binding.buttonPlay.isEnabled = playerState.isPlayButtonEnabled
-            binding.textViewTrackTimer.text = playerState.progress
-            when (playerState) {
-                is PlayerState.Default, is PlayerState.Prepared, is PlayerState.Paused -> showPlayButton()
-                is PlayerState.Playing -> showPauseButton()
-            }
-        }
-
-        viewModel.observePlaylistCollection().observe(viewLifecycleOwner) { itemList ->
-            updatePlaylistCollection(itemList)
-        }
 
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheetLayout).apply {
             state = BottomSheetBehavior.STATE_HIDDEN
@@ -101,6 +88,36 @@ class PlayerFragment : Fragment() {
                     binding.overlay.alpha = slideOffset + 1
                 }
             })
+
+        if (!viewModel.observeCurrentTrack().isInitialized) { viewModel.initPlayer(track) }
+        viewModel.observeCurrentTrack().observe(viewLifecycleOwner) { track -> updateUI(track) }
+        viewModel.observeFavorite().observe(viewLifecycleOwner) { isFavorite -> updateFavoriteButton(isFavorite) }
+
+        viewModel.observePlayerState().observe(viewLifecycleOwner) { playerState ->
+            binding.buttonPlay.isEnabled = playerState.isPlayButtonEnabled
+            binding.textViewTrackTimer.text = playerState.progress
+            when (playerState) {
+                is PlayerState.Default, is PlayerState.Prepared, is PlayerState.Paused -> showPlayButton()
+                is PlayerState.Playing -> showPauseButton()
+            }
+        }
+
+        viewModel.observePlaylistCollection().observe(viewLifecycleOwner) { itemList ->
+            updatePlaylistCollection(itemList)
+        }
+
+        viewModel.observeTrackAddingStatus().observe(viewLifecycleOwner) { status ->
+            when (status) {
+                is TrackAddingStatus.Done -> {
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                    showToast(status.playlist, false)
+                }
+                is TrackAddingStatus.NotDone -> {
+                    showToast(status.playlist, true)
+                }
+                is TrackAddingStatus.Ready -> {}
+            }
+        }
 
         binding.buttonPlay.setOnClickListener { viewModel.onPlayButtonClicked() }
         binding.buttonFavorite.setOnClickListener { viewModel.onFavoriteClicked() }
@@ -157,28 +174,12 @@ class PlayerFragment : Fragment() {
 
     private fun updatePlaylistCollection(itemList: List<Playlist>) { playlistAdapter?.setItems(itemList) }
 
-    private var isClickAllowed = true
-
-    private fun clickDebounce(): Boolean {
-        val current = isClickAllowed
-        if (isClickAllowed) {
-            isClickAllowed = false
-            viewLifecycleOwner.lifecycleScope.launch {
-                delay(CLICK_DEBOUNCE_DELAY)
-                isClickAllowed = true
-            }
-        }
-        return current
-    }
-
-    private fun onClickDebounce(playlist: Playlist) {
-        if (clickDebounce()) {
-            // TODO: not yet
-        }
+    private fun showToast(playlist: Playlist, exists: Boolean) {
+        if (exists) Toast.makeText(requireContext(), "Трек уже добавлен в плейлист [ ${playlist.playlistName} ]", Toast.LENGTH_SHORT).show()
+        else Toast.makeText(requireContext(), "Добавлено в плейлист [ ${playlist.playlistName} ]", Toast.LENGTH_SHORT).show()
     }
 
     companion object {
-        private const val CLICK_DEBOUNCE_DELAY = 1000L
         const val TRACK_ID = "TRACK_ID"
 
         fun createBundle(track: Track) = Bundle().apply {

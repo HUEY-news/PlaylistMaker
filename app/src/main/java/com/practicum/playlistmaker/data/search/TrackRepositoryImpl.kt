@@ -45,7 +45,7 @@ class TrackRepositoryImpl(
                     )
                 }
 
-                val idList = appDatabase.trackDao().getFavoriteIdList()
+                val idList = appDatabase.favoriteTrackDao().getFavoriteIdList()
                 for (track in trackList) track.isFavorite = idList.contains(track.trackId)
 
                 if (trackList.isNotEmpty()) emit(Resource.Success(trackList))

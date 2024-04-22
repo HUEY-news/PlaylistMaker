@@ -70,7 +70,7 @@ class SearchHistoryStorageImpl(
     override fun getHistory(): Flow<List<Track>> = flow {
         history.clear()
         loadHistory()
-        val idList = appDatabase.trackDao().getFavoriteIdList()
+        val idList = appDatabase.favoriteTrackDao().getFavoriteIdList()
         for (track in history) track.isFavorite = idList.contains(track.trackId)
         emit(history)
     }
