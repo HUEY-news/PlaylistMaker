@@ -52,11 +52,6 @@ class LibraryFavoriteFragment: Fragment() {
         viewModel.onResume()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private fun showContent(trackList: List<Track>) {
         showEmptyPlaceholder(false)
         updateLibrary(trackList)
@@ -79,7 +74,7 @@ class LibraryFavoriteFragment: Fragment() {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
-            viewLifecycleOwner.lifecycleScope.launch {
+            lifecycleScope.launch {
                 delay(CLICK_DEBOUNCE_DELAY)
                 isClickAllowed = true
             }

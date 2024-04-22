@@ -5,19 +5,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlayerBinding
+import com.practicum.playlistmaker.domain.library.Playlist
 import com.practicum.playlistmaker.domain.player.PlayerState
 import com.practicum.playlistmaker.domain.search.Track
-import com.practicum.playlistmaker.presentation.library.LibraryPlaylistAdapter
 import com.practicum.playlistmaker.util.convertArtwork
 import com.practicum.playlistmaker.util.convertDate
 import com.practicum.playlistmaker.util.convertPixel
 import com.practicum.playlistmaker.util.convertTime
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayerFragment : Fragment() {
@@ -27,7 +33,7 @@ class PlayerFragment : Fragment() {
 
     private val viewModel by viewModel<PlayerViewModel>()
 
-    private var playlistAdapter: LibraryPlaylistAdapter? = null
+    private var playlistAdapter: PlayerPlaylistAdapter? = null
 
     private lateinit var track: Track
     private var playButtonImage: Int = 0
@@ -52,16 +58,12 @@ class PlayerFragment : Fragment() {
         playButtonImage = R.drawable.button_play_image
         pauseButtonImage = R.drawable.button_pause_image
 
-        playlistAdapter = LibraryPlaylistAdapter()
+        playlistAdapter = PlayerPlaylistAdapter { playlist -> onClickDebounce(playlist)}
         binding.bottomSheetRecycler.adapter = playlistAdapter
 
-        if (!viewModel.observeCurrentTrack().isInitialized) {
-            viewModel.initPlayer(track)
-        }
-
-        viewModel.observeCurrentTrack().observe(viewLifecycleOwner) { track ->
-            updateUI(track)
-        }
+        if (!viewModel.observeCurrentTrack().isInitialized) { viewModel.initPlayer(track) }
+        viewModel.observeCurrentTrack().observe(viewLifecycleOwner) { track -> updateUI(track) }
+        viewModel.observeFavorite().observe(viewLifecycleOwner) { isFavorite -> updateFavoriteButton(isFavorite) }
 
         viewModel.observePlayerState().observe(viewLifecycleOwner) { playerState ->
             binding.buttonPlay.isEnabled = playerState.isPlayButtonEnabled
@@ -72,13 +74,46 @@ class PlayerFragment : Fragment() {
             }
         }
 
-        viewModel.observeFavorite().observe(viewLifecycleOwner) { isFavorite ->
-            updateFavoriteButton(isFavorite)
+        viewModel.observePlaylistCollection().observe(viewLifecycleOwner) { itemList ->
+            updatePlaylistCollection(itemList)
         }
+
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheetLayout).apply {
+            state = BottomSheetBehavior.STATE_HIDDEN
+        }
+
+        bottomSheetBehavior.addBottomSheetCallback(
+            object: BottomSheetBehavior.BottomSheetCallback() {
+
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    when (newState) {
+                        BottomSheetBehavior.STATE_HIDDEN -> {
+                            binding.overlay.isVisible = false
+                        }
+                        else -> {
+                            binding.overlay.isVisible = true
+                            viewModel.getAllPlaylistsFromLibrary()
+                        }
+                    }
+                }
+
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                    binding.overlay.alpha = slideOffset + 1
+                }
+            })
 
         binding.buttonPlay.setOnClickListener { viewModel.onPlayButtonClicked() }
         binding.buttonFavorite.setOnClickListener { viewModel.onFavoriteClicked() }
+        binding.buttonAdd.setOnClickListener{ bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED }
+        binding.bottomSheetButton.setOnClickListener { findNavController().navigate(R.id.action_playerFragment_to_libraryNewPlaylistFragment) }
         binding.buttonBack.setOnClickListener { findNavController().navigateUp() }
+        requireActivity().onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_HIDDEN) {
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+                } else findNavController().navigateUp()
+            }
+        })
     }
 
     override fun onPause() {
@@ -89,11 +124,6 @@ class PlayerFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         viewModel.releasePlayer()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun showPlayButton() { binding.buttonPlay.setImageResource(playButtonImage) }
@@ -125,7 +155,30 @@ class PlayerFragment : Fragment() {
             .into(binding.imageViewArtwork512)
     }
 
+    private fun updatePlaylistCollection(itemList: List<Playlist>) { playlistAdapter?.setItems(itemList) }
+
+    private var isClickAllowed = true
+
+    private fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(CLICK_DEBOUNCE_DELAY)
+                isClickAllowed = true
+            }
+        }
+        return current
+    }
+
+    private fun onClickDebounce(playlist: Playlist) {
+        if (clickDebounce()) {
+            // TODO: not yet
+        }
+    }
+
     companion object {
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
         const val TRACK_ID = "TRACK_ID"
 
         fun createBundle(track: Track) = Bundle().apply {

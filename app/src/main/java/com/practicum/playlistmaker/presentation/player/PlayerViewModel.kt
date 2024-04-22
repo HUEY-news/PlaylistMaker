@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.domain.library.FavoriteInteractor
+import com.practicum.playlistmaker.domain.library.Playlist
 import com.practicum.playlistmaker.domain.library.PlaylistInteractor
 import com.practicum.playlistmaker.domain.player.PlayerInteractor
 import com.practicum.playlistmaker.domain.player.PlayerState
@@ -30,6 +31,9 @@ class PlayerViewModel(
 
     private val isFavorite = MutableLiveData<Boolean>()
     fun observeFavorite(): LiveData<Boolean> = isFavorite
+
+    private val playlistCollection = MutableLiveData<List<Playlist>>()
+    fun observePlaylistCollection(): LiveData<List<Playlist>> = playlistCollection
 
     init {
         viewModelScope.launch {
@@ -116,4 +120,11 @@ class PlayerViewModel(
     }
 
     private fun getCurrentPlayerPosition(): String = playerInteractor.getCurrentPlayerPosition()
+
+    fun getAllPlaylistsFromLibrary() {
+        viewModelScope.launch {
+            playlistInteractor.getAllPlaylistsFromLibrary()
+                .collect { itemList -> playlistCollection.postValue(itemList)}
+        }
+    }
 }

@@ -49,11 +49,6 @@ class LibraryPlaylistFragment : Fragment() {
         viewModel.onResume()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private fun showContent(playlistList: List<Playlist>) {
         showEmptyPlaceholder(false)
         updateLibrary(playlistList)
@@ -66,13 +61,7 @@ class LibraryPlaylistFragment : Fragment() {
         showPlaylistRecycler(false)
     }
 
-    private fun updateLibrary(playlistList: List<Playlist>) {
-        libraryPlaylistAdapter?.setItems(playlistList)
-    }
-    private fun showPlaylistRecycler(isVisible: Boolean) {
-        binding.playlistRecycler.isVisible = isVisible
-    }
-    private fun showEmptyPlaceholder(isVisible: Boolean) {
-        binding.placeholderContainer.isVisible = isVisible
-    }
+    private fun updateLibrary(playlistList: List<Playlist>) { libraryPlaylistAdapter?.setItems(playlistList) }
+    private fun showPlaylistRecycler(isVisible: Boolean) { binding.playlistRecycler.isVisible = isVisible }
+    private fun showEmptyPlaceholder(isVisible: Boolean) { binding.placeholderContainer.isVisible = isVisible }
 }

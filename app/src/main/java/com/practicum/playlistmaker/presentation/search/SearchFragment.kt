@@ -131,11 +131,6 @@ class SearchFragment : Fragment() {
         viewModel.getHistory()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private fun showContent(trackList: List<Track>) {
         showProgressBar(false)
         updateSearchResult(trackList)
@@ -197,7 +192,7 @@ class SearchFragment : Fragment() {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
-            viewLifecycleOwner.lifecycleScope.launch {
+            lifecycleScope.launch {
                 delay(CLICK_DEBOUNCE_DELAY)
                 isClickAllowed = true
             }

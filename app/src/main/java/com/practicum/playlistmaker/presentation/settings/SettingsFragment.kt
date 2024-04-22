@@ -35,9 +35,4 @@ class SettingsFragment: Fragment() {
         binding.agreementContainer.setOnClickListener { viewModel.openTerms() }
         binding.supportContainer.setOnClickListener { viewModel.openSupport() }
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

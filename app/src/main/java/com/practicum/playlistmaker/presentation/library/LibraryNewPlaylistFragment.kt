@@ -95,11 +95,6 @@ class LibraryNewPlaylistFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     private fun saveImageToPrivateStorage(uri: Uri) {
         val filePath = File(requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "PlaylistMaker")
         if (!filePath.exists()) filePath.mkdirs()
