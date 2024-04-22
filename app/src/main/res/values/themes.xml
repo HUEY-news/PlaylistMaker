@@ -58,6 +58,8 @@
         <item name="buttonFavorite">@drawable/ic_button_favorite_light_51</item>
         <item name="primaryTextColor">@color/YP_Black</item>
         <item name="secondaryTextColor">@color/YP_Text_Gray</item>
+        <item name="primaryButtonColor">@color/YP_Black</item>
+        <item name="secondaryButtonColor">@color/YP_White</item>
     </style>
 
     <style name="Base.Theme.PlaylistMaker.Library" parent="Base.Theme.PlaylistMaker">

@@ -10,10 +10,10 @@ class TrackAdapter(
     private val onItemClick: (track: Track) -> Unit
 ) : RecyclerView.Adapter<TrackViewHolder>() {
 
-    private var trackList: List<Track> = emptyList()
+    private var itemList: List<Track> = emptyList()
 
     fun setItems(items: List<Track>) {
-        trackList = items
+        itemList = items
         notifyDataSetChanged()
     }
 
@@ -22,7 +22,7 @@ class TrackAdapter(
         return TrackViewHolder(ItemTrackBinding.inflate(layoutInspector, parent, false))
         { position: Int ->
             if (position != RecyclerView.NO_POSITION) {
-                trackList.getOrNull(position)?.let { track ->
+                itemList.getOrNull(position)?.let { track ->
                     onItemClick(track)
                 }
             }
@@ -30,12 +30,12 @@ class TrackAdapter(
     }
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
-        trackList.getOrNull(position)?.let { track ->
+        itemList.getOrNull(position)?.let { track ->
             holder.bind(track)
         }
     }
 
     override fun getItemCount(): Int {
-        return trackList.size
+        return itemList.size
     }
 }

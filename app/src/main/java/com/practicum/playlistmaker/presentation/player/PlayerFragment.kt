@@ -13,6 +13,7 @@ import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlayerBinding
 import com.practicum.playlistmaker.domain.player.PlayerState
 import com.practicum.playlistmaker.domain.search.Track
+import com.practicum.playlistmaker.presentation.library.LibraryPlaylistAdapter
 import com.practicum.playlistmaker.util.convertArtwork
 import com.practicum.playlistmaker.util.convertDate
 import com.practicum.playlistmaker.util.convertPixel
@@ -25,6 +26,8 @@ class PlayerFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel by viewModel<PlayerViewModel>()
+
+    private var playlistAdapter: LibraryPlaylistAdapter? = null
 
     private lateinit var track: Track
     private var playButtonImage: Int = 0
@@ -45,8 +48,12 @@ class PlayerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         playButtonImage = R.drawable.button_play_image
         pauseButtonImage = R.drawable.button_pause_image
+
+        playlistAdapter = LibraryPlaylistAdapter()
+        binding.bottomSheetRecycler.adapter = playlistAdapter
 
         if (!viewModel.observeCurrentTrack().isInitialized) {
             viewModel.initPlayer(track)
