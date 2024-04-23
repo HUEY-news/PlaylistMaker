@@ -4,41 +4,64 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.practicum.playlistmaker.databinding.FragmentPlaylistBinding
+import androidx.navigation.fragment.findNavController
+import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.databinding.FragmentPlaylistLibraryBinding
+import com.practicum.playlistmaker.domain.library.Playlist
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LibraryPlaylistFragment : Fragment() {
 
-    private var _binding: FragmentPlaylistBinding? = null
+    private var _binding: FragmentPlaylistLibraryBinding? = null
     private val binding get() = _binding!!
-    private var placeholder: Int = 0
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentPlaylistBinding.inflate(inflater, container, false)
+    private val viewModel by viewModel<LibraryPlaylistViewModel>()
+
+    private var libraryPlaylistAdapter: LibraryPlaylistAdapter? = null
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentPlaylistLibraryBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        placeholder = requireArguments().getInt(PLACEHOLDER)
-        binding.placeholderIcon.setImageResource(placeholder)
-        binding.placeholderText.text = requireArguments().getString(MESSAGE)
-    }
 
-    companion object {
-        private const val PLACEHOLDER = "placeholder"
-        private const val MESSAGE = "message"
+        libraryPlaylistAdapter = LibraryPlaylistAdapter()
+        binding.playlistRecycler.adapter = libraryPlaylistAdapter
 
-        fun newInstance(placeholder: Int, message: String) =
-            LibraryPlaylistFragment().apply {
-            arguments = bundleOf(
-                PLACEHOLDER to placeholder,
-                MESSAGE to message)
+        viewModel.observeCurrentState().observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is PlaylistPageState.Content -> showContent(state.data)
+                is PlaylistPageState.Empty -> showEmpty()
+            }
+        }
+
+        binding.buttonNewPlaylist.setOnClickListener {
+            requireParentFragment().findNavController().navigate(R.id.action_libraryFragment_to_libraryNewPlaylistFragment)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
+    }
+
+    private fun showContent(playlistList: List<Playlist>) {
+        showEmptyPlaceholder(false)
+        updateLibrary(playlistList)
+        showPlaylistRecycler(true)
+    }
+
+    private fun showEmpty() {
+        showEmptyPlaceholder(true)
+        updateLibrary(listOf())
+        showPlaylistRecycler(false)
+    }
+
+    private fun updateLibrary(playlistList: List<Playlist>) { libraryPlaylistAdapter?.setItems(playlistList) }
+    private fun showPlaylistRecycler(isVisible: Boolean) { binding.playlistRecycler.isVisible = isVisible }
+    private fun showEmptyPlaceholder(isVisible: Boolean) { binding.placeholderContainer.isVisible = isVisible }
 }

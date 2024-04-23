@@ -1,7 +1,6 @@
 package com.practicum.playlistmaker.presentation.settings
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +14,6 @@ class SettingsFragment: Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel by viewModel<SettingsViewModel>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.i("TEST", "SETTINGS FRAGMENT CREATED")
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentSettingsBinding.inflate(layoutInflater)
@@ -40,10 +34,5 @@ class SettingsFragment: Fragment() {
         binding.shareContainer.setOnClickListener { viewModel.shareApp() }
         binding.agreementContainer.setOnClickListener { viewModel.openTerms() }
         binding.supportContainer.setOnClickListener { viewModel.openSupport() }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.e("TEST", "SETINGS FRAGMENT DESTROYED")
     }
 }

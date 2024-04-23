@@ -1,6 +1,5 @@
 package com.practicum.playlistmaker.presentation.track
 
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -33,6 +32,6 @@ class TrackViewHolder(
             .placeholder(R.drawable.ic_placeholder_45)
             .centerCrop()
             .transform(RoundedCorners(convertPixel(4f, itemView.context)))
-            .into(itemView.findViewById<ImageView>(R.id.artwork))
+            .into(binding.artwork)
     }
 }

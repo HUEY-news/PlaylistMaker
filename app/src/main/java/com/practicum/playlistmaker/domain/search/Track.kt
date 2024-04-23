@@ -17,4 +17,3 @@ data class Track(
     val previewUrl: String,
     var isFavorite: Boolean = false
 ): Parcelable
-

@@ -20,14 +20,14 @@
         tools:targetApi="33">
 
         <activity
-            android:name=".presentation.player.PlayerActivity"
+            android:name=".presentation.player.PlayerFragment"
             android:exported="false"
             android:theme="@style/Base.Theme.PlaylistMaker.Player" />
 
         <activity
             android:name=".presentation.root.RootActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

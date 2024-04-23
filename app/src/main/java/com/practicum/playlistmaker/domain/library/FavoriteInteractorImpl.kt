@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker.domain.favorite
+package com.practicum.playlistmaker.domain.library
 
 import com.practicum.playlistmaker.domain.search.Track
 import kotlinx.coroutines.flow.Flow

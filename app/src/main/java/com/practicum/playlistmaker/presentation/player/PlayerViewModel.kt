@@ -4,17 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.practicum.playlistmaker.domain.favorite.FavoriteInteractor
+import com.practicum.playlistmaker.domain.library.FavoriteInteractor
+import com.practicum.playlistmaker.domain.library.Playlist
+import com.practicum.playlistmaker.domain.library.PlaylistInteractor
 import com.practicum.playlistmaker.domain.player.PlayerInteractor
 import com.practicum.playlistmaker.domain.player.PlayerState
 import com.practicum.playlistmaker.domain.search.Track
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PlayerViewModel(
     private val playerInteractor: PlayerInteractor,
-    private val favoriteInteractor: FavoriteInteractor
+    private val favoriteInteractor: FavoriteInteractor,
+    private val playlistInteractor: PlaylistInteractor
 ) : ViewModel() {
 
     private var timerJob: Job? = null
@@ -28,6 +32,12 @@ class PlayerViewModel(
 
     private val isFavorite = MutableLiveData<Boolean>()
     fun observeFavorite(): LiveData<Boolean> = isFavorite
+
+    private val playlistCollection = MutableLiveData<List<Playlist>>()
+    fun observePlaylistCollection(): LiveData<List<Playlist>> = playlistCollection
+
+    private val trackAddingStatus = MutableLiveData<TrackAddingStatus>()
+    fun observeTrackAddingStatus(): LiveData<TrackAddingStatus> = trackAddingStatus
 
     init {
         viewModelScope.launch {
@@ -114,4 +124,44 @@ class PlayerViewModel(
     }
 
     private fun getCurrentPlayerPosition(): String = playerInteractor.getCurrentPlayerPosition()
+
+    private fun updatePlaylistAndReload(track: Track, playlist: Playlist) {
+        viewModelScope.launch {
+            updatePlaylist(track, playlist)
+            getAllPlaylistsFromLibrary()
+        }
+    }
+
+    fun getAllPlaylistsFromLibrary() {
+        viewModelScope.launch {
+            playlistInteractor.getAllPlaylistsFromLibrary()
+                .collect { itemList -> playlistCollection.postValue(itemList)}
+        }
+    }
+
+    private fun updatePlaylist(track: Track, playlist: Playlist) {
+        viewModelScope.launch {
+            playlistInteractor.updatePlaylist(track, playlist)
+        }
+    }
+
+    private fun addTrackToSaved(track: Track) {
+        viewModelScope.launch(Dispatchers.IO) {
+            playlistInteractor.addTrackToSavedList(track)
+        }
+    }
+
+    private fun checkIfPlaylistContainsTrack(track: Track, playlist: Playlist): Boolean {
+        return playlistInteractor.checkIfPlaylistContainsTrack(track, playlist)
+    }
+
+    fun addTrackToPlaylist(track: Track, playlist: Playlist) {
+        if (checkIfPlaylistContainsTrack(track = track, playlist = playlist)) {
+            trackAddingStatus.postValue(TrackAddingStatus.NotDone(playlist))
+        } else {
+            addTrackToSaved(track)
+            updatePlaylistAndReload(track, playlist)
+            trackAddingStatus.postValue(TrackAddingStatus.Done(playlist))
+        }
+    }
 }

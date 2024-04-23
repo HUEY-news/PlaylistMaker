@@ -56,6 +56,10 @@
     <style name="Base.Theme.PlaylistMaker.Player" parent="Base.Theme.PlaylistMaker">
         <item name="buttonAdd">@drawable/ic_button_add_dark_51</item>
         <item name="buttonFavorite">@drawable/ic_button_favorite_dark_51</item>
+        <item name="primaryTextColor">@color/YP_White</item>
+        <item name="secondaryTextColor">@color/YP_White</item>
+        <item name="primaryButtonColor">@color/YP_White</item>
+        <item name="secondaryButtonColor">@color/YP_Black</item>
     </style>
 
     <style name="Base.Theme.PlaylistMaker.Library">

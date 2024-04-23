@@ -4,16 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.practicum.playlistmaker.domain.favorite.FavoriteInteractor
+import com.practicum.playlistmaker.domain.library.FavoriteInteractor
 import kotlinx.coroutines.launch
 
 class LibraryFavoriteViewModel(
     private val favoriteInteractor: FavoriteInteractor
 ): ViewModel() {
 
-    private val currentState = MutableLiveData<FavoriteState>()
-    fun observeCurrentState(): LiveData<FavoriteState> = currentState
-    private fun renderState(state: FavoriteState) { currentState.postValue(state) }
+    private val currentState = MutableLiveData<FavoritePageState>()
+    fun observeCurrentState(): LiveData<FavoritePageState> = currentState
+    private fun renderState(state: FavoritePageState) { currentState.postValue(state) }
 
     init { updateCurrentState() }
 
@@ -23,9 +23,9 @@ class LibraryFavoriteViewModel(
         viewModelScope.launch {
             favoriteInteractor
                 .getFavoriteTrackList()
-                .collect { trackList ->
-                    if (trackList.isEmpty()) renderState(FavoriteState.Empty)
-                    else renderState(FavoriteState.Content(trackList))
+                .collect { data ->
+                    if (data.isEmpty()) renderState(FavoritePageState.Empty)
+                    else renderState(FavoritePageState.Content(data))
                 }
         }
     }
