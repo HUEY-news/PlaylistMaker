@@ -51,8 +51,8 @@ class PlaylistRepositoryImpl(
 
     override fun getAllPlaylistsFromLibrary(): Flow<List<Playlist>> = flow {
         val playlistEntityList = appDatabase.playlistDao().getAllItems()
-        val playlistList = convertFromPlaylistEntity(playlistEntityList.sortedByDescending { it.playlistId })
-        emit(playlistList)
+        val itemList = convertFromPlaylistEntity(playlistEntityList.sortedByDescending { it.playlistId })
+        emit(itemList)
     }
 
     override fun checkIfPlaylistContainsTrack(track: Track, playlist: Playlist): Boolean {

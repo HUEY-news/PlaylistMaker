@@ -160,9 +160,8 @@ class PlayerViewModel(
             trackAddingStatus.postValue(TrackAddingStatus.NotDone(playlist))
         } else {
             addTrackToSaved(track)
-            updatePlaylistAndReload(track,playlist)
+            updatePlaylistAndReload(track, playlist)
             trackAddingStatus.postValue(TrackAddingStatus.Done(playlist))
         }
-        trackAddingStatus.postValue(TrackAddingStatus.Ready)
     }
 }

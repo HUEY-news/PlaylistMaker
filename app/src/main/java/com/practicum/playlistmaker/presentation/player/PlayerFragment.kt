@@ -57,10 +57,7 @@ class PlayerFragment : Fragment() {
         pauseButtonImage = R.drawable.button_pause_image
 
         playlistAdapter = PlayerPlaylistAdapter { playlist ->
-            viewModel.addTrackToPlaylist(
-                track = track,
-                playlist = playlist
-            )
+            viewModel.addTrackToPlaylist(track = track, playlist = playlist)
         }
 
         binding.bottomSheetRecycler.adapter = playlistAdapter
