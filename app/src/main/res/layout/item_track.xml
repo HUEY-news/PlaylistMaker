@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/Track"
     android:orientation="horizontal"
@@ -23,17 +24,32 @@
 
         <TextView
             android:id="@+id/trackName"
-            style="@style/Track.TextView.TrackName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/ys_display_regular"
+            android:lines="1"
+            android:textColor="?attr/primaryTextColor"
+            android:textFontWeight="400"
+            android:textSize="16sp"
             tools:text="Smells Like Teen Spirit" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/artistName"
-                style="@style/Track.TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/ys_display_regular"
+                android:lines="1"
+                android:maxLength="20"
+                android:textColor="?attr/secondaryTextColor"
+                android:textFontWeight="400"
+                android:textSize="12sp"
                 tools:text="Nirvana" />
 
             <ImageView
@@ -44,7 +60,14 @@
 
             <TextView
                 android:id="@+id/trackTime"
-                style="@style/Track.TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="middle"
+                android:fontFamily="@font/ys_display_regular"
+                android:lines="1"
+                android:textColor="?attr/secondaryTextColor"
+                android:textFontWeight="400"
+                android:textSize="12sp"
                 tools:text="5:01" />
 
         </LinearLayout>
