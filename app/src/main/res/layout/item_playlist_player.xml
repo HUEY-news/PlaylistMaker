@@ -49,7 +49,7 @@
             android:textColor="?attr/primaryTextColor"
             android:textFontWeight="400"
             android:textSize="16sp"
-            tools:text="Название плейлиста" />
+            tools:text="Best songs 2021" />
 
         <TextView
             android:id="@+id/number_of_tracks"
