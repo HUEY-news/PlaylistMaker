@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken
 import com.practicum.playlistmaker.convertor.DbConvertor
 import com.practicum.playlistmaker.data.db.AppDatabase
 import com.practicum.playlistmaker.data.db.PlaylistEntity
+import com.practicum.playlistmaker.data.db.SavedTrackEntity
 import com.practicum.playlistmaker.domain.library.Playlist
 import com.practicum.playlistmaker.domain.library.PlaylistRepository
 import com.practicum.playlistmaker.domain.search.Track
@@ -43,6 +44,10 @@ class PlaylistRepositoryImpl(
         appDatabase.playlistDao().updateItem(playlistEntity)
     }
 
+    override suspend fun deleteAllPlaylistsFromLibrary() {
+        appDatabase.playlistDao().deleteAllItems()
+    }
+
     override fun getPlaylistFromLibrary(id: Int): Flow<Playlist> = flow {
         val playlistEntity = appDatabase.playlistDao().getItem(id)
         val playlist = dbConvertor.map(playlistEntity)
@@ -61,17 +66,27 @@ class PlaylistRepositoryImpl(
         return (idList.contains(id))
     }
 
-    override suspend fun deleteAllPlaylistsFromLibrary() {
-        appDatabase.playlistDao().deleteAllItems()
-    }
-
     override suspend fun addTrackToSavedList(track: Track) {
         val trackEntity = dbConvertor.mapTrackToSaved(track)
         appDatabase.savedTrackDao().addItem(trackEntity)
     }
 
+    override suspend fun removeTrackFromSavedList(track: Track) {
+        val trackEntity = dbConvertor.mapTrackToSaved(track)
+        appDatabase.savedTrackDao().removeItem(trackEntity)
+    }
+
+    override fun getAllTracksFromSavedList(): Flow<List<Track>> = flow {
+        val trackEntityList = appDatabase.savedTrackDao().getAllItems()
+        val trackList = convertFromSavedTrackEntity(trackEntityList.sortedByDescending { it.addingTime })
+    }
+
     private fun convertFromPlaylistEntity(playlistEntityList: List<PlaylistEntity>): List<Playlist> {
         return playlistEntityList.map { playlistEntity -> dbConvertor.map(playlistEntity) }
+    }
+
+    private fun convertFromSavedTrackEntity(trackEntityList: List<SavedTrackEntity>): List<Track> {
+        return trackEntityList.map { trackEntity -> dbConvertor.mapSavedToTrack(trackEntity) }
     }
 
     private fun createIdListFromJson(json: String): ArrayList<Int> {

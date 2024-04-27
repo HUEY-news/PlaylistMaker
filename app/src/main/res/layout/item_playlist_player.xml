@@ -52,6 +52,7 @@
             tools:text="Best songs 2021" />
 
         <TextView
+            android:textColor="?attr/secondaryTextColor"
             android:id="@+id/number_of_tracks"
             android:fontFamily="@font/ys_display_regular"
             android:textFontWeight="400"

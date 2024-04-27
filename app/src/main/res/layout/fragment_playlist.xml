@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:theme="@style/Base.Theme.PlaylistMaker.Library"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,6 +8,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E6E8EB"
+    android:theme="@style/Base.Theme.PlaylistMaker.Library"
+    tools:context=".presentation.library.PlaylistFragment"
     tools:ignore="HardcodedText">
 
 <!-- MAIN SCREEN -->
@@ -39,12 +40,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:background="#E6E8EB"
-                android:scaleType="center"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_placeholder_45"
                 app:layout_constraintDimensionRatio="h, 1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/playlist_name"
@@ -120,6 +122,7 @@
 
 <!-- BOTTOM SHEET -->
     <LinearLayout
+        android:paddingHorizontal="12dp"
         android:id="@+id/bottom_sheet_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -128,7 +131,8 @@
         app:behavior_hideable="false"
         app:behavior_peekHeight="266dp"
         app:layout_anchorGravity="center_vertical"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:visibility="visible" >
 
         <ImageView
             android:id="@+id/bottom_sheet_shifter"
@@ -148,7 +152,7 @@
             android:clickable="true"
             android:fontFamily="@font/ys_display_regular"
             android:text="В этом плейлисте нет треков"
-            android:textColor="@color/black"
+            android:textColor="?attr/primaryTextColor"
             android:textSize="16sp" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -178,7 +182,8 @@
         android:orientation="vertical"
         app:behavior_hideable="true"
         app:behavior_peekHeight="383dp"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        android:visibility="gone" >
 
         <ImageView
             android:id="@+id/bottom_sheet_more_shifter"

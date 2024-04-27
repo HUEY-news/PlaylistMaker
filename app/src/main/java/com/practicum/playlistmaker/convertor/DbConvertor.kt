@@ -24,6 +24,21 @@ class DbConvertor {
         )
     }
 
+    fun mapFavoriteToTrack(favoriteTrackEntity: FavoriteTrackEntity): Track {
+        return Track(
+            trackId = favoriteTrackEntity.trackId,
+            trackName = favoriteTrackEntity.trackName,
+            artistName = favoriteTrackEntity.artistName,
+            trackTimeMillis = favoriteTrackEntity.trackTimeMillis,
+            artworkUrl100 = favoriteTrackEntity.artworkUrl100,
+            collectionName = favoriteTrackEntity.collectionName,
+            releaseDate = favoriteTrackEntity.releaseDate,
+            primaryGenreName = favoriteTrackEntity.primaryGenreName,
+            country = favoriteTrackEntity.country,
+            previewUrl = favoriteTrackEntity.previewUrl
+        )
+    }
+
     fun mapTrackToSaved(track: Track): SavedTrackEntity {
         return SavedTrackEntity(
             trackId = track.trackId,
@@ -40,20 +55,22 @@ class DbConvertor {
         )
     }
 
-    fun mapFavoriteToTrack(favoriteTrackEntity: FavoriteTrackEntity): Track {
+    fun mapSavedToTrack(trackEntity: SavedTrackEntity): Track {
         return Track(
-            trackId = favoriteTrackEntity.trackId,
-            trackName = favoriteTrackEntity.trackName,
-            artistName = favoriteTrackEntity.artistName,
-            trackTimeMillis = favoriteTrackEntity.trackTimeMillis,
-            artworkUrl100 = favoriteTrackEntity.artworkUrl100,
-            collectionName = favoriteTrackEntity.collectionName,
-            releaseDate = favoriteTrackEntity.releaseDate,
-            primaryGenreName = favoriteTrackEntity.primaryGenreName,
-            country = favoriteTrackEntity.country,
-            previewUrl = favoriteTrackEntity.previewUrl
+            trackId = trackEntity.trackId,
+            trackName = trackEntity.trackName,
+            artistName = trackEntity.artistName,
+            trackTimeMillis = trackEntity.trackTimeMillis,
+            artworkUrl100 = trackEntity.artworkUrl100,
+            collectionName = trackEntity.collectionName,
+            releaseDate = trackEntity.releaseDate,
+            primaryGenreName = trackEntity.primaryGenreName,
+            country = trackEntity.country,
+            previewUrl = trackEntity.previewUrl
         )
     }
+
+
 
     fun map(playlist: Playlist): PlaylistEntity {
         return PlaylistEntity(

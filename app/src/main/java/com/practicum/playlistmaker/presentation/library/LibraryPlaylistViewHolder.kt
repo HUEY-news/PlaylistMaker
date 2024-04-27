@@ -7,8 +7,15 @@ import com.practicum.playlistmaker.databinding.ItemPlaylistLibraryBinding
 import com.practicum.playlistmaker.domain.library.Playlist
 
 class LibraryPlaylistViewHolder(
-    private val binding: ItemPlaylistLibraryBinding
+    private val binding: ItemPlaylistLibraryBinding,
+    onItemClick: (position: Int) -> Unit
     ): RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            itemView.setOnClickListener {
+                onItemClick(adapterPosition)
+            }
+        }
 
         fun bind(playlist: Playlist) {
             binding.playlistName.text = playlist.playlistName
