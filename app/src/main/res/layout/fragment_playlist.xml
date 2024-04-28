@@ -132,7 +132,7 @@
         app:behavior_peekHeight="266dp"
         app:layout_anchorGravity="center_vertical"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        tools:visibility="visible" >
+        tools:visibility="gone" >
 
         <ImageView
             android:id="@+id/bottom_sheet_shifter"

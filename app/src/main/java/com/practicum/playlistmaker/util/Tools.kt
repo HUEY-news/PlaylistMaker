@@ -32,8 +32,3 @@ fun convertDate(text: String): String {
 fun convertArtwork(artwork: String): String {
     return artwork.replaceAfterLast('/', "512x512bb.jpg")
 }
-
-// перевод сыммы продолжительности треков в минуты
-fun convertDurationSum(durationSum: Int): String {
-    return SimpleDateFormat("mm", Locale.getDefault()).format(durationSum)
-}

@@ -32,7 +32,7 @@ class LibraryPlaylistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        libraryPlaylistAdapter = LibraryPlaylistAdapter{ playlist -> onClickDebounce(playlist) }
+        libraryPlaylistAdapter = LibraryPlaylistAdapter { playlist -> onClickDebounce(playlist) }
         binding.playlistRecycler.adapter = libraryPlaylistAdapter
 
         viewModel.observeCurrentState().observe(viewLifecycleOwner) { state ->
