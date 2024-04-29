@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.databinding.ItemPlaylistLibraryBinding
 import com.practicum.playlistmaker.domain.library.Playlist
 
-class LibraryPlaylistAdapter: RecyclerView.Adapter<LibraryPlaylistViewHolder>() {
+class LibraryPlaylistAdapter(
+    private val onItemClick: (playlist: Playlist) -> Unit
+): RecyclerView.Adapter<LibraryPlaylistViewHolder>() {
 
     private var itemList: List<Playlist> = emptyList()
 
@@ -18,6 +20,13 @@ class LibraryPlaylistAdapter: RecyclerView.Adapter<LibraryPlaylistViewHolder>() 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LibraryPlaylistViewHolder {
         val layoutInspector = LayoutInflater.from(parent.context)
         return LibraryPlaylistViewHolder(ItemPlaylistLibraryBinding.inflate(layoutInspector, parent, false))
+        { position: Int ->
+            if (position != RecyclerView.NO_POSITION) {
+                itemList.getOrNull(position)?.let { playlist ->
+                    onItemClick(playlist)
+                }
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: LibraryPlaylistViewHolder, position: Int) {

@@ -14,15 +14,11 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.PlaylistMaker"
         tools:targetApi="33">
-
-        <activity
-            android:name=".presentation.player.PlayerFragment"
-            android:exported="false"
-            android:theme="@style/Base.Theme.PlaylistMaker.Player" />
 
         <activity
             android:name=".presentation.root.RootActivity"
@@ -33,9 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-
 
     </application>
 </manifest>

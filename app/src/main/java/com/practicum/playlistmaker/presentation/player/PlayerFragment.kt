@@ -177,7 +177,7 @@ class PlayerFragment : Fragment() {
     }
 
     companion object {
-        const val TRACK_ID = "TRACK_ID"
+        private const val TRACK_ID = "TRACK_ID"
 
         fun createBundle(track: Track) = Bundle().apply {
             putParcelable(TRACK_ID, track)
