@@ -122,6 +122,11 @@ class PlaylistFragment: Fragment() {
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        bottomSheetBehaviorMore.state = BottomSheetBehavior.STATE_HIDDEN
+    }
+
     private fun updatePlaylist(playlist: Playlist) {
         with(binding) {
             playlistName.text = playlist.playlistName
