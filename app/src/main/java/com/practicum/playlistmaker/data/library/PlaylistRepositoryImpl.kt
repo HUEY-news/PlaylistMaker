@@ -35,8 +35,7 @@ class PlaylistRepositoryImpl(
     }
 
     override suspend fun removePlaylistFromLibrary(playlistId: Int) {
-        val playlistEntity = appDatabase.playlistDao().getItem(playlistId)
-        appDatabase.playlistDao().removeItem(playlistEntity)
+        appDatabase.playlistDao().deletePlaylist(playlistId)
     }
 
     override suspend fun updatePlaylist(track: Track, playlist: Playlist) {
@@ -46,6 +45,18 @@ class PlaylistRepositoryImpl(
         val updatedPlaylist = playlist.copy(tracksIdentifiers = idListString, numberOfTracks = idList.size)
         val playlistEntity = dbConvertor.map(updatedPlaylist)
         appDatabase.playlistDao().updateItem(playlistEntity)
+    }
+
+    override suspend fun updatePlaylist(id: Int, name: String, description: String, cover: Uri?) {
+        val playlistEntity = appDatabase.playlistDao().getItem(id)
+        val playlist = dbConvertor.map(playlistEntity)
+        val updatedPlaylist = playlist.copy(
+            playlistName = name,
+            playlistDescription = description,
+            playlistCoverUri = cover.toString()
+        )
+
+        appDatabase.playlistDao().updateItem(dbConvertor.map(updatedPlaylist))
     }
 
     override suspend fun deleteAllPlaylistsFromLibrary() {
@@ -84,7 +95,7 @@ class PlaylistRepositoryImpl(
         val oldPlaylistEntity = appDatabase.playlistDao().getItem(playlistId)
         val oldPlaylist = dbConvertor.map(oldPlaylistEntity)
         val oldIdListInt = createIdListFromJson(oldPlaylist.tracksIdentifiers)
-        val newIdListInt = oldIdListInt.filter { id -> id == track.trackId }
+        val newIdListInt = oldIdListInt.filterNot { id -> id == track.trackId }
         val newIdListString = createJsonFromIdList(newIdListInt)
         val newPlaylist = oldPlaylist.copy(tracksIdentifiers = newIdListString, numberOfTracks = newIdListInt.size)
         val newPlaylistEntity = dbConvertor.map(newPlaylist)
@@ -110,6 +121,8 @@ class PlaylistRepositoryImpl(
         val savedTrackList = convertFromSavedTrackEntity(savedTrackEntityList.sortedByDescending { it.addingTime })
         val idListInt = createIdListFromJson(idListString)
         val filteredTrackList = savedTrackList.filter { track -> idListInt.contains(track.trackId) }
+        val favoriteIdList = appDatabase.favoriteTrackDao().getFavoriteIdList()
+        for (track in filteredTrackList) track.isFavorite = favoriteIdList.contains(track.trackId)
         emit(filteredTrackList)
     }
 

@@ -28,8 +28,8 @@ class PlaylistViewModel(
     private val hasCurrentPlaylistContent = MutableLiveData<Boolean>()
     fun observeIfCurrentPlaylistHasContent(): LiveData<Boolean> = hasCurrentPlaylistContent
 
-    private val showEmptyMessage = MutableLiveData<Boolean>()
-    fun observeIfEmptyMessageShow(): LiveData<Boolean> = showEmptyMessage
+    private val emptyShareMessage = MutableLiveData<Boolean>()
+    fun observeEmptyShareMessage(): LiveData<Boolean> = emptyShareMessage
 
     fun getPlaylist(playlistId: Int) {
         viewModelScope.launch {
@@ -104,9 +104,9 @@ class PlaylistViewModel(
     fun sharePlaylist(playlistId: Int) {
         viewModelScope.launch {
             if (hasCurrentPlaylistContent.value == false) {
-                showEmptyMessage.postValue(true)
+                emptyShareMessage.postValue(true)
                 delay(CHECK_DELAY)
-                showEmptyMessage.postValue(false)
+                emptyShareMessage.postValue(false)
             } else playlistInteractor.sharePlaylist(playlistId)
         }
     }

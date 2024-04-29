@@ -87,14 +87,15 @@
 
             <ImageButton
                 android:id="@+id/share_button"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:layout_marginTop="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:layout_marginBottom="24dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_share_24"
                 app:layout_constraintStart_toStartOf="@id/playlist_info"
-                app:layout_constraintTop_toBottomOf="@id/playlist_info" />
+                app:layout_constraintTop_toBottomOf="@id/playlist_info"
+                app:tint="#1A1B22" />
 
             <ImageButton
                 android:id="@+id/menu_button"
@@ -105,7 +106,8 @@
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:src="@drawable/ic_more_button"
                 app:layout_constraintStart_toEndOf="@id/share_button"
-                app:layout_constraintTop_toBottomOf="@id/playlist_info" />
+                app:layout_constraintTop_toBottomOf="@id/playlist_info"
+                app:tint="#1A1B22" />
 
             <TextView
                 android:id="@+id/empty_space"
@@ -129,7 +131,6 @@
         android:background="@drawable/shape_bottom_sheet"
         android:orientation="vertical"
         app:behavior_hideable="false"
-        app:behavior_peekHeight="266dp"
         app:layout_anchorGravity="center_vertical"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         tools:visibility="gone" >
@@ -183,7 +184,7 @@
         app:behavior_hideable="true"
         app:behavior_peekHeight="383dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        android:visibility="gone" >
+        tools:visibility="gone" >
 
         <ImageView
             android:id="@+id/bottom_sheet_more_shifter"
@@ -194,7 +195,7 @@
             android:src="@drawable/ic_bottom_sheet_shifter" />
 
         <include
-            android:id="@+id/include_flat_playlist"
+            android:id="@+id/include_playlist_player"
             layout="@layout/item_playlist_player"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

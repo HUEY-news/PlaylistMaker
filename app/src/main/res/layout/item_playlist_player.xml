@@ -7,6 +7,7 @@
     android:id="@+id/playlist_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="64dp"
+    android:background="?attr/primaryBackgroundColor"
     android:theme="@style/Base.Theme.PlaylistMaker.Player">
 
     <androidx.cardview.widget.CardView
@@ -25,6 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?attr/primaryBackgroundColor"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_placeholder_45"
             tools:src="@tools:sample/avatars" />
     </androidx.cardview.widget.CardView>
 
@@ -52,15 +55,15 @@
             tools:text="Best songs 2021" />
 
         <TextView
-            android:textColor="?attr/secondaryTextColor"
             android:id="@+id/number_of_tracks"
-            android:fontFamily="@font/ys_display_regular"
-            android:textFontWeight="400"
-            android:textSize="11sp"
-            android:lines="1"
-            android:ellipsize="middle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="middle"
+            android:fontFamily="@font/ys_display_regular"
+            android:lines="1"
+            android:textColor="?attr/secondaryTextColor"
+            android:textFontWeight="400"
+            android:textSize="11sp"
             tools:text="157 треков" />
     </LinearLayout>
 
