@@ -130,7 +130,7 @@ class PlaylistFragment: Fragment() {
             Glide
                 .with(requireContext())
                 .load(playlist.playlistCoverUri)
-                .placeholder(R.drawable.ic_placeholder_artwork_240)
+                .placeholder(R.drawable.ic_placeholder_45)
                 .into(playlistImage)
 
             includePlaylistPlayer.playlistName.text = playlist.playlistName
