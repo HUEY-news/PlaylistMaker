@@ -11,9 +11,10 @@ import com.practicum.playlistmaker.domain.search.TrackRepository
 import com.practicum.playlistmaker.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class TrackRepositoryImpl(
-    private val context: Context,
+class TrackRepositoryImpl @Inject constructor(
+    context: Context,
     private val client: NetworkClient,
     private val appDatabase: AppDatabase
 ) : TrackRepository {

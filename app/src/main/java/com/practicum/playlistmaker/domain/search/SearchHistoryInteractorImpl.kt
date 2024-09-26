@@ -1,8 +1,9 @@
 package com.practicum.playlistmaker.domain.search
 
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class SearchHistoryInteractorImpl(
+class SearchHistoryInteractorImpl @Inject constructor(
     private val repository: SearchHistoryRepository
 ): SearchHistoryInteractor {
     override fun addTrackToHistory(track: Track) = repository.addTrackToHistory(track)

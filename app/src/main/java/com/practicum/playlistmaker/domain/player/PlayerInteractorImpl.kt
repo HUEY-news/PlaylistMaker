@@ -1,6 +1,10 @@
 package com.practicum.playlistmaker.domain.player
 
-class PlayerInteractorImpl(private val repository: PlayerRepository): PlayerInteractor {
+import javax.inject.Inject
+
+class PlayerInteractorImpl @Inject constructor(
+    private val repository: PlayerRepository
+): PlayerInteractor {
 
     override fun initPlayer(url: String) { repository.initPlayer(url) }
     override fun startPlayer() { repository.startPlayer() }

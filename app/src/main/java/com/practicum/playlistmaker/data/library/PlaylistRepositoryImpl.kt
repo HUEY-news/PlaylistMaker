@@ -15,8 +15,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.text.SimpleDateFormat
 import java.util.Locale
+import javax.inject.Inject
 
-class PlaylistRepositoryImpl(
+class PlaylistRepositoryImpl @Inject constructor(
     private val appDatabase: AppDatabase,
     private val dbConvertor: DbConvertor,
     private val externalNavigator: ExternalNavigator,

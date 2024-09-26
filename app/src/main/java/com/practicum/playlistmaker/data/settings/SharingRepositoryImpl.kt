@@ -1,8 +1,9 @@
 package com.practicum.playlistmaker.data.settings
 
 import com.practicum.playlistmaker.domain.settings.SharingRepository
+import javax.inject.Inject
 
-class SharingRepositoryImpl(
+class SharingRepositoryImpl @Inject constructor(
     private val externalNavigator: ExternalNavigator
 ): SharingRepository {
 

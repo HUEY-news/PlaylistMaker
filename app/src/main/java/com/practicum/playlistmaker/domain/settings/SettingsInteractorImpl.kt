@@ -1,6 +1,8 @@
 package com.practicum.playlistmaker.domain.settings
 
-class SettingsInteractorImpl(
+import javax.inject.Inject
+
+class SettingsInteractorImpl @Inject constructor(
     private val repository: SettingsRepository
 ): SettingsInteractor {
     override fun getThemeState(): Boolean = repository.getThemeState()

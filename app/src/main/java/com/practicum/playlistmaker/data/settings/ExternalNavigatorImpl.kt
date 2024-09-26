@@ -5,8 +5,11 @@ import android.content.Intent
 import android.net.Uri
 import androidx.core.content.ContextCompat.startActivity
 import com.practicum.playlistmaker.R
+import javax.inject.Inject
 
-class ExternalNavigatorImpl(private val context: Context): ExternalNavigator {
+class ExternalNavigatorImpl @Inject constructor(
+    private val context: Context
+): ExternalNavigator {
 
     override fun shareLink() {
         val url = context.getString(R.string.YP_android_developer_link)

@@ -7,8 +7,9 @@ import com.practicum.playlistmaker.domain.library.FavoriteRepository
 import com.practicum.playlistmaker.domain.search.Track
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class FavoriteRepositoryImpl(
+class FavoriteRepositoryImpl @Inject constructor(
     private val appDatabase: AppDatabase,
     private val dbConvertor: DbConvertor
 ) : FavoriteRepository {

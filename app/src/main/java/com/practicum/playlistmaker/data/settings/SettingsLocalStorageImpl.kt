@@ -4,8 +4,9 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 import com.practicum.playlistmaker.app.DARK_THEME_KEY
+import javax.inject.Inject
 
-class SettingsLocalStorageImpl(
+class SettingsLocalStorageImpl @Inject constructor(
     private val prefs: SharedPreferences
 ) : SettingsLocalStorage {
 

@@ -7,8 +7,9 @@ import com.practicum.playlistmaker.data.db.AppDatabase
 import com.practicum.playlistmaker.domain.search.Track
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class SearchHistoryStorageImpl(
+class SearchHistoryStorageImpl @Inject constructor(
     private val prefs: SharedPreferences,
     private val gson: Gson,
     private val appDatabase: AppDatabase
