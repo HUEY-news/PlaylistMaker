@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.practicum.playlistmaker.domain.settings.SettingsInteractor
 import com.practicum.playlistmaker.domain.settings.SharingInteractor
+import dagger.hilt.android.lifecycle.HiltViewModel
 
+@HiltViewModel
 class SettingsViewModel(
     private val settingsInteractor: SettingsInteractor,
     private val sharingInterractor: SharingInteractor
