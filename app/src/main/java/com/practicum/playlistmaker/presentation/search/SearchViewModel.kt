@@ -11,9 +11,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel(
+class SearchViewModel @Inject constructor(
     private val trackInteractor: TrackInteractor,
     private val searchHistoryInteractor: SearchHistoryInteractor
 ) : ViewModel() {

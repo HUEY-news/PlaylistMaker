@@ -9,9 +9,10 @@ import com.practicum.playlistmaker.domain.library.Playlist
 import com.practicum.playlistmaker.domain.library.PlaylistInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class LibraryNewPlaylistViewModel(
+class LibraryNewPlaylistViewModel @Inject constructor(
     private val playlistInteractor: PlaylistInteractor
 ): ViewModel() {
 

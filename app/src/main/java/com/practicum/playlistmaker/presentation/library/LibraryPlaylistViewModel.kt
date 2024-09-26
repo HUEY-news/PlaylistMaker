@@ -7,9 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.domain.library.PlaylistInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class LibraryPlaylistViewModel(
+class LibraryPlaylistViewModel @Inject constructor(
     private val playlistInteractor: PlaylistInteractor
 ): ViewModel() {
 

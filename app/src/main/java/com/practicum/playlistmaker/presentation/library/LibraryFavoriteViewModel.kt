@@ -7,9 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.domain.library.FavoriteInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class LibraryFavoriteViewModel(
+class LibraryFavoriteViewModel @Inject constructor(
     private val favoriteInteractor: FavoriteInteractor
 ): ViewModel() {
 

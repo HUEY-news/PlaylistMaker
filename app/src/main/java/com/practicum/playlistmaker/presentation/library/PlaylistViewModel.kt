@@ -12,9 +12,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
+import javax.inject.Inject
 
 @HiltViewModel
-class PlaylistViewModel(
+class PlaylistViewModel @Inject constructor(
     private val playlistInteractor: PlaylistInteractor
 ): ViewModel() {
 
