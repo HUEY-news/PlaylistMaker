@@ -11,10 +11,12 @@ import androidx.navigation.fragment.findNavController
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.databinding.FragmentPlaylistLibraryBinding
 import com.practicum.playlistmaker.domain.library.Playlist
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class LibraryPlaylistFragment : Fragment() {
 
     private var _binding: FragmentPlaylistLibraryBinding? = null

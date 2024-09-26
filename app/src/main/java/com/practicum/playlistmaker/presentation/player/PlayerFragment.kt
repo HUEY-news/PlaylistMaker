@@ -22,8 +22,10 @@ import com.practicum.playlistmaker.util.convertArtwork
 import com.practicum.playlistmaker.util.convertDate
 import com.practicum.playlistmaker.util.convertPixel
 import com.practicum.playlistmaker.util.convertTime
+import dagger.hilt.android.AndroidEntryPoint
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class PlayerFragment : Fragment() {
 
     private var _binding: FragmentPlayerBinding? = null

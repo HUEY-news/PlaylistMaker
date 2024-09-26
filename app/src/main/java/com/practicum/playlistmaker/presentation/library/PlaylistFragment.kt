@@ -22,8 +22,10 @@ import com.practicum.playlistmaker.databinding.FragmentPlaylistBinding
 import com.practicum.playlistmaker.domain.library.Playlist
 import com.practicum.playlistmaker.domain.search.Track
 import com.practicum.playlistmaker.presentation.player.PlayerFragment
+import dagger.hilt.android.AndroidEntryPoint
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class PlaylistFragment: Fragment() {
 
     private var _binding: FragmentPlaylistBinding? = null

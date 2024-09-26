@@ -14,10 +14,12 @@ import com.practicum.playlistmaker.databinding.FragmentFavouriteBinding
 import com.practicum.playlistmaker.domain.search.Track
 import com.practicum.playlistmaker.presentation.player.PlayerFragment
 import com.practicum.playlistmaker.presentation.track.TrackAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class LibraryFavoriteFragment: Fragment() {
 
     private var _binding: FragmentFavouriteBinding? = null
