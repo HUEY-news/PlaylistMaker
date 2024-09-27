@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.practicum.playlistmaker.R
@@ -14,7 +15,6 @@ import com.practicum.playlistmaker.domain.library.Playlist
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @AndroidEntryPoint
 class LibraryPlaylistFragment : Fragment() {
@@ -22,7 +22,7 @@ class LibraryPlaylistFragment : Fragment() {
     private var _binding: FragmentPlaylistLibraryBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModel<LibraryPlaylistViewModel>()
+    private val viewModel: LibraryPlaylistViewModel by viewModels()
 
     private var libraryPlaylistAdapter: LibraryPlaylistAdapter? = null
 

@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -23,7 +24,6 @@ import com.practicum.playlistmaker.domain.library.Playlist
 import com.practicum.playlistmaker.domain.search.Track
 import com.practicum.playlistmaker.presentation.player.PlayerFragment
 import dagger.hilt.android.AndroidEntryPoint
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @AndroidEntryPoint
 class PlaylistFragment: Fragment() {
@@ -31,7 +31,7 @@ class PlaylistFragment: Fragment() {
     private var _binding: FragmentPlaylistBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModel<PlaylistViewModel>()
+    private val viewModel: PlaylistViewModel by viewModels()
 
     private lateinit var trackConfirmDialog: MaterialAlertDialogBuilder
     private lateinit var playlistConfirmDialog: MaterialAlertDialogBuilder
