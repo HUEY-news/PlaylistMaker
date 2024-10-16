@@ -18,9 +18,9 @@ import java.util.Locale
 import javax.inject.Inject
 
 class PlaylistRepositoryImpl @Inject constructor(
-    private val appDatabase: AppDatabase,
-    private val dbConvertor: DbConvertor,
-    private val externalNavigator: ExternalNavigator,
+    private val database: AppDatabase,
+    private val convertor: DbConvertor,
+    private val navigator: ExternalNavigator,
     private val gson: Gson
 ): PlaylistRepository {
 
@@ -32,11 +32,11 @@ class PlaylistRepositoryImpl @Inject constructor(
             tracksIdentifiers = gson.toJson(emptyList<Int>()),
             numberOfTracks = 0
         )
-        appDatabase.playlistDao().addItem(playlistEntity)
+        database.playlistDao().addItem(playlistEntity)
     }
 
     override suspend fun removePlaylistFromLibrary(playlistId: Int) {
-        appDatabase.playlistDao().deletePlaylist(playlistId)
+        database.playlistDao().deletePlaylist(playlistId)
     }
 
     override suspend fun updatePlaylist(track: Track, playlist: Playlist) {
@@ -44,34 +44,34 @@ class PlaylistRepositoryImpl @Inject constructor(
         idList.add(0, track.trackId)
         val idListString = createJsonFromIdList(idList)
         val updatedPlaylist = playlist.copy(tracksIdentifiers = idListString, numberOfTracks = idList.size)
-        val playlistEntity = dbConvertor.map(updatedPlaylist)
-        appDatabase.playlistDao().updateItem(playlistEntity)
+        val playlistEntity = convertor.map(updatedPlaylist)
+        database.playlistDao().updateItem(playlistEntity)
     }
 
     override suspend fun updatePlaylist(id: Int, name: String, description: String, cover: Uri?) {
-        val playlistEntity = appDatabase.playlistDao().getItem(id)
-        val playlist = dbConvertor.map(playlistEntity)
+        val playlistEntity = database.playlistDao().getItem(id)
+        val playlist = convertor.map(playlistEntity)
         val updatedPlaylist = playlist.copy(
             playlistName = name,
             playlistDescription = description,
             playlistCoverUri = cover.toString()
         )
 
-        appDatabase.playlistDao().updateItem(dbConvertor.map(updatedPlaylist))
+        database.playlistDao().updateItem(convertor.map(updatedPlaylist))
     }
 
     override suspend fun deleteAllPlaylistsFromLibrary() {
-        appDatabase.playlistDao().deleteAllItems()
+        database.playlistDao().deleteAllItems()
     }
 
     override fun getPlaylistFromLibrary(id: Int): Flow<Playlist> = flow {
-        val playlistEntity = appDatabase.playlistDao().getItem(id)
-        val playlist = dbConvertor.map(playlistEntity)
+        val playlistEntity = database.playlistDao().getItem(id)
+        val playlist = convertor.map(playlistEntity)
         emit(playlist)
     }
 
     override fun getAllPlaylistsFromLibrary(): Flow<List<Playlist>> = flow {
-        val playlistEntityList = appDatabase.playlistDao().getAllItems()
+        val playlistEntityList = database.playlistDao().getAllItems()
         val itemList = convertFromPlaylistEntity(playlistEntityList.sortedByDescending { it.playlistId })
         emit(itemList)
     }
@@ -83,27 +83,27 @@ class PlaylistRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addTrackToSavedList(track: Track) {
-        val trackEntity = dbConvertor.mapTrackToSaved(track)
-        appDatabase.savedTrackDao().addItem(trackEntity)
+        val trackEntity = convertor.mapTrackToSaved(track)
+        database.savedTrackDao().addItem(trackEntity)
     }
 
     override suspend fun removeTrackFromSavedList(track: Track) {
-        val trackEntity = dbConvertor.mapTrackToSaved(track)
-        appDatabase.savedTrackDao().removeItem(trackEntity)
+        val trackEntity = convertor.mapTrackToSaved(track)
+        database.savedTrackDao().removeItem(trackEntity)
     }
 
     override suspend fun removeTrackFromPlaylist(track: Track, playlistId: Int) {
-        val oldPlaylistEntity = appDatabase.playlistDao().getItem(playlistId)
-        val oldPlaylist = dbConvertor.map(oldPlaylistEntity)
+        val oldPlaylistEntity = database.playlistDao().getItem(playlistId)
+        val oldPlaylist = convertor.map(oldPlaylistEntity)
         val oldIdListInt = createIdListFromJson(oldPlaylist.tracksIdentifiers)
         val newIdListInt = oldIdListInt.filterNot { id -> id == track.trackId }
         val newIdListString = createJsonFromIdList(newIdListInt)
         val newPlaylist = oldPlaylist.copy(tracksIdentifiers = newIdListString, numberOfTracks = newIdListInt.size)
-        val newPlaylistEntity = dbConvertor.map(newPlaylist)
-        appDatabase.playlistDao().updateItem(newPlaylistEntity)
+        val newPlaylistEntity = convertor.map(newPlaylist)
+        database.playlistDao().updateItem(newPlaylistEntity)
 
         var isExistAnywhere = false
-        val playlistLibrary = appDatabase.playlistDao().getAllItems()
+        val playlistLibrary = database.playlistDao().getAllItems()
         playlistLibrary.forEach { playlist ->
             val idList = createIdListFromJson(playlist.tracksIdentifiers)
             if (idList.contains(track.trackId)) {
@@ -112,27 +112,27 @@ class PlaylistRepositoryImpl @Inject constructor(
             }
         }
         if (!isExistAnywhere) {
-            val trackEntity = dbConvertor.mapTrackToSaved(track)
-            appDatabase.savedTrackDao().removeItem(trackEntity)
+            val trackEntity = convertor.mapTrackToSaved(track)
+            database.savedTrackDao().removeItem(trackEntity)
         }
     }
 
     override fun getTracksFromPlaylist(idListString: String): Flow<List<Track>> = flow {
-        val savedTrackEntityList = appDatabase.savedTrackDao().getAllItems()
+        val savedTrackEntityList = database.savedTrackDao().getAllItems()
         val savedTrackList = convertFromSavedTrackEntity(savedTrackEntityList.sortedByDescending { it.addingTime })
         val idListInt = createIdListFromJson(idListString)
         val filteredTrackList = savedTrackList.filter { track -> idListInt.contains(track.trackId) }
-        val favoriteIdList = appDatabase.favoriteTrackDao().getFavoriteIdList()
+        val favoriteIdList = database.favoriteTrackDao().getFavoriteIdList()
         for (track in filteredTrackList) track.isFavorite = favoriteIdList.contains(track.trackId)
         emit(filteredTrackList)
     }
 
     override suspend fun sharePlaylist(playlistId: Int) {
         var sharedText = ""
-        val playlistEntity = appDatabase.playlistDao().getItem(playlistId)
+        val playlistEntity = database.playlistDao().getItem(playlistId)
         val trackList = getTracksFromPlaylist(playlistEntity.tracksIdentifiers)
         trackList.collect { sharedText = createSharedText(playlistEntity, it) }
-        externalNavigator.sharePlaylist(sharedText)
+        navigator.sharePlaylist(sharedText)
     }
 
     private fun createSharedText(playlistEntity: PlaylistEntity, trackList: List<Track>): String {
@@ -164,11 +164,11 @@ class PlaylistRepositoryImpl @Inject constructor(
     }
 
     private fun convertFromPlaylistEntity(playlistEntityList: List<PlaylistEntity>): List<Playlist> {
-        return playlistEntityList.map { playlistEntity -> dbConvertor.map(playlistEntity) }
+        return playlistEntityList.map { playlistEntity -> convertor.map(playlistEntity) }
     }
 
     private fun convertFromSavedTrackEntity(trackEntityList: List<SavedTrackEntity>): List<Track> {
-        return trackEntityList.map { trackEntity -> dbConvertor.mapSavedToTrack(trackEntity) }
+        return trackEntityList.map { trackEntity -> convertor.mapSavedToTrack(trackEntity) }
     }
 
     private fun createIdListFromJson(json: String): ArrayList<Int> {

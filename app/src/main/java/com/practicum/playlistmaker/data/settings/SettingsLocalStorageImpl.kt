@@ -7,11 +7,11 @@ import com.practicum.playlistmaker.app.DARK_THEME_KEY
 import javax.inject.Inject
 
 class SettingsLocalStorageImpl @Inject constructor(
-    private val prefs: SharedPreferences
+    private val preferences: SharedPreferences
 ) : SettingsLocalStorage {
 
     override fun getThemeSettings(): Boolean {
-        return prefs.getBoolean(DARK_THEME_KEY, false)
+        return preferences.getBoolean(DARK_THEME_KEY, false)
     }
 
     override fun updateThemeSettings(isChecked: Boolean) {
@@ -20,7 +20,7 @@ class SettingsLocalStorageImpl @Inject constructor(
             else AppCompatDelegate.MODE_NIGHT_NO
         )
 
-        prefs.edit {
+        preferences.edit {
             putBoolean(DARK_THEME_KEY, isChecked)
         }
     }

@@ -10,9 +10,9 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class SearchHistoryStorageImpl @Inject constructor(
-    private val prefs: SharedPreferences,
+    private val preferences: SharedPreferences,
     private val gson: Gson,
-    private val appDatabase: AppDatabase
+    private val database: AppDatabase
 ): SearchHistoryStorage {
 
     private fun createJsonFromTrackList(trackList: ArrayList<Track>): String {
@@ -20,7 +20,7 @@ class SearchHistoryStorageImpl @Inject constructor(
     }
 
     private fun saveHistory() {
-        with(prefs.edit()) {
+        with(preferences.edit()) {
             putString(SEARCH_HISTORY_KEY, createJsonFromTrackList(history))
             apply()
         }
@@ -32,7 +32,7 @@ class SearchHistoryStorageImpl @Inject constructor(
     }
 
     private fun loadHistory() {
-        val json = prefs.getString(SEARCH_HISTORY_KEY, null)
+        val json = preferences.getString(SEARCH_HISTORY_KEY, null)
         if (json != null) history.addAll(createTrackListFromJson(json))
     }
 
@@ -62,7 +62,7 @@ class SearchHistoryStorageImpl @Inject constructor(
     }
 
     override fun clearHistory() {
-        with(prefs.edit()){
+        with(preferences.edit()){
             remove(SEARCH_HISTORY_KEY)
             apply()
         }
@@ -71,7 +71,7 @@ class SearchHistoryStorageImpl @Inject constructor(
     override fun getHistory(): Flow<List<Track>> = flow {
         history.clear()
         loadHistory()
-        val idList = appDatabase.favoriteTrackDao().getFavoriteIdList()
+        val idList = database.favoriteTrackDao().getFavoriteIdList()
         for (track in history) track.isFavorite = idList.contains(track.trackId)
         emit(history)
     }

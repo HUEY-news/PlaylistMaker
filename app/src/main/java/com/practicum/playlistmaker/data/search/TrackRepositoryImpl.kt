@@ -16,7 +16,7 @@ import javax.inject.Inject
 class TrackRepositoryImpl @Inject constructor(
     context: Context,
     private val client: NetworkClient,
-    private val appDatabase: AppDatabase
+    private val database: AppDatabase
 ) : TrackRepository {
 
     private val errorEmptyText: String = context.resources.getString(R.string.error_empty_text)
@@ -46,7 +46,7 @@ class TrackRepositoryImpl @Inject constructor(
                     )
                 }
 
-                val idList = appDatabase.favoriteTrackDao().getFavoriteIdList()
+                val idList = database.favoriteTrackDao().getFavoriteIdList()
                 for (track in trackList) track.isFavorite = idList.contains(track.trackId)
 
                 if (trackList.isNotEmpty()) emit(Resource.Success(trackList))

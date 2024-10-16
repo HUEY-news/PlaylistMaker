@@ -10,29 +10,29 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class FavoriteRepositoryImpl @Inject constructor(
-    private val appDatabase: AppDatabase,
-    private val dbConvertor: DbConvertor
+    private val database: AppDatabase,
+    private val convertor: DbConvertor
 ) : FavoriteRepository {
 
     override suspend fun addTrackToFavoriteList(track: Track) {
-        val trackEntity = dbConvertor.mapTrackToFavorite(track)
-        appDatabase.favoriteTrackDao().addTrackToFavoriteList(trackEntity)
+        val trackEntity = convertor.mapTrackToFavorite(track)
+        database.favoriteTrackDao().addTrackToFavoriteList(trackEntity)
     }
 
     override suspend fun removeTrackFromFavoriteList(track: Track) {
-        val trackEntity = dbConvertor.mapTrackToFavorite(track)
-        appDatabase.favoriteTrackDao().removeTrackFromFavoriteList(trackEntity)
+        val trackEntity = convertor.mapTrackToFavorite(track)
+        database.favoriteTrackDao().removeTrackFromFavoriteList(trackEntity)
     }
 
     override fun getFavoriteTrackList(): Flow<List<Track>> = flow {
-        val trackEntityList = appDatabase.favoriteTrackDao().getFavoriteTrackList()
+        val trackEntityList = database.favoriteTrackDao().getFavoriteTrackList()
         val trackList = convertFromTrackEntity(trackEntityList.sortedByDescending { it.addingTime })
-        val idList = appDatabase.favoriteTrackDao().getFavoriteIdList()
+        val idList = database.favoriteTrackDao().getFavoriteIdList()
         for (track in trackList) track.isFavorite = idList.contains(track.trackId)
         emit(trackList)
     }
 
     private fun convertFromTrackEntity(trackEntityList: List<FavoriteTrackEntity>): List<Track> {
-        return trackEntityList.map { trackEntity -> dbConvertor.mapFavoriteToTrack(trackEntity) }
+        return trackEntityList.map { trackEntity -> convertor.mapFavoriteToTrack(trackEntity) }
     }
 }
