@@ -4,13 +4,14 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 import com.practicum.playlistmaker.app.DARK_THEME_KEY
+import javax.inject.Inject
 
-class SettingsLocalStorageImpl(
-    private val prefs: SharedPreferences
+class SettingsLocalStorageImpl @Inject constructor(
+    private val preferences: SharedPreferences
 ) : SettingsLocalStorage {
 
     override fun getThemeSettings(): Boolean {
-        return prefs.getBoolean(DARK_THEME_KEY, false)
+        return preferences.getBoolean(DARK_THEME_KEY, false)
     }
 
     override fun updateThemeSettings(isChecked: Boolean) {
@@ -19,7 +20,7 @@ class SettingsLocalStorageImpl(
             else AppCompatDelegate.MODE_NIGHT_NO
         )
 
-        prefs.edit {
+        preferences.edit {
             putBoolean(DARK_THEME_KEY, isChecked)
         }
     }

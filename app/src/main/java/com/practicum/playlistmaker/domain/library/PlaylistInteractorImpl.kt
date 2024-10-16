@@ -3,8 +3,9 @@ package com.practicum.playlistmaker.domain.library
 import android.net.Uri
 import com.practicum.playlistmaker.domain.search.Track
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class PlaylistInteractorImpl(
+class PlaylistInteractorImpl @Inject constructor(
     private val repository: PlaylistRepository
 ):PlaylistInteractor {
 

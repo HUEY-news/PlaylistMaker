@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,16 +15,17 @@ import com.practicum.playlistmaker.databinding.FragmentFavouriteBinding
 import com.practicum.playlistmaker.domain.search.Track
 import com.practicum.playlistmaker.presentation.player.PlayerFragment
 import com.practicum.playlistmaker.presentation.track.TrackAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class LibraryFavoriteFragment: Fragment() {
 
     private var _binding: FragmentFavouriteBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModel<LibraryFavoriteViewModel>()
+    private val viewModel: LibraryFavoriteViewModel by viewModels()
 
     private var favoriteListAdapter: TrackAdapter? = null
 

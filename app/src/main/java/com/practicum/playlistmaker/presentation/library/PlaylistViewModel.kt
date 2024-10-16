@@ -7,12 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.practicum.playlistmaker.domain.library.Playlist
 import com.practicum.playlistmaker.domain.library.PlaylistInteractor
 import com.practicum.playlistmaker.domain.search.Track
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
+import javax.inject.Inject
 
-class PlaylistViewModel(
+@HiltViewModel
+class PlaylistViewModel @Inject constructor(
     private val playlistInteractor: PlaylistInteractor
 ): ViewModel() {
 

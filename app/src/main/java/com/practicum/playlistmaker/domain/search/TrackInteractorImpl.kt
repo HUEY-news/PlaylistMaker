@@ -3,8 +3,9 @@ package com.practicum.playlistmaker.domain.search
 import com.practicum.playlistmaker.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class TrackInteractorImpl(
+class TrackInteractorImpl @Inject constructor(
     private val repository: TrackRepository
 ): TrackInteractor {
     override fun searchTrack(expression: String): Flow<Pair<List<Track>?, String?>> {
