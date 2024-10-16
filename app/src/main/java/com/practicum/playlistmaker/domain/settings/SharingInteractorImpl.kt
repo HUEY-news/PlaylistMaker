@@ -1,6 +1,8 @@
 package com.practicum.playlistmaker.domain.settings
 
-class SharingInteractorImpl(
+import javax.inject.Inject
+
+class SharingInteractorImpl @Inject constructor(
     private val repository: SharingRepository
 ): SharingInteractor {
 

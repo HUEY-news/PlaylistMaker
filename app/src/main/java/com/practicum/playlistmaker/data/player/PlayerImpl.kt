@@ -6,8 +6,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.text.SimpleDateFormat
 import java.util.Locale
+import javax.inject.Inject
 
-class PlayerImpl(private val mediaPlayer: MediaPlayer): Player {
+class PlayerImpl @Inject constructor(
+    private val mediaPlayer: MediaPlayer
+): Player {
 
     private val flow = MutableStateFlow<PlayerState>(PlayerState.Default())
     override fun getPlayerStateFlow(): Flow<PlayerState> = flow

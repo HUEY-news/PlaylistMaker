@@ -7,11 +7,12 @@ import com.practicum.playlistmaker.data.db.AppDatabase
 import com.practicum.playlistmaker.domain.search.Track
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class SearchHistoryStorageImpl(
-    private val prefs: SharedPreferences,
+class SearchHistoryStorageImpl @Inject constructor(
+    private val preferences: SharedPreferences,
     private val gson: Gson,
-    private val appDatabase: AppDatabase
+    private val database: AppDatabase
 ): SearchHistoryStorage {
 
     private fun createJsonFromTrackList(trackList: ArrayList<Track>): String {
@@ -19,7 +20,7 @@ class SearchHistoryStorageImpl(
     }
 
     private fun saveHistory() {
-        with(prefs.edit()) {
+        with(preferences.edit()) {
             putString(SEARCH_HISTORY_KEY, createJsonFromTrackList(history))
             apply()
         }
@@ -31,7 +32,7 @@ class SearchHistoryStorageImpl(
     }
 
     private fun loadHistory() {
-        val json = prefs.getString(SEARCH_HISTORY_KEY, null)
+        val json = preferences.getString(SEARCH_HISTORY_KEY, null)
         if (json != null) history.addAll(createTrackListFromJson(json))
     }
 
@@ -61,7 +62,7 @@ class SearchHistoryStorageImpl(
     }
 
     override fun clearHistory() {
-        with(prefs.edit()){
+        with(preferences.edit()){
             remove(SEARCH_HISTORY_KEY)
             apply()
         }
@@ -70,7 +71,7 @@ class SearchHistoryStorageImpl(
     override fun getHistory(): Flow<List<Track>> = flow {
         history.clear()
         loadHistory()
-        val idList = appDatabase.favoriteTrackDao().getFavoriteIdList()
+        val idList = database.favoriteTrackDao().getFavoriteIdList()
         for (track in history) track.isFavorite = idList.contains(track.trackId)
         emit(history)
     }

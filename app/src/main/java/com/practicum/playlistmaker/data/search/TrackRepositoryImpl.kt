@@ -11,11 +11,12 @@ import com.practicum.playlistmaker.domain.search.TrackRepository
 import com.practicum.playlistmaker.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class TrackRepositoryImpl(
-    private val context: Context,
+class TrackRepositoryImpl @Inject constructor(
+    context: Context,
     private val client: NetworkClient,
-    private val appDatabase: AppDatabase
+    private val database: AppDatabase
 ) : TrackRepository {
 
     private val errorEmptyText: String = context.resources.getString(R.string.error_empty_text)
@@ -45,7 +46,7 @@ class TrackRepositoryImpl(
                     )
                 }
 
-                val idList = appDatabase.favoriteTrackDao().getFavoriteIdList()
+                val idList = database.favoriteTrackDao().getFavoriteIdList()
                 for (track in trackList) track.isFavorite = idList.contains(track.trackId)
 
                 if (trackList.isNotEmpty()) emit(Resource.Success(trackList))
